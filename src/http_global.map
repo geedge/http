@@ -1,0 +1,16 @@
+{  
+global:  
+	HTTP_INIT;
+	HTTP_ENTRY;
+	HTTP_DESTROY;
+	HTTP_FLAG_CHANGE;
+	HTTP_PROT_FUNSTAT;
+	HTTP_GETPLUGID;
+	http_line2region;
+	http_region2proto_flag;
+	http_proto_flag2region;
+	http_get_method;
+	http_url_decode;
+local: *;  
+};  
+
