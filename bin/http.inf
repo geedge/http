@@ -1,6 +1,5 @@
 [PLUGINFO]
 PLUGNAME=HTTP
-#SO_PATH=/home/lishu/2014/shuihu/http_2/bin/http.so
 SO_PATH=./plug/protocol/http/http.so
 INIT_FUNC=HTTP_INIT
 DESTROY_FUNC=HTTP_DESTROY

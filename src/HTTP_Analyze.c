@@ -904,8 +904,7 @@ uchar http_judgeHttpProtocol(http_stream *a_http_stream, uchar curdir, struct tc
 			}			
 			return GO_BACK;			
 		}
-		//标志一部分在buffer里面，一部分在data里面
-		
+		//标志一部分在buffer里面，一部分在data里面		
 		/*20181113*/		
 		//a_http_stream->pbuf = (char*)dictator_realloc(thread_seq, a_http_stream->pbuf, HTTP_START_FLAGS_LEN);
 		//memcpy((void*)(a_http_stream->pbuf+(*buflen)), (void*)((uchar*)tcp_detail->pdata+*offset),HTTP_START_FLAGS_LEN-*buflen);
