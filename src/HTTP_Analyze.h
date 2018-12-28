@@ -16,7 +16,7 @@ typedef struct http_stream
 	uint32 				uncomplete_count;	//记录当前需要处理的请求/响应的数量
 	uint32 				packet_offset;		//已处理数据在当前包的偏移量,毎处理完一个包都要清零
 
-	char*				pbuf;	
+	char*				pbuf;				//上一个流缓存的数据
 	uint32				buflen;
 	uint32				reset_count;
 #if HTTP_PROXY

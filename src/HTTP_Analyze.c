@@ -25,7 +25,7 @@
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_3_20150320 = 0;
-int G_HTTP_VERSION_4_20170907 = 0;
+int G_HTTP_VERSION_4_20181113 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -793,10 +793,25 @@ void http_initHttpStream(http_stream**pme, int thread_seq)
 }
 
 /*two session in one pakcet*/
-void http_prevAnylse(http_parser_t* cur_node, uint32* packet_offset)
+void http_prevAnylse(http_parser_t* cur_node, http_stream* a_http_stream, int thread_seq)
 {
-	cur_node->processed_offset = *packet_offset;	
-	*packet_offset = 0;
+	cur_node->processed_offset = a_http_stream->packet_offset;	
+	/*20181228 上个流的buf传递给本http_info*/
+	if(a_http_stream->buflen>0)
+	{
+		if(NULL==cur_node->pbuf)
+		{
+			cur_node->pbuf = (char*)dictator_malloc(thread_seq, a_http_stream->buflen);
+		}
+		else
+		{
+			cur_node->pbuf = (char*)dictator_realloc(thread_seq, cur_node->pbuf, cur_node->buflen+a_http_stream->buflen);
+		}
+		memcpy(cur_node->pbuf+cur_node->buflen, a_http_stream->pbuf, a_http_stream->buflen);
+		cur_node->buflen += a_http_stream->buflen;
+		http_freeBuf(thread_seq, &a_http_stream->pbuf, &a_http_stream->buflen);	
+	}
+	a_http_stream->packet_offset = 0;
 }
 
 uchar http_procLost(http_stream* a_http_stream, struct streaminfo* a_tcp, int thread_seq, void* a_packet)
@@ -858,6 +873,7 @@ uchar http_judgeHttpProtocol(http_stream *a_http_stream, uchar curdir, struct tc
 	uint32*	buflen = &(a_http_stream->buflen);
 	uint32*	offset = &(a_http_stream->packet_offset);
 	uchar 	method = HTTP_METHOD_UNKNOWN;
+	uchar  	buf[HTTP_START_FLAGS_LEN] = {0};
 	
 	//第一数据流去掉空行，空格，制表符不够HTTP_START_FLAGS_LEN字节
 	if(0==*buflen)
@@ -889,10 +905,14 @@ uchar http_judgeHttpProtocol(http_stream *a_http_stream, uchar curdir, struct tc
 			return GO_BACK;			
 		}
 		//标志一部分在buffer里面，一部分在data里面
-		a_http_stream->pbuf = (char*)dictator_realloc(thread_seq, a_http_stream->pbuf, HTTP_START_FLAGS_LEN);
-		memcpy((void*)(a_http_stream->pbuf+(*buflen)), (void*)((uchar*)tcp_detail->pdata+*offset),HTTP_START_FLAGS_LEN-*buflen);
-		*buflen = HTTP_START_FLAGS_LEN;			
-		return http_judgeHttpMethod(&method, (char*)a_http_stream->pbuf, curdir); 	
+		
+		/*20181113*/		
+		//a_http_stream->pbuf = (char*)dictator_realloc(thread_seq, a_http_stream->pbuf, HTTP_START_FLAGS_LEN);
+		//memcpy((void*)(a_http_stream->pbuf+(*buflen)), (void*)((uchar*)tcp_detail->pdata+*offset),HTTP_START_FLAGS_LEN-*buflen);
+		//*buflen = HTTP_START_FLAGS_LEN;			
+		memcpy(buf, (void*)a_http_stream->pbuf, *buflen);		
+		memcpy(buf+*buflen, (void*)((uchar*)tcp_detail->pdata+*offset), HTTP_START_FLAGS_LEN-*buflen);		
+		return http_judgeHttpMethod(&method, (char*)buf, curdir); 	
 	}
 	
 	return ERROR; 	
@@ -929,7 +949,8 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 			return APP_STATE_GIVEME;	
 		}			
 		a_http_stream->maybe_http_stream = HTTP_TRUE;
-		http_freeBuf(thread_seq,&a_http_stream->pbuf, &a_http_stream->buflen);		
+		/*20181228*/
+		//http_freeBuf(thread_seq,&a_http_stream->pbuf, &a_http_stream->buflen);	
 	} 
 	
 	/*http_stat : packet_offset=0 for the same pkt is not stated twice*/
@@ -977,7 +998,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 	cur_http_node = (a_http_stream->res_req==DIR_C2S)?a_http_stream->last_link_node:a_http_stream->first_link_node;
 	/*because maybe more \r\n...*/
 	if(cur_http_node==NULL || tcp_detail->datalen-a_http_stream->packet_offset<=0) return APP_STATE_GIVEME;
-	http_prevAnylse(cur_http_node, &(a_http_stream->packet_offset));
+	http_prevAnylse(cur_http_node, a_http_stream, thread_seq);
 	
 	/*avoid  keep HTTP_RETURN_DROPPKT*/
 	cur_http_node->phttp_begin = (char*)tcp_detail->pdata+cur_http_node->processed_offset;
