@@ -25,7 +25,7 @@
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_3_20150320 = 0;
-int G_HTTP_VERSION_4_20181113 = 0;
+int G_HTTP_VERSION_4_20190105 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -97,7 +97,8 @@ void history()
 	//2017-09-18 V4.0 //batch info when callback, not to do
 	//2017-11-03 V4.0 //proc absolute URI without host
 	//2018-09-07 V4.0 //http_line2region:region name is raw pkt 	
-	//2018-11-13 V4.0 //special http pkt, proc span 
+	//2018-11-13 V4.0 //special http pkt, proc span 	
+	//2019-01-05 V4.0 //special http packet, get_span_space.pcap 
 }
 	
 /*
@@ -935,7 +936,11 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 	/*http identify : v3 judge is http stream or not firstly*/
 	if(HTTP_FLASE==a_http_stream->maybe_http_stream)
 	{
-		http_deleteEmptyRow(&(a_http_stream->packet_offset), (char*)(tcp_detail->pdata), tcp_detail->datalen);		
+		/*20190105:请求方法之前的空格删除以免影响识别，已经开始缓存内容之后不需要删除空格以免无法处理起始行的三个元素*/
+		if(a_http_stream->pbuf==NULL)
+		{
+			http_deleteEmptyRow(&(a_http_stream->packet_offset), (char*)(tcp_detail->pdata), tcp_detail->datalen);
+		}		
 		uchar rec = http_judgeHttpProtocol(a_http_stream, a_tcp->curdir, tcp_detail, thread_seq);		
 		if(rec==ERROR)
 		{
