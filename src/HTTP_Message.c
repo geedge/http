@@ -33,6 +33,11 @@ char http_is_hexChar(char c)
     return  c >= '0' && c <= '9' ?  c - '0' : c >= 'A' && c <= 'F'? c - 'A' + 10 : c - 'a' + 10;    /* accept small letters just in case */
 }
 
+int is_absolute_uri(void* app_info)
+{
+	return ((http_infor*)app_info)->is_ab_uri;
+}
+
 int http_line2region(const char *line, uint32 line_len, char** region, uint32* region_len)
 {
 	/*line来自业务层，即append,所以line前面的空格已经删除，只需要删除: 之后的空格*/

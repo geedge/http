@@ -198,7 +198,7 @@ typedef struct http_infor_t
 	uchar 					trans_encoding;  
 	
 	uchar					method;	
-	uchar 					_pad_;	
+	uchar 					is_ab_uri;	
 	uint16 					res_code;
 	append_infor_t			append_infor;	
 	batch_infor_t*			batch_infor;
@@ -226,6 +226,8 @@ long long http_region2proto_flag(const char *region, uint32 region_len);
 const char* http_proto_flag2region(long long proto_flag);
 const char* http_get_method(uchar method);
 char* http_url_decode(char *data,  int* data_len);
+
+int is_absolute_uri(void* app_info);
 
 #ifdef __cplusplus
 }

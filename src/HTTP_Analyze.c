@@ -25,7 +25,7 @@
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_3_20150320 = 0;
-int G_HTTP_VERSION_4_20190105 = 0;
+int G_HTTP_VERSION_4_20190111 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -98,7 +98,8 @@ void history()
 	//2017-11-03 V4.0 //proc absolute URI without host
 	//2018-09-07 V4.0 //http_line2region:region name is raw pkt 	
 	//2018-11-13 V4.0 //special http pkt, proc span 	
-	//2019-01-05 V4.0 //special http packet, get_span_space.pcap 
+	//2019-01-05 V4.0 //special http packet, get_span_space.pcap 	
+	//2019-01-11 V4.0 //is_absolute_uri 
 }
 	
 /*
