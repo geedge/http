@@ -11,6 +11,7 @@ global:
 	http_proto_flag2region;
 	http_get_method;
 	http_url_decode;
+	is_absolute_uri;
 local: *;  
 };  
 
