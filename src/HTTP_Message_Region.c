@@ -249,6 +249,10 @@ uchar http_doWithContentLength(http_parser_t* a_http, http_stream *a_http_stream
 	return OK;
 }
 
+/*
+example:
+Content-Range: bytes -154100106/154100107
+*/
 uchar http_doWithContentRange(http_parser_t* a_http, http_stream *a_http_stream, char* value, uint32 valuelen, 
 								struct streaminfo *a_tcp, int thread_seq, void *a_packet)
 {	
@@ -259,7 +263,7 @@ uchar http_doWithContentRange(http_parser_t* a_http, http_stream *a_http_stream,
 	/*only get digit*/
 	for(i=0;i<valuelen;i++)
 	{
-		if( *(value+i)>='0' && *(value+i)<='9' ) 
+		if( *(value+i)>='0' && *(value+i)<='9' || *(value+i)=='-') 
 		{
 			digit = value+i;
 			break;
@@ -272,10 +276,18 @@ uchar http_doWithContentRange(http_parser_t* a_http, http_stream *a_http_stream,
 		return ERROR;
 	}
 	a_http->parser.cont_range = (cont_range_t*)dictator_malloc(thread_seq, sizeof(cont_range_t));
-	//memset(cur_http_node->parser.cont_range, 0, sizeof(cur_http_node->parser.cont_range));
-	memcpy(range, digit, MIN(HTTP_MAX_UINT64_LEN-1,valuelen));
+	/*20190128 bytes -154100106/154100107*/
+	if(*digit=='-')
+	{
+		range[0] = '0';
+		memcpy(range+1, digit, MIN(HTTP_MAX_UINT64_LEN-1,valuelen));
+	}
+	else
+	{
+		memcpy(range, digit, MIN(HTTP_MAX_UINT64_LEN-1,valuelen));
+	}
 	rec = sscanf(range, "%llu-%llu/%llu", &(a_http->parser.cont_range->start), &(a_http->parser.cont_range->end), &(a_http->parser.cont_range->len));
-	if(rec==-1)	
+	if(rec!=3)	
 	{
 		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "content range error. addr:%s, range:%s", 
 								printaddr(&a_tcp->addr, thread_seq), range);
