@@ -1,0 +1,12 @@
+SI/
+*.log
+*.o
+*.so
+*.si4project/
+*.a
+*.d
+build/
+.vscode
+.idea
+core.*
+version.txt

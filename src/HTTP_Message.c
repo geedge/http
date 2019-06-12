@@ -14,7 +14,7 @@
 #include "MESA_htable.h"
 #include "field_stat.h"
 
-extern int 								g_iThreadNum;
+static int 								g_iThreadNum = get_thread_count();
 extern http_prog_runtime_parameter_t 	g_http_prog_para;
 extern string_map_t  					g_http_regions[];
 extern const char*  					g_http_method[];
