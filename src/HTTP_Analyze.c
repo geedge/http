@@ -229,7 +229,8 @@ void http_callPluginBatch(http_parser_t* cur_http_node,struct streaminfo *a_tcp,
 	}
 	/*clear*/
 	/*clear batch*/
-	for(int i=0;i<cur_http_node->parser.batch_infor->field_cnt;i++)
+	int i=0;
+	for(i=0;i<cur_http_node->parser.batch_infor->field_cnt;i++)
 	{
 		cur_http_node->parser.batch_infor->field[i].prot_flag = 0;
 		cur_http_node->parser.batch_infor->field[i].buf = NULL;
@@ -241,7 +242,8 @@ void http_callPluginBatch(http_parser_t* cur_http_node,struct streaminfo *a_tcp,
 	/*clear fold buf*/
 	if(NULL!=cur_http_node->pbuf_fold)
 	{	
-		for(int j=0;j<cur_http_node->pbuf_fold->cnt;j++)
+		int j=0;
+		for(j=0;j<cur_http_node->pbuf_fold->cnt;j++)
 		{
 			if(NULL!=cur_http_node->pbuf_fold->fold[j].buf)
 			{
@@ -623,8 +625,9 @@ void http_releaseHttpLinkNode(http_stream *a_http_stream,struct streaminfo *a_tc
 	{		
 		/*clear fold buf*/
 		if(NULL!=cur_node->pbuf_fold)
-		{
-			for(int j=0;j<cur_node->pbuf_fold->cnt;j++)
+		{	
+			int j=0;
+			for(j=0;j<cur_node->pbuf_fold->cnt;j++)
 			{
 				if(NULL!=cur_node->pbuf_fold->fold[j].buf)
 				{

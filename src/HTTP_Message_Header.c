@@ -337,7 +337,8 @@ static void http_reseaseHttpInforList(http_parser_t**a_http, UINT16 uncomplete_c
 		/*clear fold buf*/
 		if(NULL!=cur_http_node->pbuf_fold)
 		{
-			for(int j=0;j<cur_http_node->pbuf_fold->cnt;j++)
+			int j=0;
+			for(j=0;j<cur_http_node->pbuf_fold->cnt;j++)
 			{
 				if(NULL!=cur_http_node->pbuf_fold->fold[j].buf)
 				{

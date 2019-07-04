@@ -78,7 +78,8 @@ void http_doWithGzipData(http_parser_t *cur_http_node, struct streaminfo *a_tcp,
 		cur_http_node->parser.append_infor.contlen = cur_http_node->session.buflen;
 		cur_http_node->session.buf =NULL;
 		cur_http_node->session.buflen = 0;
-		for (int k=0; k < result_array->result_num; k++)
+		int k=0;
+		for (k=0; k < result_array->result_num; k++)
 		{
 			cur_http_node->session.buf = (char*)dictator_realloc(thread_seq, cur_http_node->session.buf,cur_http_node->session.buflen+result_array->result_buff[k].size);
 			memcpy(cur_http_node->session.buf+cur_http_node->session.buflen,

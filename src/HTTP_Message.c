@@ -14,7 +14,7 @@
 #include "MESA_htable.h"
 #include "field_stat.h"
 
-static int 								g_iThreadNum = get_thread_count();
+static int 								g_iThreadNum = 1;
 extern http_prog_runtime_parameter_t 	g_http_prog_para;
 extern string_map_t  					g_http_regions[];
 extern const char*  					g_http_method[];
@@ -136,7 +136,8 @@ long long http_region2proto_flag(const char *region, uint32 region_len)
 	/*http content......*/
 	else 
 	{
-		 for(int i=0;i<g_http_prog_para.http_region_cnt;i++)
+		int i=0;
+		 for(i=0;i<g_http_prog_para.http_region_cnt;i++)
     		{    		
       			if(0==strcasecmp(g_http_prog_para.http_conf_regionname[i], region))
         		{  
@@ -267,7 +268,8 @@ int http_readMainConf(const char* filename)
 }
 
 int HTTP_INIT(void)
-{	
+{
+	g_iThreadNum = get_thread_count();
     memset(&g_http_prog_para,0,sizeof(http_prog_runtime_parameter_t));
 	if(0!=http_readMainConf("./conf/http/http_main.conf"))
 	{		

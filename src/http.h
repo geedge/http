@@ -1,9 +1,11 @@
 #ifndef HTTP_H_
 #define HTTP_H_
 
+
 #define    HTTP_H_VERSION_4_20160905     	0
-//#define    HTTP_H_VERSION_3_20150320     	0
+//#define    HTTP_H_VERSION_3_20150321     	0
 //20160905 add http_line2region
+
 
 #ifndef uchar
 typedef unsigned char           uchar;
@@ -220,7 +222,7 @@ int http_line2region(const char *line, uint32 line_len, char** region, uint32* r
 */
 long long http_region2proto_flag(const char *region, uint32 region_len);
 /*
-*根据proto_flag获得字段名称
+*根据proto_flag获得字段的名称
 *返回值是http.conf中的字符串
 */
 const char* http_proto_flag2region(long long proto_flag);
