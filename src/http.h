@@ -2,9 +2,12 @@
 #define HTTP_H_
 
 
-#define    HTTP_H_VERSION_4_20160905     	0
-//#define    HTTP_H_VERSION_3_20150321     	0
 //20160905 add http_line2region
+//20191112 add http_host_parser function
+
+#define    HTTP_H_VERSION_4_20191112     	0
+//#define    HTTP_H_VERSION_4_20160905     	0
+//#define    HTTP_H_VERSION_3_20150321     	0
 
 
 #ifndef uchar
@@ -165,12 +168,6 @@ typedef struct _append_infor_t
 	uint32 					contlen;
 }append_infor_t;
 
-typedef struct _region_t
-{	
-	char* 					pdata;   
-	uint32 					datalen;
-}region_t;
-
 typedef struct _field_infor_t
 {
 	long long 					prot_flag;      	 //当前字段flag
@@ -230,6 +227,25 @@ const char* http_get_method(uchar method);
 char* http_url_decode(char *data,  int* data_len);
 
 int is_absolute_uri(void* app_info);
+
+/*
+* 功能说明：
+*		  对一块数据进行HTTP域名解析，判断是否是HTTP协议，并返回该buf解析后的HTTP域名  
+* 参数说明:
+*		  buf: 输入数据 (必须是单个HTTP连接的数据,不支持一个HTTP连接数据多次解析，也不支持buf里面有多个http连接的数据)
+*		  buflen: 输入数据的长度
+*		  http_dir: 输入buf的流方向，DIR_C2S or DIR_S2C
+*		  host: 解析后域名内容的指针
+* 返回值: 
+*		  >0: 该buf是HTTP协议数据，并解析出host域名, 返回host的长度
+*     0: 该buf是HTTP协议数据，但没有解析出host域名
+*		  -1: 该buf不是HTTP协议数据
+*测试 demo:
+*         参见HTTP_Parser.c中 http_host_parser_test
+*/
+
+int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host);
+
 
 #ifdef __cplusplus
 }

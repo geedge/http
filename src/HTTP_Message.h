@@ -225,6 +225,7 @@ typedef struct _http_prog_runtime_parameter_t
 #endif
 
 }http_prog_runtime_parameter_t;
+void http_test();
 
 #ifdef __cplusplus
 extern "C" {

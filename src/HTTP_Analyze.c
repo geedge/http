@@ -25,7 +25,7 @@
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_3_20150320 = 0;
-int G_HTTP_VERSION_4_20190128 = 0;
+int G_HTTP_VERSION_4_20191112 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -101,6 +101,7 @@ void history()
 	//2019-01-05 V4.0 //special http packet, get_span_space.pcap 	
 	//2019-01-11 V4.0 //is_absolute_uri 
 	//2019-01-28 V4.0 //1. support Content-Range: bytes -154100106/154100107 2. bug:http_doWithGzipData 3. assert(session_info.buflen>=0);
+	//2019-11-12 V4.0 //Ôö¼Óhttp_host_parserº¯Êı
 }
 	
 /*

@@ -1,7 +1,7 @@
 vpath %.a ../lib
 vpath %.h ./inc
 
-PAPP_PATH=/home/lishu/DDP/sapp_run/
+PAPP_PATH=/home/lishu/soq/sapp/
 
 #CFLAGS          =  -g3 -Wall -fPIC -Werror -O
 #CFLAGS          =  -g3 -Wall -fPIC -O
@@ -16,8 +16,9 @@ LIB		= -L./lib/
 LIB		+= -lMESA_handle_logger
 LIB		+= -lMESA_prof_load
 LIB		+= -lMESA_htable 
-LIB   += -lMESA_field_stat
+LIB   		+= -lMESA_field_stat
 LIB		+= -ldocumentanalyze
+LIB		+= -lhttp_parser
 
 LIB_FILE	= $(wildcard ../lib/*.a)
 SOURCES		= $(wildcard *.c)

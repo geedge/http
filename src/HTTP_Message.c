@@ -459,6 +459,9 @@ int HTTP_INIT(void)
 			return -1;
 		}
 	}
+
+	/*http test*/
+	http_test();
 	return 0;
 }
 
