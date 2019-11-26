@@ -18,9 +18,9 @@ LIB		+= -lMESA_prof_load
 LIB		+= -lMESA_htable 
 LIB   		+= -lMESA_field_stat
 LIB		+= -ldocumentanalyze
-LIB		+= -lhttp_parser
+LIB		+= ./lib/libhttp_parser.a
 
-LIB_FILE	= $(wildcard ../lib/*.a)
+LIB_FILE	= $(wildcard ./lib/*.a)
 SOURCES		= $(wildcard *.c)
 OBJECTS 	= $(SOURCES:.c=.o)
 DEPS		= $(SOURCES:.c=.d)

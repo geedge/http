@@ -76,8 +76,8 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	const char* pbuf = buf+offset;
 	uint32 pbuflen = buflen-offset;
 
-	printf("buf=====================================================\n");	
-	printf("%s\n", buf);
+	//printf("buf=====================================================\n");	
+	//printf("%s\n", buf);
 	
 	// 为结构体申请内存
 	http_parser *parser = (http_parser*)calloc(1, sizeof(http_parser));
@@ -103,7 +103,7 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	
 	//执行解析过程
 	size_t parsed = http_parser_execute(parser, &http_setting, pbuf, (size_t)pbuflen);
-	printf("buflen: %d; parsed: %d\n", pbuflen, parsed);
+	//printf("buflen: %d; parsed: %d\n", pbuflen, parsed);
 	if(((host_parser*)(parser->data))->is_http_flag == 1) 
 	{
 		rec = 0;
@@ -274,7 +274,7 @@ void http_test()
 {
 	/*http_host_parser_test测试*/	
 	/*
-	http_host_parser_test(http_request, DIR_C2S);	
+	http_host_parser_test(http_request, DIR_C2S);		
 	http_host_parser_test(http_request_no_host, DIR_C2S);	
 	http_host_parser_test(http_response, DIR_S2C);
 	http_host_parser_test(http_request_CR, DIR_C2S);

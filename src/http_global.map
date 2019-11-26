@@ -12,6 +12,7 @@ global:
 	http_get_method;
 	http_url_decode;
 	is_absolute_uri;
+	http_host_parser;
 local: *;  
 };  
 
