@@ -59,7 +59,7 @@ int http_line2value(const char *line, uint32 line_len, char** value, uint32* val
 	vlen = line_len - (colon_pos - line + 1);	
 	http_deleteEmptyRow(&sp_offset, colon_pos+1, vlen);
 	*value = colon_pos+1+sp_offset;
-	*valuelen = vlen-sp_offset;	
+	*value_len = vlen-sp_offset;	
 	return 0;
 }
 
