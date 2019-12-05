@@ -4,8 +4,10 @@
 
 //20160905 add http_line2region
 //20191112 add http_host_parser function
+//20191205 add http_line2value function
 
-#define    HTTP_H_VERSION_4_20191112     	0
+#define    HTTP_H_VERSION_4_20191205     	0
+//#define    HTTP_H_VERSION_4_20191112     	0
 //#define    HTTP_H_VERSION_4_20160905     	0
 //#define    HTTP_H_VERSION_3_20150321     	0
 
@@ -213,6 +215,13 @@ extern "C" {
 *_key_:_value,只返回key
 */
 int http_line2region(const char *line, uint32 line_len, char** region, uint32* region_len);
+/*
+*根据完整行(key:value)获得value 和value_len
+*返回值0成功；-1:失败
+*_key_:_value,只返回value
+*/
+int http_line2value(const char *line, uint32 line_len, char** value, uint32* value_len);
+
 /*
 * 根据字段名称region 获得字段的proto_flag
 * region : 可以是host (in pcap)，也可以是HTTP_HOST(in http.conf)

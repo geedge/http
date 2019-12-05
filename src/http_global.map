@@ -7,6 +7,7 @@ global:
 	HTTP_PROT_FUNSTAT;
 	HTTP_GETPLUGID;
 	http_line2region;
+	http_line2value;
 	http_region2proto_flag;
 	http_proto_flag2region;
 	http_get_method;

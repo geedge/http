@@ -50,6 +50,19 @@ int http_line2region(const char *line, uint32 line_len, char** region, uint32* r
 	return 0;
 }
 
+int http_line2value(const char *line, uint32 line_len, char** value, uint32* value_len)
+{
+	/*line来自业务层，即append,所以line前面的空格已经删除，只需要删除: 之后的空格*/
+	uint32 	vlen=0, sp_offset=0;	
+	char* colon_pos = (char*)memchr(line, ':', line_len);	
+	if(NULL==colon_pos) return -1;	
+	vlen = line_len - (colon_pos - line + 1);	
+	http_deleteEmptyRow(&sp_offset, colon_pos+1, vlen);
+	*value = colon_pos+1+sp_offset;
+	*valuelen = vlen-sp_offset;	
+	return 0;
+}
+
 /* old platform
 char* http_url_decode(char *data,  int* data_len)
 {
