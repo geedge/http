@@ -40,7 +40,7 @@ set(HTTP_DEPEND_DYN_LIB MESA_handle_logger MESA_field_stat MESA_prof_load docume
 # Shared Library Output
 add_library(http SHARED ${SRC})
 set_target_properties(http  PROPERTIES PREFIX "")
-target_link_libraries(http ${HTTP_DEPEND_DYN_LIB})
+target_link_libraries(http ${HTTP_DEPEND_DYN_LIB} ${PROJECT_SOURCE_DIR}/src/lib/libhttp_parser.a)
 if(DEFINED MESA_SHARED_INSTALL_DIR)
 	set_target_properties(http PROPERTIES OUTPUT_NAME ${lib_name} LIBRARY_OUTPUT_DIRECTORY ${MESA_SHARED_INSTALL_DIR})
 else()
