@@ -25,7 +25,7 @@
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_4_20191205 = 0;
-int G_HTTP_VERSION_4_20191205 = 0;
+int G_HTTP_VERSION_4_20200108 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -103,7 +103,7 @@ void history()
 	//2019-01-28 V4.0 //1. support Content-Range: bytes -154100106/154100107 2. bug:http_doWithGzipData 3. assert(session_info.buflen>=0);
 	//2019-11-12 V4.0 //增加http_host_parser函数
 	//2019-12-05 V4.0 //增加http_line2value函数
-
+	//2020-01-08 V4.0 //add mesa_proto
 	
 }
 	
@@ -1225,7 +1225,11 @@ char HTTP_ENTRY(struct streaminfo *a_tcp, void**pme, int thread_seq, void *a_pac
 			}
 #endif		
 			rec = http_analyseHttpConnection(a_http_stream, a_tcp, thread_seq, a_packet);			
-			a_http_stream->packet_offset = 0;			
+			a_http_stream->packet_offset = 0;
+			if(HTTP_TRUE==a_http_stream->maybe_http_stream)
+			{
+				http_add_proto_tag(g_http_prog_para.proto_tag_id, a_tcp, "HTTP", strlen("HTTP"));
+			}
 			break;
 		default:
 			break;

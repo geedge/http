@@ -223,8 +223,14 @@ typedef struct _http_prog_runtime_parameter_t
 #if HTTP_PROXY_CAPFILE
 	int 						capfile_project_id;
 #endif
-
+	int							proto_tag_id ;
 }http_prog_runtime_parameter_t;
+
+struct http_proto_tag_t
+{    
+	char buf[8];
+};
+
 void http_test();
 
 #ifdef __cplusplus
@@ -240,6 +246,7 @@ void HTTP_PROT_FUNSTAT(unsigned long long protflag);
 void HTTP_GETPLUGID(unsigned short plugid);
 uchar http_judgeHeaderOver(http_parser_t *a_http, char *data, uint32 data_len, int thread_seq);
 uchar http_positioningACompleteLine(char del_space, http_parser_t *cur_http_node, struct streaminfo *a_tcp, int thread_seq);
+int http_add_proto_tag(int projetc_id, struct streaminfo *a_stream, const char* value, int len);
 
 #ifdef __cplusplus
 }

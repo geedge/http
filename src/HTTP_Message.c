@@ -280,6 +280,30 @@ int http_readMainConf(const char* filename)
 	return 0;
 }
 
+void http_proto_tag_free(int thread_seq, void *value)
+{    
+	free(value);    
+	return;
+}
+
+int http_add_proto_tag(int projetc_id, struct streaminfo *a_stream, const char* value, int len)
+{
+	if(projetc_id < 0)return -1;    
+	struct http_proto_tag_t* proto_tag = (struct http_proto_tag_t*)project_req_get_struct(a_stream,projetc_id);   
+	if(proto_tag == NULL)   
+	{        
+		proto_tag = (struct http_proto_tag_t *)calloc(sizeof(struct http_proto_tag_t), 1);        
+		if(0 != project_req_add_struct(a_stream, projetc_id, proto_tag))        
+		{            
+			free(proto_tag);            
+			return -1;        
+		}    
+	}    
+	memcpy(proto_tag->buf, value, len);	
+	proto_tag->buf[len]='\0';
+	return 0;
+}
+
 int HTTP_INIT(void)
 {
 	g_iThreadNum = get_thread_count();
@@ -303,6 +327,9 @@ int HTTP_INIT(void)
 		return -1;
 	}
 
+	/*MESA_proto*/
+	g_http_prog_para.proto_tag_id  = project_producer_register("MESA_PROTO","struct",http_proto_tag_free);
+	
 #if HTTP_PROXY_CAPFILE	
 	g_http_prog_para.capfile_project_id = project_producer_register("MESA_CAPFILE", "char", NULL);
 #endif
