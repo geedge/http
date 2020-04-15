@@ -33,7 +33,10 @@ env | sort
 : "${COMPILER_IS_GNUCXX:=OFF}"
 
 # Install dependency from YUM
-#yum install -y mrzcpd framework numactl-devel zlib-devel librdkafka-devel systemd-devel
+if [ -n "${INSTALL_DEPENDENCY_LIBRARY}" ]; then
+	yum install -y $INSTALL_DEPENDENCY_LIBRARY
+	source /etc/profile.d/framework.sh
+fi
 mkdir build || true
 cd build
 
