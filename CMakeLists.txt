@@ -35,6 +35,7 @@ file(GLOB SRC
     "src/*.c"    
 )
  
+set(CMAKE_INSTALL_PREFIX /home/mesasoft/sapp_run/)
 set(HTTP_DEPEND_DYN_LIB MESA_handle_logger MESA_field_stat MESA_prof_load documentanalyze MESA_htable)
 
 # Shared Library Output
@@ -47,10 +48,12 @@ else()
 	set_target_properties(http PROPERTIES OUTPUT_NAME ${lib_name})
 endif()
 
-install(TARGETS http LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name})
-install(FILES bin/${lib_name}.inf DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name})
-install(FILES bin/${lib_name}/${lib_name}.conf DESTINATION ${CMAKE_INSTALL_PREFIX}/conf/${lib_name}/)
-install(FILES src/${lib_name}.h DESTINATION /opt/MESA/include/MESA COMPONENT devel)
+install(TARGETS http LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name} COMPONENT LIBRARY)
+install(FILES src/${lib_name}.h DESTINATION /opt/MESA/include/MESA COMPONENT HEADER)
+
+install(FILES bin/${lib_name}.inf DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name} COMPONENT PROFILE)
+install(FILES bin/http/http.conf DESTINATION ${CMAKE_INSTALL_PREFIX}/conf/${lib_name}/ COMPONENT PROFILE)
+install(FILES bin/http/http_main.conf DESTINATION ${CMAKE_INSTALL_PREFIX}/conf/${lib_name}/ COMPONENT PROFILE)
 
 file(GLOB DEMO
     "test/src/*.c"
