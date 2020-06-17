@@ -25,7 +25,7 @@
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_4_20191205 = 0;
-int G_HTTP_VERSION_4_20200108 = 0;
+int G_HTTP_VERSION_4_20200612 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -104,6 +104,7 @@ void history()
 	//2019-11-12 V4.0 //增加http_host_parser函数
 	//2019-12-05 V4.0 //增加http_line2value函数
 	//2020-01-08 V4.0 //add mesa_proto
+	//2020-06-12 V4.0 //set pbuf=null when resethttpstream
 	
 }
 	
@@ -727,6 +728,9 @@ void http_resetHttpStream(http_stream **ppa_http_stream,	struct streaminfo *a_tc
 	a_http_stream->uncomplete_count = 0;
 	a_http_stream->first_link_node = NULL;
 	a_http_stream->last_link_node = NULL;
+	// 20200612 guangdong clear buf
+	a_http_stream->pbuf = NULL;
+	a_http_stream->buflen = 0;
 #if HTTP_PROXY	
 	if(g_http_prog_para.proxy_switch)
 	{
