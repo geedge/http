@@ -266,6 +266,7 @@ uchar http_doWithContentRange(http_parser_t* a_http, http_stream *a_http_stream,
 		if( *(value+i)>='0' && *(value+i)<='9' || *(value+i)=='-') 
 		{
 			digit = value+i;
+			valuelen -= i;
 			break;
 		}
 	}

@@ -138,7 +138,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 
 	/*http proxy and switch protocol, not change http_infor*/
 	if(HTTP_DATA_END==prev_http_node->parser.http_state || a_http_stream->res_req != a_tcp->curdir)
-	 {
+	{
 		 /*20150601 20150917*/
 		 if(a_tcp->curdir==DIR_C2S)
 		 {			 	

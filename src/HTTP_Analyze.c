@@ -25,7 +25,7 @@
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_4_20191205 = 0;
-int G_HTTP_VERSION_4_20200612 = 0;
+int G_HTTP_VERSION_4_20200722 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -105,6 +105,7 @@ void history()
 	//2019-12-05 V4.0 //Ôö¼Óhttp_line2valueº¯Êı
 	//2020-01-08 V4.0 //add mesa_proto
 	//2020-06-12 V4.0 //set pbuf=null when resethttpstream
+	//2020-07-22 V4.0 //range Invalid
 	
 }
 	
@@ -870,7 +871,7 @@ uchar http_procLost(http_stream* a_http_stream, struct streaminfo* a_tcp, int th
 	}
 	else 
 	{
-		//a_http_stream->http_session_num = -1;
+		a_http_stream->http_session_num = -1;
 		http_resetHttpStream(&a_http_stream, a_tcp, thread_seq, a_packet);
 	}
 	a_http_stream->res_req = res_req_temp;
