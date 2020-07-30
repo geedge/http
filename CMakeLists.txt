@@ -48,6 +48,10 @@ else()
 	set_target_properties(http PROPERTIES OUTPUT_NAME ${lib_name})
 endif()
 
+set(CPACK_RPM_LIBRARY_USER_FILELIST "%config(noreplace) ${CMAKE_INSTALL_PREFIX}/plug/protocol/http/http.inf"
+                                         "%config(noreplace) ${CMAKE_INSTALL_PREFIX}/conf/http/http.conf"
+					"%config(noreplace) ${CMAKE_INSTALL_PREFIX}/conf/http/http_main.conf")
+
 install(TARGETS http LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name} COMPONENT LIBRARY)
 install(FILES src/${lib_name}.h DESTINATION /opt/MESA/include/MESA COMPONENT HEADER)
 
