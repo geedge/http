@@ -22,6 +22,28 @@
 #include "MESA_handle_logger.h"
 #include "field_stat.h"
 
+#define GIT_VERSION_CATTER(v) __attribute__((__used__)) const char * GIT_VERSION_##v = NULL
+#define GIT_VERSION_EXPEND(v) GIT_VERSION_CATTER(v)
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+    /* VERSION TAG */
+#ifdef GIT_VERSION
+    GIT_VERSION_EXPEND(GIT_VERSION);
+#else
+    static __attribute__((__used__)) const char * GIT_VERSION_UNKNOWN = NULL;
+#endif
+#undef GIT_VERSION_CATTER
+#undef GIT_VERSION_EXPEND
+
+#ifdef __cplusplus
+}
+#endif
+
+
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_4_20191205 = 0;
