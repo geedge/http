@@ -247,6 +247,7 @@ void HTTP_GETPLUGID(unsigned short plugid);
 uchar http_judgeHeaderOver(http_parser_t *a_http, char *data, uint32 data_len, int thread_seq);
 uchar http_positioningACompleteLine(char del_space, http_parser_t *cur_http_node, struct streaminfo *a_tcp, int thread_seq);
 int http_add_proto_tag(int projetc_id, struct streaminfo *a_stream, const char* value, int len);
+int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host);
 
 #ifdef __cplusplus
 }

@@ -7,7 +7,11 @@
 #include <http.h>
 #include <stream.h>
 #include <http_parser.h>
+#include "http.h"
 #include "HTTP_Common.h"
+#include "HTTP_Message_Header.h"
+
+extern const char* g_http_method[];
 
 typedef struct host_parser_t
 {	
@@ -73,8 +77,13 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	//buf前面的空格进行删除处理	
 	uint32 offset = 0;
 	http_deleteEmptyRow(&offset, (char*)(buf), buflen);
-	const char* pbuf = buf+offset;
+	const char* pbuf = buf+offset;	
 	uint32 pbuflen = buflen-offset;
+	char* pbuf_temp = (char*)(buf+offset);
+	uint32 pbuflen_temp = buflen-offset;
+	char* new_pbuf = NULL;
+	uint32 new_pbuflen = 0;
+	uchar 	method = HTTP_METHOD_UNKNOWN;
 
 	//printf("buf=====================================================\n");	
 	//printf("%s\n", buf);
@@ -87,7 +96,34 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	// 初始化解析器
 	if(http_dir==DIR_C2S)
 	{
-		http_parser_init(parser, HTTP_REQUEST);		
+		http_parser_init(parser, HTTP_REQUEST);	
+		/*如果检测到method往后移动一个空格，不是'/',也不是"http://"，就自动添加一个'/'*/
+		if(buflen>HTTP_START_FLAGS_LEN+strlen("http://"))
+		{		
+			for(int i=1;i<=HTTP_METHOD_TRACE;i++)
+			{
+				if(0==strncasecmp(pbuf,g_http_method[i],strlen(g_http_method[i]))) 
+				{
+					method = i;	
+					break;
+				}
+			}
+			if(method!=HTTP_METHOD_UNKNOWN)
+			{
+				pbuf_temp = pbuf_temp+strlen(g_http_method[method])+strlen(" ");
+				pbuflen_temp -= strlen(g_http_method[method])+strlen(" ");
+				if(*pbuf_temp!='/' && 0!=strncasecmp(pbuf_temp, "http://", strlen("http://")))
+				{
+					new_pbuflen = pbuflen+strlen("/");
+					new_pbuf = (char*)malloc(new_pbuflen);
+					memcpy(new_pbuf, pbuf, pbuflen-pbuflen_temp);
+					memcpy(new_pbuf+pbuflen-pbuflen_temp, "/", strlen("/"));
+					memcpy(new_pbuf+pbuflen-pbuflen_temp+strlen("/"), pbuf+pbuflen-pbuflen_temp, pbuflen_temp);
+					pbuf = new_pbuf;
+					pbuflen = new_pbuflen;					
+				}
+			}
+		}		
 	}
 	else
 	{
@@ -135,6 +171,11 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	{				
 		free(parser);
 		parser = NULL;
+	}
+	if(NULL!=new_pbuf)
+	{				
+		free(new_pbuf);
+		new_pbuf = NULL;
 	}
 	return rec;
 }

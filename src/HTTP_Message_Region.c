@@ -121,10 +121,29 @@ uchar http_doWithHost(http_parser_t* a_http, http_stream *a_http_stream, char* v
 			}	
 		}
 		/*20190111 ¾ø¶ÔURI*/
-		else if(a_http->url_buf!=NULL && a_http->url_buf[0]!='/')
+		else if(a_http->url_buf!=NULL && a_http->url_buflen>=strlen("http://") && 0==strncasecmp(a_http->url_buf, "http://", strlen("http://")))
 		{
 			a_http->parser.is_ab_uri = 1;
-		}		
+		}	
+		/*URI=sample.html, do not start with '/'; then we add a '/' */ 
+		else if(a_http->url_buf!=NULL && a_http->url_buf[0]!='/')
+		{
+			uri = (char*)dictator_malloc(thread_seq, a_http->url_buflen);
+			urilen = a_http->url_buflen;
+			memcpy(uri, a_http->url_buf, a_http->url_buflen);
+			if(a_http->url_buf!=NULL) dictator_free(thread_seq, a_http->url_buf);
+			a_http->url_buf = NULL;
+			a_http->url_buflen = valuelen+strlen("/")+urilen;
+			a_http->url_buf = (char*)dictator_malloc(thread_seq, a_http->url_buflen);
+			memcpy(a_http->url_buf, value, valuelen);
+			memcpy(a_http->url_buf+valuelen, "/", strlen("/"));
+			memcpy(a_http->url_buf+valuelen+strlen("/"), uri, urilen);
+			if(uri!=NULL) 
+			{
+				dictator_free(thread_seq, uri); 
+				uri = NULL;
+			}			
+		}
 	}	
 	
 	a_http->parser.p_url = a_http->url_buf;
@@ -263,7 +282,7 @@ uchar http_doWithContentRange(http_parser_t* a_http, http_stream *a_http_stream,
 	/*only get digit*/
 	for(i=0;i<valuelen;i++)
 	{
-		if( *(value+i)>='0' && *(value+i)<='9' || *(value+i)=='-') 
+		if( (*(value+i)>='0' && *(value+i)<='9') || *(value+i)=='-') 
 		{
 			digit = value+i;
 			valuelen -= i;
@@ -381,9 +400,9 @@ uchar http_outPutUrl(http_parser_t *a_http, struct streaminfo *a_tcp, int thread
 			}
 		}
 		else
-		{			
+		{
 			a_http->parser.is_ab_uri = 1;
-		}
+		}		
 		
 		a_http->parser.p_url = a_http->url_buf;
 		a_http->parser.url_len = a_http->url_buflen;

@@ -247,14 +247,13 @@ int is_absolute_uri(void* app_info);
 *		  host: 解析后域名内容的指针
 * 返回值: 
 *		  >0: 该buf是HTTP协议数据，并解析出host域名, 返回host的长度
-*     0: 该buf是HTTP协议数据，但没有解析出host域名
+*         0: 该buf是HTTP协议数据，但没有解析出host域名
 *		  -1: 该buf不是HTTP协议数据
 *测试 demo:
 *         参见HTTP_Parser.c中 http_host_parser_test
 */
 
 int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host);
-
 
 
 #ifdef __cplusplus
