@@ -84,6 +84,7 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	char* new_pbuf = NULL;
 	uint32 new_pbuflen = 0;
 	uchar 	method = HTTP_METHOD_UNKNOWN;
+	int method_idx = 1;
 
 	//printf("buf=====================================================\n");	
 	//printf("%s\n", buf);
@@ -100,11 +101,11 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 		/*如果检测到method往后移动一个空格，不是'/',也不是"http://"，就自动添加一个'/'*/
 		if(buflen>HTTP_START_FLAGS_LEN+strlen("http://"))
 		{		
-			for(int i=1;i<=HTTP_METHOD_TRACE;i++)
+			for(method_idx=1;method_idx<=HTTP_METHOD_TRACE;method_idx++)
 			{
-				if(0==strncasecmp(pbuf,g_http_method[i],strlen(g_http_method[i]))) 
+				if(0==strncasecmp(pbuf,g_http_method[method_idx],strlen(g_http_method[method_idx]))) 
 				{
-					method = i;	
+					method = method_idx;	
 					break;
 				}
 			}
