@@ -207,6 +207,7 @@ typedef struct _http_prog_runtime_parameter_t
 	uint16 						callback_mode;
 	uint16 						batch_field_maxnum;
 	uint16 						proxy_switch;
+	uint16 						s2c_head_check_switch;
 	uchar						need_http_state;	
 	uchar						not_proc;	
 	

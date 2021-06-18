@@ -47,7 +47,7 @@ extern "C"
 http_prog_runtime_parameter_t g_http_prog_para;
 
 int G_HTTP_H_VERSION_4_20191205 = 0;
-int G_HTTP_VERSION_4_20210521 = 0;
+int G_HTTP_VERSION_4_20210618 = 0;
 void history()
 {
 	//2014-12-09 V3.0 new documentAnalyze lib ;    http.h add and delete ;     
@@ -129,6 +129,7 @@ void history()
 	//2020-06-12 V4.0 //set pbuf=null when resethttpstream
 	//2020-07-22 V4.0 //range Invalid
 	//2021-05-21 V4.0 //URI do not start with '/' and http_host_parser
+	//2021-06-18 V4.0 //fix:http head when only one-way of S2C
 	
 }
 	
