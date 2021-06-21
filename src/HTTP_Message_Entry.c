@@ -463,7 +463,7 @@ uchar http_doWithEntity(http_parser_t *cur_http_node, http_stream *a_http_stream
 	else if(a_http_stream->is_proxy)
 	{	
 		rec = http_doWithProxyData(cur_http_node, a_http_stream,a_tcp,thread_seq, a_packet);
-	}
+	}	
 	else
 	{
 		rec = http_doWithDefaultData(cur_http_node, a_http_stream, a_tcp,thread_seq, a_packet);
@@ -548,7 +548,7 @@ uchar http_judgeResponseEntityPresent(http_parser_t *a_http,  http_stream* a_htt
 			http_callPlugin(a_http, a_tcp, thread_seq, a_packet);	
 		}	
 		return ERROR;
-	}	
+	}		
 	return OK;
 }/*http_judgeResponseEntityPresent*/
 
@@ -564,6 +564,23 @@ uchar http_judgeEntityPresent(http_parser_t *cur_http_node, http_stream *a_http_
 		rec = http_judgeRequestEntityPresent(cur_http_node, a_http_stream, a_tcp, thread_seq, a_packet);		
 	}	
 	return rec;
+}
+
+void http_s2cHead(http_parser_t *cur_http_node, http_stream *a_http_stream, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
+{
+	struct tcpdetail *tcp_detail = (struct tcpdetail*)a_tcp->pdetail;
+	uint32*	offset = &(cur_http_node->processed_offset);
+	char*	cur_data = (char*)(tcp_detail->pdata);		
+	uchar 	method = HTTP_METHOD_UNKNOWN;
+	uint32	len = tcp_detail->datalen - *offset;
+
+	if(len>HTTP_START_FLAGS_LEN)
+	{
+		if(OK==http_judgeHttpMethod(&method, cur_data+*offset, a_http_stream->res_req))
+		{
+			cur_http_node->packet_entity_len = 0;
+		}	
+	}
 }
 
 uchar http_findAndDoWithEntity(uchar* msg_status, http_parser_t *a_http, http_stream* a_http_stream, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
@@ -595,6 +612,11 @@ uchar http_findAndDoWithEntity(uchar* msg_status, http_parser_t *a_http, http_st
 
 	if(a_http->parser.http_state==HTTP_DATA)
 	{
+		/*20210618 S2C but maybe head*/
+		if (g_http_prog_para.s2c_head_check_switch && DIR_S2C==a_http_stream->dir && 200==(a_http->parser.res_code) && 0!=a_http->parser.cont_length)
+		{
+			http_s2cHead(a_http, a_http_stream, a_tcp, thread_seq, a_packet);
+		}	
 		rec = http_doWithEntity(a_http, a_http_stream, a_tcp, thread_seq, a_packet); 		
 		http_updatePktOffset(a_http, a_http_stream, a_tcp); 		
 		*msg_status = a_http->mgs_status;

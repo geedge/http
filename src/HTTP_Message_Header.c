@@ -238,14 +238,14 @@ void http_initHttpConnection(http_stream *a_http_stream, int thread_seq, struct 
 		{
 			if(a_tcp->curdir==DIR_C2S)
 			{
-				if(DIR_DOUBLE!=a_tcp->dir && g_http_prog_para.singleway_seq >0 && a_http_stream->create_infor_num > g_http_prog_para.singleway_seq)
+				if(DIR_DOUBLE!=a_tcp->dir &&  (g_http_prog_para.singleway_seq ==0 || (g_http_prog_para.singleway_seq >0 && a_http_stream->create_infor_num > g_http_prog_para.singleway_seq)))
 				{
 					a_http_stream->dir = DIR_C2S;
 				}				
 			}
 			else
 			{				
-				if(DIR_DOUBLE!=a_tcp->dir && g_http_prog_para.singleway_seq >0 && a_http_stream->create_infor_num > g_http_prog_para.singleway_seq)
+				if(DIR_DOUBLE!=a_tcp->dir && (g_http_prog_para.singleway_seq ==0 || (g_http_prog_para.singleway_seq >0 && a_http_stream->create_infor_num > g_http_prog_para.singleway_seq)))
 				{
 					a_http_stream->dir = DIR_S2C;
 				}				

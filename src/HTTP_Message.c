@@ -276,6 +276,8 @@ int http_readMainConf(const char* filename)
 	MESA_load_profile_short_def(filename, "FUNCTION", "callback_mode", (short*)&g_http_prog_para.callback_mode,0);
 	MESA_load_profile_short_def(filename, "FUNCTION", "batch_field_maxnum", (short*)&g_http_prog_para.batch_field_maxnum,64);
 	MESA_load_profile_string_def(filename, "FUNCTION", "stat_file", g_http_prog_para.http_stat_filename, sizeof(g_http_prog_para.http_stat_filename),"./log/http/http_stat.log");
+	MESA_load_profile_short_def(filename, "FUNCTION", "s2c_head_check_switch", (short*)&g_http_prog_para.s2c_head_check_switch,0);
+
 
 	return 0;
 }
