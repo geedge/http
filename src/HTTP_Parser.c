@@ -84,7 +84,7 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	char* new_pbuf = NULL;
 	uint32 new_pbuflen = 0;
 	uchar 	method = HTTP_METHOD_UNKNOWN;
-	int method_idx = 1;
+	int method_idx = 1, new_flags=0;
 
 	//printf("buf=====================================================\n");	
 	//printf("%s\n", buf);
@@ -120,8 +120,9 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 					memcpy(new_pbuf, pbuf, pbuflen-pbuflen_temp);
 					memcpy(new_pbuf+pbuflen-pbuflen_temp, "/", strlen("/"));
 					memcpy(new_pbuf+pbuflen-pbuflen_temp+strlen("/"), pbuf+pbuflen-pbuflen_temp, pbuflen_temp);
-					pbuf = new_pbuf;
-					pbuflen = new_pbuflen;					
+					//pbuf = new_pbuf;
+					//pbuflen = new_pbuflen;
+					new_flags=1;
 				}
 			}
 		}		
@@ -137,9 +138,17 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	{
 		((host_parser*)(parser->data))->get_host_flag = 1;		
 	}
-	
+
+	size_t parsed=0;
 	//执行解析过程
-	size_t parsed = http_parser_execute(parser, &http_setting, pbuf, (size_t)pbuflen);
+	if(new_flags==0)
+	{
+		parsed=http_parser_execute(parser, &http_setting, pbuf, (size_t)pbuflen);
+	}
+	else
+	{
+		parsed=http_parser_execute(parser, &http_setting, new_pbuf, (size_t)new_pbuflen);
+	}
 	//printf("buflen: %d; parsed: %d\n", pbuflen, parsed);
 	if(((host_parser*)(parser->data))->is_http_flag == 1) 
 	{
@@ -149,7 +158,7 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 			if(0<host_field->host_valuelen)
 			{
 				rec = host_field->host_valuelen;
-				*host = memcasemem(pbuf, pbuflen, (const char*)host_field->host_value, host_field->host_valuelen);					
+				*host = memcasemem(pbuf, pbuflen, (const char*)host_field->host_value, host_field->host_valuelen);	
 			}						
 		}
 	}	
