@@ -86,6 +86,11 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	uchar 	method = HTTP_METHOD_UNKNOWN;
 	int method_idx = 1, new_flags=0;
 
+	if(pbuflen<4) //g_http_method min bytes=3; pbuflen_temp=pbuflen
+	{
+		return -1;
+	}
+
 	//printf("buf=====================================================\n");	
 	//printf("%s\n", buf);
 	
