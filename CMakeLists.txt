@@ -32,11 +32,15 @@ include_directories(/opt/MESA/include/MESA/)
 include_directories(./src/inc/)
 include_directories(./src/)
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+	set(CMAKE_INSTALL_PREFIX "/home/mesasoft/sapp_run" CACHE PATH "default install path" FORCE)
+endif()
+
 file(GLOB SRC
     "src/*.c"    
 )
  
-set(CMAKE_INSTALL_PREFIX /home/mesasoft/sapp_run/)
+
 set(HTTP_DEPEND_DYN_LIB MESA_handle_logger MESA_field_stat MESA_prof_load documentanalyze MESA_htable)
 
 # Shared Library Output
@@ -49,11 +53,11 @@ else()
 	set_target_properties(http PROPERTIES OUTPUT_NAME ${lib_name})
 endif()
 
-set(CPACK_RPM_LIBRARY_USER_FILELIST "%config(noreplace) ${CMAKE_INSTALL_PREFIX}/plug/protocol/http/http.inf"
+set(CPACK_RPM_LIBRARIES_USER_FILELIST "%config(noreplace) ${CMAKE_INSTALL_PREFIX}/plug/protocol/http/http.inf"
                                          "%config(noreplace) ${CMAKE_INSTALL_PREFIX}/conf/http/http.conf"
-					"%config(noreplace) ${CMAKE_INSTALL_PREFIX}/conf/http/http_main.conf")
+										"%config(noreplace) ${CMAKE_INSTALL_PREFIX}/conf/http/http_main.conf")
 
-install(TARGETS http LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name} COMPONENT LIBRARY)
+install(TARGETS http LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name} COMPONENT LIBRARIES)
 install(FILES src/${lib_name}.h DESTINATION /opt/MESA/include/MESA COMPONENT HEADER)
 
 install(FILES bin/${lib_name}.inf DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/protocol/${lib_name} COMPONENT PROFILE)
