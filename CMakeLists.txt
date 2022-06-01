@@ -64,8 +64,7 @@ install(FILES bin/${lib_name}.inf DESTINATION ${CMAKE_INSTALL_PREFIX}/plug/proto
 install(FILES bin/http/http.conf DESTINATION ${CMAKE_INSTALL_PREFIX}/conf/${lib_name}/ COMPONENT PROFILE)
 install(FILES bin/http/http_main.conf DESTINATION ${CMAKE_INSTALL_PREFIX}/conf/${lib_name}/ COMPONENT PROFILE)
 
-file(GLOB DEMO
-    "test/src/*.c"
-)
+enable_testing()
+add_subdirectory(test)
 
 include(Package)

@@ -255,6 +255,22 @@ int is_absolute_uri(void* app_info);
 
 int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host);
 
+/*
+* 功能说明：
+* 	对一块数据进行HTTP头部字段解析，判断是否是HTTP协议，并返回该buf解析后的HTTP头部字段
+* 参数说明:
+*	buf: 输入数据 (必须是单个HTTP连接的数据,不支持一个HTTP连接数据多次解析，也不支持buf里面有多个http连接的数据)
+*	buflen: 输入数据的长度
+*	http_dir: 输入buf的流方向，DIR_C2S or DIR_S2C
+* 返回值result: 
+*		  !=NULL: 该buf是HTTP协议数据，并解析出头部字段
+*		  NULL: 该buf不是HTTP协议数据
+*/
+void *http_field_parser(const char* buf, uint32 buflen, int http_dir);
+// return length of field_value, field_flag=(HTTP_HOST/HTTP_MESSAGE_URL/...)
+int http_get_filed_result(void *result, long long field_flag, char **field_value);
+void http_free_filed_result(void *result);
+
 
 #ifdef __cplusplus
 }

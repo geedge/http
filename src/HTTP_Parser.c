@@ -13,48 +13,100 @@
 
 extern const char* g_http_method[];
 
-typedef struct host_parser_t
+struct http_header_field
+{
+	int field_flag;
+	int length;
+	char *value;
+};
+
+struct http_header_parse
 {	
-	char* host_value;		
 	char is_http_flag;
-	char get_host_flag;
-	char host_field_flag;		
-	char host_value_flag;
-	uint32 host_valuelen;
-}host_parser;
+	char pad[7];
+	long long http_field_flag;
+	struct http_header_field host;
+	struct http_header_field uri;	
+	struct http_header_field url;
+};
+
 
 int http_parser_callback_on_headers_field(struct http_parser * parser, const char * at, size_t length)
 {
-	if(((host_parser*)(parser->data))->get_host_flag==0 || ((host_parser*)(parser->data))->host_field_flag==1) return 0;
-	if(0==strncasecmp(at, "host",strlen("host")))
+	if(at==NULL || length<=0 || parser==NULL || parser->data==NULL)
 	{
-		((host_parser*)(parser->data))->host_field_flag = 1;
+		return 0;
 	}
+
+ 	struct http_header_parse *header_parser=(struct http_header_parse *)(parser->data);
+	header_parser->is_http_flag=1;
+
+	if((header_parser->host.field_flag==0) && (length==4) &&  (0==strncasecmp(at, "host", 4)))
+	{
+		header_parser->host.field_flag=1;
+		header_parser->http_field_flag=HTTP_HOST;
+	}
+	
 	return 0;
 }
 
 int http_parser_callback_on_headers_value(struct http_parser * parser, const char * at, size_t length)
-{	
-	if(((host_parser*)(parser->data))->get_host_flag==0 || ((host_parser*)(parser->data))->host_field_flag==0 || ((host_parser*)(parser->data))->host_value_flag==1) return 0;
-	if(0<length)
+{
+	if(at==NULL || length<=0 || parser==NULL || parser->data==NULL)
 	{
-		((host_parser*)(parser->data))->host_value = (char*)malloc(length);
-		memcpy(((host_parser*)(parser->data))->host_value, at, length);
-		((host_parser*)(parser->data))->host_valuelen = length;
-		((host_parser*)(parser->data))->host_value_flag = 1;
+		return 0;
 	}
+
+ 	struct http_header_parse *header_parser=(struct http_header_parse *)(parser->data);
+	header_parser->is_http_flag=1;
+
+	switch(header_parser->http_field_flag)
+	{
+		case	HTTP_HOST:
+			header_parser->host.value=(char*)malloc(length);
+			memcpy(header_parser->host.value, at, length);
+			header_parser->host.length=length;
+			header_parser->http_field_flag=HTTP_INTEREST_KEY;
+			break;
+		default:
+			break;
+	}
+
 	return 0;
 }
 
 int http_parser_callback_on_url(struct http_parser * parser, const char * at, size_t length)
 {
-	((host_parser*)(parser->data))->is_http_flag = 1;
+	if(at==NULL || length<=0 || parser==NULL || parser->data==NULL)
+	{
+		return 0;
+	}
+	
+ 	struct http_header_parse *header_parser=(struct http_header_parse *)(parser->data);
+	header_parser->is_http_flag=1;
+
+	if(header_parser->uri.field_flag==0)
+	{
+		header_parser->uri.field_flag=1;
+		header_parser->uri.value=(char*)malloc(length);
+		memcpy(header_parser->uri.value, at, length);
+		header_parser->uri.length=length;
+		header_parser->http_field_flag=HTTP_INTEREST_KEY;
+	}
+	
 	return 0;
 }
 
 int http_parser_callback_on_status(struct http_parser * parser, const char * at, size_t length)
 {
-	((host_parser*)(parser->data))->is_http_flag = 1;
+	if(at==NULL || length<=0 || parser==NULL || parser->data==NULL)
+	{
+		return 0;
+	}
+
+ 	struct http_header_parse *header_parser=(struct http_header_parse *)(parser->data);
+	header_parser->is_http_flag=1;
+	
 	return 0;
 }
 
@@ -72,7 +124,7 @@ static http_parser_settings http_setting =
 		.on_chunk_complete = NULL
 };
 
-int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
+void *http_field_parser(const char* buf, uint32 buflen, int http_dir)
 {
 	//buf前面的空格进行删除处理	
 	uint32 offset = 0;
@@ -85,24 +137,17 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	uint32 new_pbuflen = 0;
 	uchar 	method = HTTP_METHOD_UNKNOWN;
 	int method_idx = 1, new_flags=0;
-
+	struct http_parser http_parse={0};
+	
 	if(pbuflen<4) //g_http_method min bytes=3; pbuflen_temp=pbuflen
 	{
-		return -1;
+		return NULL;
 	}
-
-	//printf("buf=====================================================\n");	
-	//printf("%s\n", buf);
-	
-	// 为结构体申请内存
-	http_parser *parser = (http_parser*)calloc(1, sizeof(http_parser));
-	host_parser* host_field = (host_parser*)calloc(1, sizeof(host_parser));
-	int rec = -1;
 	
 	// 初始化解析器
 	if(http_dir==DIR_C2S)
 	{
-		http_parser_init(parser, HTTP_REQUEST);	
+		http_parser_init(&http_parse, HTTP_REQUEST);	
 		/*如果检测到method往后移动一个空格，不是'/',也不是"http://"，就自动添加一个'/'*/
 		if(buflen>HTTP_START_FLAGS_LEN+strlen("http://"))
 		{		
@@ -134,64 +179,150 @@ int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
 	}
 	else
 	{
-		http_parser_init(parser, HTTP_RESPONSE);	
-	}
-	parser->data = (void*)host_field;
-	
-	//获取host内容
-	if(host!=NULL)
-	{
-		((host_parser*)(parser->data))->get_host_flag = 1;		
+		http_parser_init(&http_parse, HTTP_RESPONSE);	
 	}
 
-	size_t parsed=0;
+	struct http_header_parse *http_header=calloc(1, sizeof(struct http_header_parse));
+	http_parse.data=(void*)(http_header);
+
 	//执行解析过程
 	if(new_flags==0)
 	{
-		parsed=http_parser_execute(parser, &http_setting, pbuf, (size_t)pbuflen);
+		http_parser_execute(&http_parse, &http_setting, pbuf, (size_t)pbuflen);
 	}
 	else
 	{
-		parsed=http_parser_execute(parser, &http_setting, new_pbuf, (size_t)new_pbuflen);
+		http_parser_execute(&http_parse, &http_setting, new_pbuf, (size_t)new_pbuflen);
 	}
-	//printf("buflen: %d; parsed: %d\n", pbuflen, parsed);
-	if(((host_parser*)(parser->data))->is_http_flag == 1) 
-	{
-		rec = 0;
-		if(((host_parser*)(parser->data))->get_host_flag == 1)
-		{
-			if(0<host_field->host_valuelen)
-			{
-				rec = host_field->host_valuelen;
-				*host = memcasemem(pbuf, pbuflen, (const char*)host_field->host_value, host_field->host_valuelen);	
-			}						
-		}
-	}	
-	else
-	{
-		rec = -1;
-	}
-
-	if(NULL!=host_field)
-	{
-		if(NULL!=host_field->host_value)
-		{			
-			free(host_field->host_value);
-			host_field->host_value = NULL;
-		}			
-		free(host_field);
-		host_field = NULL;
-	}	
-	if(NULL!=parser)
-	{				
-		free(parser);
-		parser = NULL;
-	}
+	
 	if(NULL!=new_pbuf)
 	{				
 		free(new_pbuf);
 		new_pbuf = NULL;
 	}
-	return rec;
+
+	if(http_header->is_http_flag==0) 
+	{
+		free(http_header);
+		http_header=NULL;
+		return NULL;
+	}
+
+	if(http_header->host.field_flag==1 && http_header->host.length>0 && http_header->host.value!=NULL)
+	{
+		char *p_host=memcasemem(pbuf, pbuflen, (const char*)http_header->host.value, http_header->host.length);
+		free(http_header->host.value);
+		http_header->host.value=p_host;
+	}
+	
+	return (void *)(http_header);
+}
+
+void http_free_filed_result(void *result)
+{
+	if(result==NULL)
+	{
+		return ;
+	}
+
+	struct http_header_parse *http_header=(struct http_header_parse *)result;
+	if(http_header->uri.value!=NULL)
+	{
+		free(http_header->uri.value);
+		http_header->uri.value=NULL;
+	}
+
+	if(http_header->url.value!=NULL)
+	{
+		free(http_header->url.value);
+		http_header->url.value=NULL;
+	}
+
+	free(result);
+	result=NULL;
+}
+
+int http_get_filed_result(void *result, long long field_flag, char **field_value)
+{
+	if(result==NULL)
+	{
+		return 0;
+	}
+	
+	struct http_header_parse *http_header=(struct http_header_parse *)result;
+	
+	switch(field_flag)
+	{
+		case	HTTP_HOST:
+			if(http_header->host.field_flag==0 || http_header->host.value==NULL || http_header->host.length<=0)
+			{
+				break;
+			}
+			*field_value=http_header->host.value;
+			return http_header->host.length;
+		case	HTTP_MESSAGE_URL:
+			if(http_header->host.field_flag==0 || http_header->host.value==NULL || http_header->host.length<=0)
+			{
+				break;
+			}
+			
+			http_header->url.length=http_header->host.length;
+			http_header->url.value=malloc(http_header->url.length);
+			memcpy(http_header->url.value, http_header->host.value, http_header->host.length);
+
+			if(http_header->uri.field_flag==0 || http_header->uri.value==NULL || http_header->uri.length<=0)
+			{
+				http_header->url.value=realloc(http_header->url.value, http_header->url.length+1);
+				http_header->url.value[http_header->url.length]='/';
+				http_header->url.length+=1;
+			}
+			else
+			{
+				if(http_header->uri.value[0]=='/')
+				{				
+					http_header->url.value=realloc(http_header->url.value, http_header->url.length+http_header->uri.length);
+				}
+				else
+				{					
+					http_header->url.value=realloc(http_header->url.value, http_header->url.length+http_header->uri.length+1);
+					http_header->url.value[http_header->url.length]='/';
+					http_header->url.length+=1;
+				}
+				
+				memcpy(http_header->url.value+http_header->url.length, http_header->uri.value, http_header->uri.length);
+				http_header->url.length+=http_header->uri.length;
+			}
+			
+			*field_value=http_header->url.value;
+			return http_header->url.length;
+		default:
+			break;
+	}
+
+	return 0;
+}
+
+int http_host_parser(const char* buf, uint32 buflen, int http_dir, char** host)
+{
+	struct http_header_parse *http_header=(struct http_header_parse *)http_field_parser(buf, buflen, http_dir);
+	if(http_header==NULL)
+	{
+		return -1;
+	}
+
+	int length=0;
+	
+	if(http_header->is_http_flag==1) 
+	{
+		if(http_header->host.field_flag==1 && http_header->host.length>0 && http_header->host.value!=NULL)
+		{
+			*host=http_header->host.value;			
+			length=http_header->host.length;
+		}
+	}
+
+	http_free_filed_result((void *)http_header);  //no need free host, *host=buf+N
+
+	return length;
 }
 

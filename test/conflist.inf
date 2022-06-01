@@ -1,0 +1,8 @@
+[platform]
+
+[protocol]
+./plug/protocol/http/http.inf
+
+
+[business]
+./plug/business/http_test_plug/http_test_plug.inf

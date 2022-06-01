@@ -9,6 +9,7 @@ variables:
 
 stages:
 - build
+- test
 - package
 
 .build_before_script:
@@ -43,6 +44,24 @@ stages:
     - ./ci/travis.sh
   tags:
     - share
+
+run_test_for_centos7:
+  stage: test
+  extends: .build_by_travis_for_centos7
+  script:
+    - yum makecache
+    - ./ci/travis.sh
+    - cd build
+    - ctest --verbose
+
+run_test_for_centos8:
+  stage: test
+  extends: .build_by_travis_for_centos8
+  script:
+    - yum makecache
+    - ./ci/travis.sh
+    - cd build
+    - ctest3 --verbose
 
 branch_build_debug_for_centos7:
   stage: build

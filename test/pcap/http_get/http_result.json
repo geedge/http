@@ -1,0 +1,25 @@
+[{
+		"Tuple4":	"192.168.50.18.60400>192.168.42.1.80",
+		"http_uri":	"/account/login.htm",
+		"http_host":	"test.pro.testin.cn",
+		"http_url":	"test.pro.testin.cn/account/login.htm",
+		"name":	"HTTP_RESULT_1"
+	}, {
+		"Tuple4":	"192.168.50.18.60400>192.168.42.1.80",
+		"http_uri":	"/enterprise/index.htm",
+		"http_host":	"test.pro.testin.cn",
+		"http_url":	"test.pro.testin.cn/enterprise/index.htm",
+		"name":	"HTTP_RESULT_2"
+	}, {
+		"Tuple4":	"192.168.50.18.60400>192.168.42.1.80",
+		"http_uri":	"/enterprise/into.htm?eid=1",
+		"http_host":	"test.pro.testin.cn",
+		"http_url":	"test.pro.testin.cn/enterprise/into.htm?eid=1",
+		"name":	"HTTP_RESULT_3"
+	}, {
+		"Tuple4":	"192.168.50.18.60400>192.168.42.1.80",
+		"http_uri":	"/realmachine/index.htm",
+		"http_host":	"test.pro.testin.cn",
+		"http_url":	"test.pro.testin.cn/realmachine/index.htm",
+		"name":	"HTTP_RESULT_4"
+}]
