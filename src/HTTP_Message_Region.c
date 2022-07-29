@@ -339,7 +339,8 @@ uchar http_doWithConnection(http_parser_t* a_http, http_stream *a_http_stream, c
 	}
 	else if(0==strncasecmp((char*)value,"close",sizeof("close")-1))
 	{
-		FLAG_SET(a_http->flag, HTTP_FLAG_CONNECT_CLOSE);			
+		FLAG_SET(a_http->flag, HTTP_FLAG_CONNECT_CLOSE);
+			
 	}
 	a_http->session.buf = value;
 	a_http->session.buflen = valuelen;
@@ -662,7 +663,15 @@ uchar http_doWithACompleteRegion(http_parser_t *cur_http_node, http_stream *a_ht
 		{	
 			memcpy(copy_region_name, region_name, reg_name_len);
 			stringA_to_stringa(copy_region_name,  reg_name_len);
-			region_id_hash = (int*)MESA_htable_search(g_http_prog_para.region_hash, (const uchar*)copy_region_name, reg_name_len);
+			if(strlen(copy_region_name) > 0 && reg_name_len > 0)
+			{
+				region_id_hash = (int*)MESA_htable_search(g_http_prog_para.region_hash, (const uchar*)copy_region_name, reg_name_len);
+			}
+			else 
+			{
+				MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "region name invalid, addr:%s", 
+								printaddr(&a_tcp->addr,thread_seq));	
+			}
 		}
 
 		/*expand region*/
