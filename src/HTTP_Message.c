@@ -107,7 +107,12 @@ char* http_url_decode(char *data,  int* data_len)
     while(p<str_end) 
     {    
         if (*p == '%')             
-        {   
+        {
+        	if(p+1>=str_end)
+        	{
+        		*q++ = *p++;
+        		break;
+        	}
         	p++;
 			if (*p) *q = http_is_hexChar(*p++) * 16;
 			if (*p) *q = (*q + http_is_hexChar(*p)), ++p;
