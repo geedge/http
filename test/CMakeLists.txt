@@ -2,9 +2,31 @@ cmake_minimum_required (VERSION 2.8)
 
 project(${lib_name}_test)
 
+
+include(ExternalProject)
+#### GoogleTest
+ExternalProject_Add(GoogleTest PREFIX GoogleTest
+        URL ${CMAKE_CURRENT_SOURCE_DIR}/googletest-release-1.8.0.tar.gz
+        URL_MD5 16877098823401d1bf2ed7891d7dce36
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE})
+
+ExternalProject_Get_Property(GoogleTest INSTALL_DIR)
+file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+add_library(gtest STATIC IMPORTED GLOBAL)
+add_dependencies(gtest GoogleTest)
+set_property(TARGET gtest PROPERTY IMPORTED_LOCATION ${INSTALL_DIR}/lib/libgtest.a)
+set_property(TARGET gtest PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include)
+set_property(TARGET gtest PROPERTY INTERFACE_LINK_LIBRARIES pthread)
+
+
+enable_testing()
+add_executable(HTTPUintTest unit_test.cpp mock_sapp.cpp)
+target_link_libraries(HTTPUintTest gtest http)
+
+
+
 include(ExternalProject)
 #### Protoco_test_run
-
 
 ExternalProject_Add(ProtoTest PREFIX ProtoTest
         URL ${CMAKE_CURRENT_SOURCE_DIR}/test_protocol_run.zip

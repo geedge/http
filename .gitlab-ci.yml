@@ -52,6 +52,7 @@ run_test_for_centos7:
     - yum makecache
     - ./ci/travis.sh
     - cd build
+    - ./test/HTTPUintTest
     - ctest --verbose
 
 run_test_for_centos8:
@@ -61,6 +62,7 @@ run_test_for_centos8:
     - yum makecache
     - ./ci/travis.sh
     - cd build
+    - ./test/HTTPUintTest
     - ctest3 --verbose
 
 branch_build_debug_for_centos7:
