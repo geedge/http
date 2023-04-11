@@ -93,7 +93,6 @@ char* http_url_decode(char *data,  int* data_len)
     free(str);
     return data;
 } 
-*/
 
 char* http_url_decode(char *data,  int* data_len)
 {
@@ -128,6 +127,40 @@ char* http_url_decode(char *data,  int* data_len)
     free(str);
     return data;
 } 
+*/
+
+#define li_cton(c,n) \
+  (((n) = (c) - '0') <= 9 || (((n) = ((c)&0xdf) - 'A') <= 5 ? ((n) += 10) : 0))
+
+char hex2int(unsigned char hex) {
+    unsigned char n;
+    return li_cton(hex,n) ? (char)n : 0xFF;
+}
+
+char* http_url_decode(char* url, int *len)
+{
+    if(url == NULL || *len <= 0) return 0;
+
+    const char *ptr = url;
+    char *src = *len ? memchr(url, '%', *len) : 0;
+    if (NULL == src) return 0;
+
+    char *dst = src;
+    do {
+        /* *src == '%' */
+        unsigned char high = ((unsigned char *)src)[1];
+        unsigned char low = high ? hex2int(((unsigned char *)src)[2]) : 0xFF;
+        if (0xFF != (high = hex2int(high)) && 0xFF != low) {
+            high = (high << 4) | low;   /* map ctrls to '_' */
+            *dst = (high >= 32 && high != 127) ? high : '_';
+            src += 2;
+        } /* else ignore this '%'; leave as-is and move on */
+
+        while ((*++dst = *++src) != '%' && *src) ;
+    } while (*src);
+    *len = (dst - ptr) + 1;
+    return url;
+}
 
 
 const char* http_proto_flag2region(int64 proto_flag)
