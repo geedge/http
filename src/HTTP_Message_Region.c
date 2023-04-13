@@ -114,14 +114,14 @@ uchar http_doWithHost(http_parser_t* a_http, http_stream *a_http_stream, char* v
 			a_http->url_buf = (char*)dictator_malloc(thread_seq, a_http->url_buflen);
 			memcpy(a_http->url_buf, value, valuelen);
 			memcpy(a_http->url_buf+valuelen, uri, urilen);
-			if(uri!=NULL) 
+			//if(uri!=NULL) 
 			{
 				dictator_free(thread_seq, uri); 
 				uri = NULL;
 			}	
 		}
 		/*20190111 ¾ø¶ÔURI*/
-		else if(a_http->url_buf!=NULL && a_http->url_buflen>=strlen("http://") && 0==strncasecmp(a_http->url_buf, "http://", strlen("http://")))
+		else if(a_http->url_buflen>=strlen("http://") && 0==strncasecmp(a_http->url_buf, "http://", strlen("http://")))
 		{
 			a_http->parser.is_ab_uri = 1;
 		}	
@@ -138,7 +138,7 @@ uchar http_doWithHost(http_parser_t* a_http, http_stream *a_http_stream, char* v
 			memcpy(a_http->url_buf, value, valuelen);
 			memcpy(a_http->url_buf+valuelen, "/", strlen("/"));
 			memcpy(a_http->url_buf+valuelen+strlen("/"), uri, urilen);
-			if(uri!=NULL) 
+			//if(uri!=NULL) 
 			{
 				dictator_free(thread_seq, uri); 
 				uri = NULL;
@@ -394,7 +394,7 @@ uchar http_outPutUrl(http_parser_t *a_http, struct streaminfo *a_tcp, int thread
 			a_http->url_buf = (char*)dictator_malloc(thread_seq, a_http->url_buflen);
 			memcpy(a_http->url_buf, serverIP_str, strlen(serverIP_str));
 			memcpy(a_http->url_buf+strlen(serverIP_str), uri, urilen);
-			if(uri!=NULL) 
+			//if(uri!=NULL) 
 			{
 				dictator_free(thread_seq, uri); 
 				uri = NULL;
@@ -629,8 +629,7 @@ uchar http_doWithACompleteRegion(http_parser_t *cur_http_node, http_stream *a_ht
 		region_flag &= prot_flag ;
 
 		/*region value process, url in proc function*/
-		if(g_http_regions[region_id].handler!=NULL&&
-			(region_flag||
+		if((region_flag||
 			cur_http_node->interested_reg_mask==HTTP_HOST_MASK||
 			cur_http_node->interested_reg_mask==HTTP_CHARSET_MASK||
 			cur_http_node->interested_reg_mask==HTTP_TRANSFER_ENCODING_MASK||

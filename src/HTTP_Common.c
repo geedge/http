@@ -1,5 +1,4 @@
 #include <stdio.h>
-//#define _GNU_SOURCE
 #include <string.h> 
 #include <ctype.h>
 #include "HTTP_Common.h"
@@ -92,7 +91,7 @@ char A_to_a(char ch)
 void http_deleteEmptyRow(uint32 *offset, char* data, uint32 data_len)
 {		
 	if(NULL==data||data_len==0)		return;
-	while(*offset<data_len && *offset>=0)
+	while(*offset<data_len && (int)*offset>=0)
 	{
 		if(HTTP_CR!=*(data+(*offset)) && HTTP_NULL!=*(data+(*offset)) && HTTP_LF!=*(data+(*offset)) && HTTP_SP!=*(data+(*offset)) && HTTP_HT!=*(data+(*offset)))
 			break;
@@ -104,7 +103,7 @@ void http_deleteEmptyRow(uint32 *offset, char* data, uint32 data_len)
 void http_deleteEmptyRow_chunk(uint32 *offset, char* data, uint32 data_len)
 {	
 	if(NULL==data||data_len==0)		return;
-	while(*offset<data_len && *offset>=0)
+	while(*offset<data_len && (int)*offset>=0)
 	{
 		if(HTTP_CR!=*(data+(*offset)) && HTTP_LF!=*(data+(*offset))&& HTTP_SP!=*(data+(*offset)) && HTTP_HT!=*(data+(*offset)) && 0!=*(data+(*offset)))
 			break;
@@ -122,7 +121,7 @@ void http_deleteEmptyRow_chunk(uint32 *offset, char* data, uint32 data_len)
 ***********************************************************/
 void http_deleteSPHT(uint32 *offset, char* data, uint32 data_len)
 {
-	while(*offset<data_len && *offset>=0)
+	while(*offset<data_len && (int)*offset>=0)
 	{
 		if(HTTP_SP!=*(data+(*offset)) && HTTP_HT!=*(data+(*offset)))
 			break;
@@ -146,7 +145,7 @@ void http_deleteSPHTCRLFAtLast(uint32 *del_data_len, char* data, uint32 data_len
 			HTTP_SP==*(data+*del_data_len) || HTTP_LF==*(data+*del_data_len))
 				return ;
 	}
-	while(*del_data_len>=0)
+	while((int)*del_data_len>=0)
 	{
 		if(HTTP_CR!=*(data+*del_data_len) && HTTP_HT!=*(data+*del_data_len) &&
 		   HTTP_SP!=*(data+*del_data_len) && HTTP_LF!=*(data+*del_data_len))

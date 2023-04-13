@@ -142,7 +142,7 @@ char* http_url_decode(char* url, int *len)
     if(url == NULL || *len <= 0) return 0;
 
     const char *ptr = url;
-    char *src = *len ? memchr(url, '%', *len) : 0;
+    char *src =(char*)memchr(url, '%', *len);
     if (NULL == src) return 0;
 
     char *dst = src;
@@ -267,7 +267,7 @@ int http_readHttpConf(const char* filename)
 				MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "http.conf read %s error!", buf);
 				return -1;
 			}
-			if(region_id > MAX_REGION_NUM)
+			if(region_id >= MAX_REGION_NUM)
 			{		 	 		 
 				MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "http.conf bigger than %d", MAX_REGION_NUM);
 				return -1;

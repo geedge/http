@@ -186,17 +186,25 @@ uchar http_getSessionState(http_parser_t *cur_http_node)
     uchar state = 0;    
     if(!FLAG_TEST(cur_http_node->flag, HTTP_FLAG_SESSION))
     {
-		if(FLAG_TEST(cur_http_node->flag, HTTP_FLAG_OVER))
+        if (FLAG_TEST(cur_http_node->flag, HTTP_FLAG_OVER))
+        {
             state = SESSION_STATE_CLOSE | SESSION_STATE_PENDING;
+        }
         else
+        {
             state = SESSION_STATE_PENDING;
+        }
     }
     else
     {
-		if(FLAG_TEST(cur_http_node->flag, HTTP_FLAG_OVER))
+        if (FLAG_TEST(cur_http_node->flag, HTTP_FLAG_OVER))
+		{
             state = SESSION_STATE_CLOSE;
+		}
         else
+		{
             state = SESSION_STATE_DATA;
+		}
     }
 	FLAG_SET(cur_http_node->flag, HTTP_FLAG_SESSION);
     return state;
@@ -936,7 +944,7 @@ uchar http_judgeHttpProtocol(http_stream *a_http_stream, uchar curdir, struct tc
 	{
 		if(tcp_detail->datalen+*buflen < HTTP_START_FLAGS_LEN+*offset && tcp_detail->datalen-*offset>0)
 		{			
-			if(tcp_detail->datalen-*offset > 0)
+			if(((int)(tcp_detail->datalen)-(int)*offset) > 0)
 			{
 				a_http_stream->pbuf = (char*)dictator_realloc(thread_seq,a_http_stream->pbuf, (*buflen)+ tcp_detail->datalen-*offset);
 				memcpy((void*)(a_http_stream->pbuf+(*buflen)), (void*)((uchar*)tcp_detail->pdata+*offset),tcp_detail->datalen-*offset);
@@ -980,7 +988,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 		{
 			http_deleteEmptyRow(&(a_http_stream->packet_offset), (char*)(tcp_detail->pdata), tcp_detail->datalen);
 		}		
-		uchar rec = http_judgeHttpProtocol(a_http_stream, a_tcp->curdir, tcp_detail, thread_seq);		
+		rec = http_judgeHttpProtocol(a_http_stream, a_tcp->curdir, tcp_detail, thread_seq);		
 		if(rec==ERROR)
 		{
 			return APP_STATE_DROPME;

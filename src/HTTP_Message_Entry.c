@@ -112,7 +112,7 @@ void http_judgeContentEncoding(http_parser_t *a_http, struct streaminfo *a_tcp, 
 	char* entity_data = a_http->session.buf;
 	uint32 entity_datalen = a_http->session.buflen;
 	unsigned long long region_flag_ungzip = g_http_prog_para.http_interested_region_flag;	
-	unsigned long long region_flag = g_http_prog_para.http_interested_region_flag;
+	unsigned long long region_flag = region_flag_ungzip;
     region_flag_ungzip &= HTTP_UNGZIP_CONTENT;   	
 	region_flag &= HTTP_CONTENT;
 

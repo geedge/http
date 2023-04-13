@@ -6,7 +6,7 @@
 #include <math.h>
 #include <http.h>
 #include <stream.h>
-#include <http_parser.h>
+#include "inc/http_parser.h"
 #include "http.h"
 #include "HTTP_Common.h"
 #include "HTTP_Message_Header.h"
@@ -33,7 +33,7 @@ struct http_header_parse
 
 int http_parser_callback_on_headers_field(struct http_parser * parser, const char * at, size_t length)
 {
-	if(at==NULL || length<=0 || parser==NULL || parser->data==NULL)
+	if(at==NULL || length==0 || parser==NULL || parser->data==NULL)
 	{
 		return 0;
 	}
@@ -52,7 +52,7 @@ int http_parser_callback_on_headers_field(struct http_parser * parser, const cha
 
 int http_parser_callback_on_headers_value(struct http_parser * parser, const char * at, size_t length)
 {
-	if(at==NULL || length<=0 || parser==NULL || parser->data==NULL)
+	if(at==NULL || length==0 || parser==NULL || parser->data==NULL)
 	{
 		return 0;
 	}
@@ -77,7 +77,7 @@ int http_parser_callback_on_headers_value(struct http_parser * parser, const cha
 
 int http_parser_callback_on_url(struct http_parser * parser, const char * at, size_t length)
 {
-	if(at==NULL || length<=0 || parser==NULL || parser->data==NULL)
+	if(at==NULL || length==0 || parser==NULL || parser->data==NULL)
 	{
 		return 0;
 	}
@@ -137,7 +137,8 @@ void *http_field_parser(const char* buf, uint32 buflen, int http_dir)
 	uint32 new_pbuflen = 0;
 	uchar 	method = HTTP_METHOD_UNKNOWN;
 	int method_idx = 1, new_flags=0;
-	struct http_parser http_parse={0};
+	struct http_parser http_parse;
+	memset(&http_parse, 0, sizeof(http_parse));
 	
 	if(pbuflen<4) //g_http_method min bytes=3; pbuflen_temp=pbuflen
 	{
@@ -182,7 +183,7 @@ void *http_field_parser(const char* buf, uint32 buflen, int http_dir)
 		http_parser_init(&http_parse, HTTP_RESPONSE);	
 	}
 
-	struct http_header_parse *http_header=calloc(1, sizeof(struct http_header_parse));
+	struct http_header_parse *http_header=(struct http_header_parse *)calloc(1, sizeof(struct http_header_parse));
 	http_parse.data=(void*)(http_header);
 
 	//执行解析过程
@@ -267,12 +268,12 @@ int http_get_filed_result(void *result, long long field_flag, char **field_value
 			}
 			
 			http_header->url.length=http_header->host.length;
-			http_header->url.value=malloc(http_header->url.length);
+			http_header->url.value=(char*)malloc(http_header->url.length);
 			memcpy(http_header->url.value, http_header->host.value, http_header->host.length);
 
 			if(http_header->uri.field_flag==0 || http_header->uri.value==NULL || http_header->uri.length<=0)
 			{
-				http_header->url.value=realloc(http_header->url.value, http_header->url.length+1);
+				http_header->url.value=(char*)realloc(http_header->url.value, http_header->url.length+1);
 				http_header->url.value[http_header->url.length]='/';
 				http_header->url.length+=1;
 			}
@@ -280,11 +281,11 @@ int http_get_filed_result(void *result, long long field_flag, char **field_value
 			{
 				if(http_header->uri.value[0]=='/')
 				{				
-					http_header->url.value=realloc(http_header->url.value, http_header->url.length+http_header->uri.length);
+					http_header->url.value=(char*)realloc(http_header->url.value, http_header->url.length+http_header->uri.length);
 				}
 				else
 				{					
-					http_header->url.value=realloc(http_header->url.value, http_header->url.length+http_header->uri.length+1);
+					http_header->url.value=(char*)realloc(http_header->url.value, http_header->url.length+http_header->uri.length+1);
 					http_header->url.value[http_header->url.length]='/';
 					http_header->url.length+=1;
 				}

@@ -5,7 +5,7 @@
 #include <dlfcn.h>
 #include <math.h>
 #include <stream.h>
-#include <http_parser.h>
+#include "inc/http_parser.h"
 #include "HTTP_Common.h"
 #include "http.h"
 

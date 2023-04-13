@@ -799,7 +799,7 @@ uchar http_findtStartFlag(http_parser_t *cur_node, uchar curdir,struct tcpdetail
 	{
 		if(tcp_detail->datalen+*buflen < HTTP_START_FLAGS_LEN+*offset && tcp_detail->datalen-*offset>0)
 		{			
-			if(tcp_detail->datalen-*offset > 0)
+			if((int)tcp_detail->datalen-(int)*offset > 0)
 			{
 				cur_node->pbuf = (char*)dictator_realloc(thread_seq, cur_node->pbuf, (*buflen)+ tcp_detail->datalen-*offset);
 				memcpy((void*)(cur_node->pbuf+(*buflen)), (void*)((uchar*)tcp_detail->pdata+*offset),tcp_detail->datalen-*offset);
