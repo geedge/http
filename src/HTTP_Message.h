@@ -71,7 +71,7 @@
 #define HTTP_STAT_HEADER_SPAN_BYTE 		27
 #define HTTP_MAX_STAT_FIELD				28
 
-/*´«Êä±àÂë£¬Ã»ÓÐchunk£¬Ã»ÓÐcont-length*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬Ã»ï¿½ï¿½chunkï¿½ï¿½Ã»ï¿½ï¿½cont-length*/
 #define HTTP_TRANS_ENCOD_CNNTCLOSE 		0X04//connection close
 
 #define HTTP_CHUNK_STATE_UNKONWN		0X00
@@ -126,8 +126,8 @@ typedef struct _session_infor_t
 
 typedef struct _fold_infor_t
 {
-	void*						buf;			   //ÕÛµþÐÐ»º³åÇø
-	int							buflen;		   //ÕÛµþÐÐ»º³åÇø´óÐ¡
+	void*						buf;			   //ï¿½Ûµï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½
+	int							buflen;		   //ï¿½Ûµï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡
 }fold_infor_t;
 
 typedef struct _fold_buf_t
@@ -154,9 +154,9 @@ typedef struct _http_parser_t
 	char* 						phttp_begin;		
 	
 	uint32 						poneline_datalen;	
-	uint32 						processed_offset;			//ÒÑ´¦ÀíÊý¾ÝÔÚµ±Ç°°üµÄÆ«ÒÆÁ¿,š°´¦ÀíÍêÒ»¸ö°ü¶¼ÒªÇåÁã	
+	uint32 						processed_offset;			//ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Æ«ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½	
 	
-	uint64 						packet_entity_len;			//Î´´¦ÀíµÄÊµÌå³¤¶È			
+	uint64 						packet_entity_len;			//Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½å³¤ï¿½ï¿½			
 	docanalyze_streamparam_t	ungzip_handle;		
 	uint64 						acc_cont_length;	
 	int64 						batch_prot_flag;	
@@ -184,7 +184,7 @@ typedef struct _http_prog_runtime_parameter_t
 
 	FILE*   					http_stat_file;	
 	void* 						http_log_handle;		
-	void*						region_hash;	    //À©Õ¹ÓòµÄÊ¶±ð
+	void*						region_hash;	    //ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½
 	void*						stat_handler;
 	void* 						docanly_handler;
 	
@@ -231,8 +231,6 @@ struct http_proto_tag_t
 {    
 	char buf[8];
 };
-
-void http_test();
 
 #ifdef __cplusplus
 extern "C" {
