@@ -256,7 +256,7 @@ void http_initHttpConnection(http_stream *a_http_stream, int thread_seq, struct 
 	/*http have set one-way traffic, but sapp become two-way traffic*/
 	if(a_tcp->dir==DIR_DOUBLE && (a_http_stream->dir==DIR_S2C||a_http_stream->dir==DIR_C2S))
 	{
-		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "http set single, but sapp become double, addr:%s.", 
+		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_DEBUG, HTTP_PLUGIN_NAME, "http set single, but sapp become double, addr:%s.", 
 								printaddr(&a_tcp->addr,thread_seq));
 	}		
 }
