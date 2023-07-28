@@ -172,29 +172,30 @@ uchar http_doWithHost(http_parser_t* a_http, http_stream *a_http_stream, char* v
 	return OK;
 }
 
-uchar http_recogniseTransferEncoding(uchar *trans_Encoding, char *value_data,uint32 value_data_len, int thread_seq)
-{
-	if(0==strncasecmp(value_data,"chunked",sizeof("chunked")-1))
-		*trans_Encoding = HTTP_TRANS_ENCOD_CHUNKED;
-	else
-		*trans_Encoding = HTTP_TRANS_ENCOD_OTHERS;
+uchar http_recogniseTransferEncoding(uchar *trans_Encoding, char *value_data, uint32 value_data_len, int thread_seq) {
+    if (value_data_len >= sizeof("chunked") - 1 && 0 == strncasecmp(value_data, "chunked", MIN(sizeof("chunked") - 1, value_data_len)))
+        *trans_Encoding = HTTP_TRANS_ENCOD_CHUNKED;
+    else
+        *trans_Encoding = HTTP_TRANS_ENCOD_OTHERS;
 
-	return OK;
+    return OK;
 }
-uchar http_recogniseContentEncoding(uchar *Cont_Encoding, char *value_data,uint32 value_data_len, int thread_seq)
-{	
-	if(0==strncasecmp(value_data,"gzip", sizeof("gzip")-1))
-		*Cont_Encoding = HTTP_CONT_ENCOD_GZIP;
-	else if(0==strncasecmp(value_data,"compress",sizeof("compress")-1))
-		*Cont_Encoding = HTTP_CONT_ENCOD_COMPRESS;
-	else if(0==strncasecmp(value_data,"deflate",sizeof("deflate")-1))
-		*Cont_Encoding = HTTP_CONT_ENCOD_DEFLATE;
-	else if(0==strncasecmp(value_data,"default",sizeof("default")-1))
-		*Cont_Encoding = HTTP_CONT_ENCOD_DEFAULT;
-	else
-		*Cont_Encoding = HTTP_CONT_ENCOD_OTHERS;
-	return OK;
+
+
+uchar http_recogniseContentEncoding(uchar *Cont_Encoding, char *value_data, uint32 value_data_len, int thread_seq) {
+    if (value_data_len >= sizeof("gzip") - 1 && 0 == strncasecmp(value_data, "gzip", sizeof("gzip") - 1))
+        *Cont_Encoding = HTTP_CONT_ENCOD_GZIP;
+    else if (value_data_len >= sizeof("compress") - 1 && 0 == strncasecmp(value_data, "compress", MIN(sizeof("compress") - 1, value_data_len)))
+        *Cont_Encoding = HTTP_CONT_ENCOD_COMPRESS;
+    else if (value_data_len >= sizeof("deflate") - 1 && 0 == strncasecmp(value_data, "deflate", MIN(sizeof("deflate") - 1, value_data_len)))
+        *Cont_Encoding = HTTP_CONT_ENCOD_DEFLATE;
+    else if (value_data_len >= sizeof("default") - 1 && 0 == strncasecmp(value_data, "default", MIN(sizeof("default") - 1, value_data_len)))
+        *Cont_Encoding = HTTP_CONT_ENCOD_DEFAULT;
+    else
+        *Cont_Encoding = HTTP_CONT_ENCOD_OTHERS;
+    return OK;
 }
+
 
 uchar http_doWithEncoding(http_parser_t* a_http, http_stream *a_http_stream, char* value, uint32 valuelen, 								   			  
 						    struct streaminfo *a_tcp, int thread_seq, void *a_packet)
