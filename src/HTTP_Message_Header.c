@@ -302,7 +302,7 @@ static void http_reseaseHttpInforList(http_parser_t**a_http, UINT16 uncomplete_c
 /**********************************************************
  * ¹¦ÄÜ£ºÊÍ·Å½Úµã¡£
  * a_http:µ±Ç°½Úµã¡£
- * curdir£ºµ±Ç°Êý¾ÝµÄ·½Ïò¡
+ * curdir£ºµ±Ç°Êý¾ÝµÄ·½Ïò?
  * delete cur_node when http_infor be proccessd over
  * the different with http_releaseHttpLinkNode:http_reseaseHttpInfor is delete cur_node,and proc prev and next
  **********************************************************/
@@ -503,10 +503,10 @@ uchar http_tripleMatching(http_parser_t *cur_http_node, http_stream* a_http_stre
 		
 
 		last_pos = last_http_pos-1;
-		while(*last_pos==HTTP_SP && last_pos>frist_pos)
+		while(last_pos>frist_pos && *last_pos==HTTP_SP)
 		{
 			last_pos--;
-		}			
+		}		
 
 		/*last_pos-first_pos to make sure url != NULL*/
 		if(last_pos-frist_pos>0)
