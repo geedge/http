@@ -137,27 +137,21 @@ void http_deleteSPHT(uint32 *offset, char* data, uint32 data_len)
 ***********************************************************/
 void http_deleteSPHTCRLFAtLast(uint32 *del_data_len, char* data, uint32 data_len)
 {
-	if(data==NULL||data_len==0) 		return ;
-	*del_data_len = data_len - 1;
-	if(0==*del_data_len)
-	{
-		if(HTTP_CR==*(data+*del_data_len) || HTTP_HT==*(data+*del_data_len) ||
-			HTTP_SP==*(data+*del_data_len) || HTTP_LF==*(data+*del_data_len))
-				return ;
-	}
-	while((int)*del_data_len>=0)
-	{
-		if(HTTP_CR!=*(data+*del_data_len) && HTTP_HT!=*(data+*del_data_len) &&
-		   HTTP_SP!=*(data+*del_data_len) && HTTP_LF!=*(data+*del_data_len))
-			break;
-		if(HTTP_CR==*(data+*del_data_len) || HTTP_HT==*(data+*del_data_len) ||
-		   HTTP_SP==*(data+*del_data_len) || HTTP_LF==*(data+*del_data_len))
-			(*del_data_len)--;
-		
-		if((*del_data_len)<=0)
-			break;
-	}
-	(*del_data_len)++;
+    if (data == NULL || data_len == 0 || del_data_len == NULL) {
+        return;
+    }
+
+    // 初始化要删除的长度为数据长度
+    *del_data_len = data_len;
+
+    // 从数据末尾向前查找非空白字符和换行符
+    while (*del_data_len > 0 &&
+           (data[*del_data_len - 1] == HTTP_CR ||
+            data[*del_data_len - 1] == HTTP_HT ||
+            data[*del_data_len - 1] == HTTP_SP ||
+            data[*del_data_len - 1] == HTTP_LF)) {
+        (*del_data_len)--;
+    }
 }
 
 /**********************************************************
