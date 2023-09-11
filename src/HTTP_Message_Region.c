@@ -577,7 +577,7 @@ uchar http_doWithACompleteRegion(http_parser_t *cur_http_node, http_stream *a_ht
 		free(buf);
 		return ERROR;	
 	}
-	reg_name_len = colon_pos - data;	
+	reg_name_len = colon_pos - data - start_pos;	
 	http_deleteSPHTCRLFAtLast(&del_data_len, data+start_pos, reg_name_len);
 	reg_name_len = del_data_len;	
 	if(reg_name_len>=REGION_NAME_LEN) 
