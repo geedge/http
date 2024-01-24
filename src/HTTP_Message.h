@@ -168,6 +168,8 @@ typedef struct _http_parser_t
 	char						endline_flag;  		        //complete line flag: \r\n, \r, \n.
 	uint8 						mgs_status;					//return state							
 	uint8						header_span_flag;			//see define 
+
+	fold_infor_t last_unzip_content;
 		
 #if HTTP_PROXY
 	uchar						proxy_flag;					//DIR_C2S, DIR_S2C,DIR_DOUBLE	

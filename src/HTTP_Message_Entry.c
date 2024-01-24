@@ -41,7 +41,7 @@ static void http_clearSpace(http_stream *a_http_stream, struct streaminfo *a_tcp
 
 void http_doWithGzipData(http_parser_t *cur_http_node, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
 {
-	int		ret = 0;
+	int	ret=0;
 	result_array_t *result_array = (result_array_t*)dictator_malloc(thread_seq, sizeof(result_array_t));
 	memset(result_array, 0, sizeof(result_array_t));
 	if(cur_http_node->ungzip_handle==NULL)
@@ -68,35 +68,37 @@ void http_doWithGzipData(http_parser_t *cur_http_node, struct streaminfo *a_tcp,
 		dictator_free(thread_seq, result_array);
 		return ;
 	}
-	ret = docanalyze_parsestream(cur_http_node->ungzip_handle,
+
+	cur_http_node->last_unzip_content.buflen=0;
+	if(cur_http_node->last_unzip_content.buf!=NULL)
+	{
+		dictator_free(thread_seq, cur_http_node->last_unzip_content.buf);
+		cur_http_node->last_unzip_content.buf=NULL;
+	}
+
+	ret=docanalyze_parsestream(cur_http_node->ungzip_handle,
 								(const char*)cur_http_node->session.buf, 
 								cur_http_node->session.buflen,
 								result_array);
 	if(ret==DOC_PRO_OK)
 	{
-		cur_http_node->parser.append_infor.content = cur_http_node->session.buf;
-		cur_http_node->parser.append_infor.contlen = cur_http_node->session.buflen;
-		cur_http_node->session.buf =NULL;
-		cur_http_node->session.buflen = 0;
 		int k=0;
 		for (k=0; k < result_array->result_num; k++)
 		{
-			cur_http_node->session.buf = (char*)dictator_realloc(thread_seq, cur_http_node->session.buf,cur_http_node->session.buflen+result_array->result_buff[k].size);
-			memcpy(cur_http_node->session.buf+cur_http_node->session.buflen,
+			cur_http_node->last_unzip_content.buf=(char*)dictator_realloc(thread_seq, cur_http_node->last_unzip_content.buf, cur_http_node->last_unzip_content.buflen+result_array->result_buff[k].size);
+			memcpy(cur_http_node->last_unzip_content.buf+cur_http_node->last_unzip_content.buflen,
 				     result_array->result_buff[k].presult,
 				     result_array->result_buff[k].size);
-			cur_http_node->session.buflen += result_array->result_buff[k].size;     		 	
+			cur_http_node->last_unzip_content.buflen += result_array->result_buff[k].size;     		 	
 		}
+
 		FLAG_SET(cur_http_node->flag, HTTP_FLAG_BATCH_CALLBACK);
+
+		cur_http_node->session.buf=cur_http_node->last_unzip_content.buf;
+		cur_http_node->session.buflen=cur_http_node->last_unzip_content.buflen;
 		http_callPlugin(cur_http_node, a_tcp, thread_seq, a_packet);
-		if(cur_http_node->session.buf!=NULL)
-		{
-			dictator_free(thread_seq, cur_http_node->session.buf);
-			cur_http_node->session.buf = NULL;	
-			cur_http_node->session.buflen = 0;			
-		}
-		cur_http_node->parser.append_infor.content = NULL;
-		cur_http_node->parser.append_infor.contlen = 0;
+		cur_http_node->session.buf=NULL;	
+		cur_http_node->session.buflen=0;
 	}
 	else if(ret==DOC_PRO_ERR)
 	{
@@ -251,7 +253,7 @@ uchar http_doWithProxyData(http_parser_t *a_http, http_stream *a_http_stream, st
 		*offset += len;			
 		rec = GO_BACK;
 	}	
-	/*´ÓÏÂÒ»¸öpkt¿ªÊ¼»Øµ÷£¬·ñÔòÈç¹û´úÀíÀïÃæÊÇHTTP£¬»áÔì³ÉÎŞÏŞÑ­»·*/
+	/*ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½pktï¿½ï¿½Ê¼ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HTTPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½*/
 	if(len==0)
 	{
 		a_http->proxy_cb_flag = 1;
@@ -265,11 +267,11 @@ uchar http_doWithProxyData(http_parser_t *a_http, http_stream *a_http_stream, st
 
 
 /**********************************************************
- * ¹¦ÄÜ£ºÑ°ÕÒchunkedµÄÊı¾İ¿ªÊ¼Î»ÖÃ.
- * a_http_node:ÏûÏ¢½Úµã,¼ÈÊÇÊäÈë²ÎÊı£¬Ò²ÊÇ·µ»Ø²ÎÊı¡£
- * cur_half£ºµ±Ç°Êı¾İ¡£
- * ×¢£ºafter_cr_data_len<1±íÃ÷Ã»ÕÒµ½¿ªÊ¼Î»ÖÃ
- *   		 (*a_http_node)->crlf_offset<1±íÃ÷Ã»µÃµ½³¤¶È¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½Ñ°ï¿½ï¿½chunkedï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½Ê¼Î»ï¿½ï¿½.
+ * a_http_node:ï¿½ï¿½Ï¢ï¿½Úµï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½Ç·ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½
+ * cur_halfï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½İ¡ï¿½
+ * ×¢ï¿½ï¿½after_cr_data_len<1ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Òµï¿½ï¿½ï¿½Ê¼Î»ï¿½ï¿½
+ *   		 (*a_http_node)->crlf_offset<1ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ãµï¿½ï¿½ï¿½ï¿½È¡ï¿½
  **********************************************************/
 uchar http_findChunkedDataStartPos(http_parser_t *a_http_node, uchar *tcp_data, UINT32 tcp_data_len)
 {
@@ -338,10 +340,10 @@ uchar http_readChunkedData(http_parser_t *a_http, struct streaminfo *a_tcp, int 
 }
 
 /**********************************************************
- * ¹¦ÄÜ£º¶ÁÈ¡chunkedµÄ³¤¶È.
- * a_http_node:ÏûÏ¢½Úµã,¼ÈÊÇÊäÈë²ÎÊı£¬Ò²ÊÇ·µ»Ø²ÎÊı¡£
- * chunked_len:Êä³öÖµ¡£chunkedÊı¾İ³¤¶È.
- * cur_half£ºµ±Ç°Êı¾İ¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½È¡chunkedï¿½Ä³ï¿½ï¿½ï¿½.
+ * a_http_node:ï¿½ï¿½Ï¢ï¿½Úµï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½Ç·ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½
+ * chunked_len:ï¿½ï¿½ï¿½Öµï¿½ï¿½chunkedï¿½ï¿½ï¿½İ³ï¿½ï¿½ï¿½.
+ * cur_halfï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½İ¡ï¿½
  * return : HTTP_RETURN_SPAN_PACKET HTTP_RETURN_UNNORM
  **********************************************************/
 uchar http_readChunkedLength(struct streaminfo *a_tcp, http_parser_t *a_http, char *tcp_data, uint32 tcp_data_len,int thread_seq)
@@ -353,7 +355,7 @@ uchar http_readChunkedLength(struct streaminfo *a_tcp, http_parser_t *a_http, ch
 	char 	chunklen_buf[32] = {0};
 	uint32* offset = &a_http->processed_offset;
 
-	/*ÉÏÒ»´ÎbufÓĞÊı¾İ*/
+	/*ï¿½ï¿½Ò»ï¿½ï¿½bufï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	if(0==a_http->buflen)
 	{		
 		http_deleteEmptyRow_chunk(offset, tcp_data, tcp_data_len);

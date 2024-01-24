@@ -123,8 +123,8 @@ void history()
 	//2019-01-05 V4.0 //special http packet, get_span_space.pcap 	
 	//2019-01-11 V4.0 //is_absolute_uri 
 	//2019-01-28 V4.0 //1. support Content-Range: bytes -154100106/154100107 2. bug:http_doWithGzipData 3. assert(session_info.buflen>=0);
-	//2019-11-12 V4.0 //Ôö¼Óhttp_host_parserº¯Êý
-	//2019-12-05 V4.0 //Ôö¼Óhttp_line2valueº¯Êý
+	//2019-11-12 V4.0 //ï¿½ï¿½ï¿½ï¿½http_host_parserï¿½ï¿½ï¿½ï¿½
+	//2019-12-05 V4.0 //ï¿½ï¿½ï¿½ï¿½http_line2valueï¿½ï¿½ï¿½ï¿½
 	//2020-01-08 V4.0 //add mesa_proto
 	//2020-06-12 V4.0 //set pbuf=null when resethttpstream
 	//2020-07-22 V4.0 //range Invalid
@@ -299,7 +299,7 @@ void http_callPluginBatch(http_parser_t* cur_http_node,struct streaminfo *a_tcp,
 }
 
 
-/*×Ö¶Î»Øµ÷µÄÍ¬Ê±Åú´¦Àí¸³Öµ*/
+/*ï¿½Ö¶Î»Øµï¿½ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ*/
 void http_callPluginPreFieldBatch(http_parser_t* cur_http_node, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
 {
 	if(HTTP_INTEREST_KEY_MASK!=cur_http_node->interested_reg_mask && 
@@ -354,7 +354,7 @@ void http_callPluginPreFieldBatch(http_parser_t* cur_http_node, struct streaminf
 	}		
 }
 
-/*Åú´¦Àí»Øµ÷*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½*/
 void http_callPluginPreBatch(http_parser_t* cur_http_node, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
 {
 	if(HTTP_INTEREST_KEY_MASK!=cur_http_node->interested_reg_mask) 
@@ -422,7 +422,7 @@ void http_callPluginPreBatch(http_parser_t* cur_http_node, struct streaminfo *a_
 	}		
 }
 
-/*×Ö¶Î»Øµ÷µÄÍ¬Ê±Åú´¦Àí¸³Öµ*/
+/*ï¿½Ö¶Î»Øµï¿½ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ*/
 void http_callPlugin(http_parser_t* cur_http_node, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
 {
 	int64 	prot_flag = (((int64)1)<<cur_http_node->interested_reg_mask);	
@@ -487,7 +487,7 @@ void http_callPlugin(http_parser_t* cur_http_node, struct streaminfo *a_tcp, int
 #endif
 }
 
-/*×Ö¶Î»Øµ÷ºÍÅú´¦Àí»Øµ÷·Ö¿ª£¬±¸·Ý*/
+/*ï¿½Ö¶Î»Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½Ö¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 void http_callPlugin_field_or_batch(http_parser_t* cur_http_node, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
 {
 	int64 	prot_flag = (((int64)1)<<cur_http_node->interested_reg_mask);	
@@ -688,6 +688,13 @@ void http_releaseHttpLinkNode(http_stream *a_http_stream,struct streaminfo *a_tc
 			dictator_free(thread_seq, cur_node->parser.batch_infor);
 		}	
 	}
+
+	if(cur_node->last_unzip_content.buf!=NULL)
+	{
+		dictator_free(thread_seq, cur_node->last_unzip_content.buf);
+		cur_node->last_unzip_content.buf = NULL;
+		cur_node->last_unzip_content.buflen = 0;
+	}
 		
 	if(cur_node->ungzip_handle!=NULL)
 	{	
@@ -844,7 +851,7 @@ void http_initHttpStream(http_stream**pme, int thread_seq)
 void http_prevAnylse(http_parser_t* cur_node, http_stream* a_http_stream, int thread_seq)
 {
 	cur_node->processed_offset = a_http_stream->packet_offset;	
-	/*20181228 ÉÏ¸öÁ÷µÄbuf´«µÝ¸ø±¾http_info*/
+	/*20181228 ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½bufï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½http_info*/
 	if(a_http_stream->buflen>0)
 	{
 		if(NULL==cur_node->pbuf)
@@ -923,7 +930,7 @@ uchar http_judgeHttpProtocol(http_stream *a_http_stream, uchar curdir, struct tc
 	uchar 	method = HTTP_METHOD_UNKNOWN;
 	uchar  	buf[HTTP_START_FLAGS_LEN] = {0};
 	
-	//µÚÒ»Êý¾ÝÁ÷È¥µô¿ÕÐÐ£¬¿Õ¸ñ£¬ÖÆ±í·û²»¹»HTTP_START_FLAGS_LEN×Ö½Ú
+	//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½Õ¸ï¿½ï¿½Æ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HTTP_START_FLAGS_LENï¿½Ö½ï¿½
 	if(0==*buflen)
 	{
 		if(tcp_detail->datalen < HTTP_START_FLAGS_LEN+*offset)
@@ -939,7 +946,7 @@ uchar http_judgeHttpProtocol(http_stream *a_http_stream, uchar curdir, struct tc
 		return http_judgeHttpMethod(&method, (char*)tcp_detail->pdata+*offset, curdir); 	
 	}
 	
-	//Ò»Ö±µÈ¹»HTTP_START_FLAGS_LEN×Ö½Ú
+	//Ò»Ö±ï¿½È¹ï¿½HTTP_START_FLAGS_LENï¿½Ö½ï¿½
 	if(0<*buflen)
 	{
 		if(tcp_detail->datalen+*buflen < HTTP_START_FLAGS_LEN+*offset && tcp_detail->datalen-*offset>0)
@@ -952,7 +959,7 @@ uchar http_judgeHttpProtocol(http_stream *a_http_stream, uchar curdir, struct tc
 			}			
 			return GO_BACK;			
 		}
-		//±êÖ¾Ò»²¿·ÖÔÚbufferÀïÃæ£¬Ò»²¿·ÖÔÚdataÀïÃæ		
+		//ï¿½ï¿½Ö¾Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bufferï¿½ï¿½ï¿½æ£¬Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dataï¿½ï¿½ï¿½ï¿½		
 		/*20181113*/		
 		//a_http_stream->pbuf = (char*)dictator_realloc(thread_seq, a_http_stream->pbuf, HTTP_START_FLAGS_LEN);
 		//memcpy((void*)(a_http_stream->pbuf+(*buflen)), (void*)((uchar*)tcp_detail->pdata+*offset),HTTP_START_FLAGS_LEN-*buflen);
@@ -983,7 +990,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 	/*http identify : v3 judge is http stream or not firstly*/
 	if(HTTP_FLASE==a_http_stream->maybe_http_stream)
 	{
-		/*20190105:ÇëÇó·½·¨Ö®Ç°µÄ¿Õ¸ñÉ¾³ýÒÔÃâÓ°ÏìÊ¶±ð£¬ÒÑ¾­¿ªÊ¼»º´æÄÚÈÝÖ®ºó²»ÐèÒªÉ¾³ý¿Õ¸ñÒÔÃâÎÞ·¨´¦ÀíÆðÊ¼ÐÐµÄÈý¸öÔªËØ*/
+		/*20190105:ï¿½ï¿½ï¿½ó·½·ï¿½Ö®Ç°ï¿½Ä¿Õ¸ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½Õ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½*/
 		if(a_http_stream->pbuf==NULL)
 		{
 			http_deleteEmptyRow(&(a_http_stream->packet_offset), (char*)(tcp_detail->pdata), tcp_detail->datalen);
@@ -1028,7 +1035,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 #endif
 */
 
-	/*http lost : lostlen must be proc befor http_initHttpConnection£¬Ïàµ±ÓÚÖ®Ç°´¦ÀíÁË*/
+	/*http lost : lostlen must be proc befor http_initHttpConnectionï¿½ï¿½ï¿½àµ±ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	if(tcp_detail->lostlen>0)
 	{			
 		if(g_http_prog_para.http_stat_cycle)
@@ -1054,12 +1061,12 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 	/*avoid  keep HTTP_RETURN_DROPPKT*/
 	cur_http_node->phttp_begin = (char*)tcp_detail->pdata+cur_http_node->processed_offset;
 
-	//Í·²¿·ÖÎö
+	//Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	rec = http_analyseHttpReqResHeader(cur_http_node, a_http_stream, a_tcp, thread_seq, a_packet);
 	switch(cur_http_node->mgs_status)
 	{
 		case HTTP_RETURN_RESET:
-			if(a_http_stream->is_http_falgs==HTTP_FLASE)//È·¶¨²»ÊÇhttpÐ­Òé
+			if(a_http_stream->is_http_falgs==HTTP_FLASE)//È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½httpÐ­ï¿½ï¿½
 			{					
 				return APP_STATE_DROPME;
 			}
@@ -1105,7 +1112,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 			}
 		}
 		/*batch mode, callback, span pkt ,callback.   cur_http_node->parser.curdir!=0 when start line*/
-		/*Åú´¦ÀíÖ»´¦Àí*/
+		/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½*/
 		//if(HTTP_CALLBACK_MODE_BATCH==g_http_prog_para.callback_mode || g_http_prog_para.need_http_state )
 		if((HTTP_CALLBACK_MODE_BATCH==g_http_prog_para.callback_mode || g_http_prog_para.need_http_state)&& cur_http_node->parser.curdir!=0 )
 		{
@@ -1133,7 +1140,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 #endif
 */
 
-	//ÏûÏ¢Ìå·ÖÎö
+	//ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½
 	/*set mgs_status because cur_http_node maybe release*/
 	uchar mgs_status = HTTP_RETURN_GIVEME;
 	rec = http_findAndDoWithEntity(&mgs_status, cur_http_node, a_http_stream, a_tcp, thread_seq, a_packet);

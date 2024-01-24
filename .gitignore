@@ -4,7 +4,7 @@ SI/
 *.so
 *.si4project/
 *.d
-build/
+build*/
 .vscode
 .idea
 core.*
