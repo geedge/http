@@ -18,8 +18,8 @@
 extern http_prog_runtime_parameter_t g_http_prog_para;
 
 /**********************************************************
- * ¹¦ÄÜ£º³õÊ¼»¯Óò´¦Àí²ÎÊý¡£
- * a_http:httpÁ÷»·¾³¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * a_http:httpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 ***********************************************************/
 void http_inintRegionParam(http_parser_t *cur_node, int thread_seq)
 {	
@@ -42,6 +42,13 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 	a_http->packet_entity_len = 0;
 	a_http->acc_cont_length = 0;
 
+	if(a_http->last_unzip_content.buf!=NULL)
+	{
+		dictator_free(thread_seq, a_http->last_unzip_content.buf);
+		a_http->last_unzip_content.buf = NULL;
+		a_http->last_unzip_content.buflen = 0;
+	}
+
 	if(a_http->ungzip_handle!=NULL)
 	{
 		docanalyze_endstream(a_http->ungzip_handle);
@@ -62,8 +69,8 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 }
  
  /**********************************************************
-  * ¹¦ÄÜ£ºÏìÓ¦ÏûÏ¢µ½À´Ê±£¬Çå³ý¶ÔÓ¦µÄÇëÇóÏûÏ¢ÐÅÏ¢¡£
-  * a_http:µ±Ç°½Úµã¡£
+  * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ï¢ï¿½ï¿½
+  * a_http:ï¿½ï¿½Ç°ï¿½Úµã¡£
   **********************************************************/
  void http_resetResponseSpace(http_parser_t *a_http, int thread_seq)
  {	 
@@ -85,7 +92,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 	 }	 
  }
  /**********************************************************
-  * ¹¦ÄÜ£º³õÊ¼»¯µÚÒ»¸öhttp ½Úµã¡£
+  * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½http ï¿½Úµã¡£
   **********************************************************/
  http_parser_t *http_initHttpLinkInfor(http_stream *a_http_stream, int thread_seq,	struct streaminfo *a_tcp, void *a_packet)
  {	 
@@ -126,10 +133,10 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
  }
 
  /**********************************************************
-  * ¹¦ÄÜ£º½¨Á¢HTTPÁ¬½ÓÁ´±í¡£
-  * a_http£ºµ±Ç°Á÷»·¾³¡£
-  * curdir:tcpÊý¾Ý°üµÄ·½Ïò£¬±íÃ÷µ¥Ë«Ïò°ü¡£
-  * dir£ºµ±Ç°°üµÄ·½Ïò¡£
+  * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½HTTPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * a_httpï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * curdir:tcpï¿½ï¿½ï¿½Ý°ï¿½ï¿½Ä·ï¿½ï¿½ò£¬±ï¿½ï¿½ï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½
+  * dirï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
  *********************************************************/
  void http_buildHttpInforLink(http_stream *a_http_stream, int thread_seq, struct streaminfo *a_tcp, void *a_packet)
  { 	
@@ -209,14 +216,14 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
  }
  
 /**********************************************************
- * ¹¦ÄÜ£º³õÊ¼»¯HTTPÁ¬½Ó¡£
- * curdir:tcpÊý¾Ý°üµÄ·½Ïò£¬±íÃ÷µ¥Ë«Ïò°ü¡£
- * dir£ºµ±Ç°°üµÄ·½Ïò¡£
- * pme£ºÉÏÏÂÎÄ»·¾³¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½HTTPï¿½ï¿½ï¿½Ó¡ï¿½
+ * curdir:tcpï¿½ï¿½ï¿½Ý°ï¿½ï¿½Ä·ï¿½ï¿½ò£¬±ï¿½ï¿½ï¿½ï¿½ï¿½Ë«ï¿½ï¿½ï¿½ï¿½ï¿½
+ * dirï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
+ * pmeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½
 ***********************************************************/
 void http_initHttpConnection(http_stream *a_http_stream, int thread_seq, struct streaminfo *a_tcp, void *a_packet)
 { 
-	//Á÷½¨Á¢µÄÊ±ºò£¬µÚÒ»¸öÁ¬½Ó
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ò£¬µï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(0==a_http_stream->uncomplete_count)
 	{
 		a_http_stream->res_req = a_tcp->curdir;
@@ -300,9 +307,9 @@ static void http_reseaseHttpInforList(http_parser_t**a_http, UINT16 uncomplete_c
 }/*http_ReseaseHttpInforList*/
 
 /**********************************************************
- * ¹¦ÄÜ£ºÊÍ·Å½Úµã¡£
- * a_http:µ±Ç°½Úµã¡£
- * curdir£ºµ±Ç°Êý¾ÝµÄ·½Ïò?
+ * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½Í·Å½Úµã¡£
+ * a_http:ï¿½ï¿½Ç°ï¿½Úµã¡£
+ * curdirï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ÝµÄ·ï¿½ï¿½ï¿½?
  * delete cur_node when http_infor be proccessd over
  * the different with http_releaseHttpLinkNode:http_reseaseHttpInfor is delete cur_node,and proc prev and next
  **********************************************************/
@@ -317,6 +324,14 @@ static void http_reseaseHttpInforList(http_parser_t**a_http, UINT16 uncomplete_c
 	{
 		 stat_field_operation(g_http_prog_para.stat_handler, g_http_prog_para.stat_field[HTTP_STAT_RELEASE], FS_OP_TYPE_ADD, 1);
 	}
+	
+	if(cur_http_node->last_unzip_content.buf!=NULL)
+	{
+		dictator_free(thread_seq, cur_http_node->last_unzip_content.buf);
+		cur_http_node->last_unzip_content.buf = NULL;
+		cur_http_node->last_unzip_content.buflen = 0;
+	}
+
 	if(cur_http_node->ungzip_handle!=NULL)
 	{	
 		docanalyze_endstream(cur_http_node->ungzip_handle);
@@ -611,11 +626,11 @@ uchar http_tripleMatching(http_parser_t *cur_http_node, http_stream* a_http_stre
 }
 
 /**********************************************************
- * ¹¦ÄÜ£ºÊ¶±ð¿ªÊ¼ÐÐ£¬´¦Àí¿ªÊ¼ÐÐ¡£
- * cur_http_node£ºµ±Ç°´¦Àí½Úµã¡£
- * curdir£ºµ±Ç°Êý¾Ý·½Ïò¡£
- * is_http£ºhttp¿ªÊ¼±êÖ¾Î»¡£
- * cur_halfstream£ºµ±Ç°°ëÁ÷Êý¾Ý¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½Ê¶ï¿½ï¿½Ê¼ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½Ð¡ï¿½
+ * cur_http_nodeï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Úµã¡£
+ * curdirï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½
+ * is_httpï¿½ï¿½httpï¿½ï¿½Ê¼ï¿½ï¿½Ö¾Î»ï¿½ï¿½
+ * cur_halfstreamï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¡ï¿½
  * return :	HTTP_RETURN_SPAN_PACKET
 ***********************************************************/
 uchar http_doWithStartLine(http_parser_t*cur_http_node, http_stream* a_http_stream, struct streaminfo *a_tcp, int thread_seq, void* a_packet)
@@ -673,7 +688,7 @@ uchar http_processHttpProxy(http_parser_t *a_http, http_stream *a_http_stream, s
 			pProxydetail->uiApendLen = a_http->url_buflen;	
 		}
 			
-		//´¦ÀíÍê³É×ÔÉíµÄÐÅÏ¢ºó 
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ 
 		/*user and passwd in C2S*/
 		if(a_http->parser.curdir==DIR_C2S)
 		{			
@@ -737,7 +752,7 @@ uchar http_analyseHttpProxy(http_parser_t *a_http,  http_stream *a_http_stream, 
 	a_http_stream->p_stream_proxy->type = STREAM_TYPE_HTTP_PROXY;
 
 	struct proxydetail* pProxydetail = (struct proxydetail *)(a_http_stream->p_stream_proxy->pdetail);
-	//Èç¹ûÊÇÊ×´Î½øÈë
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Î½ï¿½ï¿½ï¿½
 	if(pProxydetail==NULL)
 	{
 		pProxydetail=(struct proxydetail*)dictator_malloc(thread_seq,sizeof(struct proxydetail));
@@ -763,14 +778,14 @@ uchar http_analyseHttpProxy(http_parser_t *a_http,  http_stream *a_http_stream, 
 #endif
 
 /**********************************************************
- * ¹¦ÄÜ£ºÌáÈ¡http±êÖ¾£¬ÎªÈ·¶¨¿ªÊ¼±êÖ¾×ö×¼±¸¡£
- * buffer:Æ´´Õ¿ªÊ¼Ç°HTTP_START_FLAGS_LEN¸ö×Ö½ÚµÄÁÙÊ±»º´æÇø¡£
- * offset£ºµ±Ç°Êý¾ÝÁ÷ÒÑ´¦ÀíÊý¾ÝµÄÆ«ÒÆÁ¿¡£
- * method£ºÇëÇóÏûÏ¢µÄÇëÇó·½Ê½¡£
- * is_http:httpÈ·¶¨±êÖ¾Î»¡£
- * dir£ºµ±Ç°Êý¾ÝµÄ·½Ïò¡£
- * data£ºµ±Ç°Êý¾Ý¡£
- * data_len£ºµ±Ç°Êý¾Ý³¤¶È¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½È¡httpï¿½ï¿½Ö¾ï¿½ï¿½ÎªÈ·ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ö¾ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½
+ * buffer:Æ´ï¿½Õ¿ï¿½Ê¼Ç°HTTP_START_FLAGS_LENï¿½ï¿½ï¿½Ö½Úµï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * offsetï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Æ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * methodï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½
+ * is_http:httpÈ·ï¿½ï¿½ï¿½ï¿½Ö¾Î»ï¿½ï¿½
+ * dirï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ÝµÄ·ï¿½ï¿½ï¿½
+ * dataï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ý¡ï¿½
+ * data_lenï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ý³ï¿½ï¿½È¡ï¿½
  return : OK GO_BACK ERROR
 ***********************************************************/
 uchar http_findtStartFlag(http_parser_t *cur_node, uchar curdir,struct tcpdetail *tcp_detail, int thread_seq)
@@ -778,7 +793,7 @@ uchar http_findtStartFlag(http_parser_t *cur_node, uchar curdir,struct tcpdetail
 	uint32 *buflen = &(cur_node->buflen);
 	uint32 *offset = &(cur_node->processed_offset);
 	uchar *method = &(cur_node->parser.method);
-	//µÚÒ»Êý¾ÝÁ÷È¥µô¿ÕÐÐ£¬¿Õ¸ñ£¬ÖÆ±í·û²»¹»HTTP_START_FLAGS_LEN×Ö½Ú
+	//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½Õ¸ï¿½ï¿½Æ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HTTP_START_FLAGS_LENï¿½Ö½ï¿½
 	if(0==*buflen)
 	{
 		if(tcp_detail->datalen < HTTP_START_FLAGS_LEN+*offset)
@@ -794,7 +809,7 @@ uchar http_findtStartFlag(http_parser_t *cur_node, uchar curdir,struct tcpdetail
 		return http_judgeHttpMethod(method, (char*)tcp_detail->pdata+*offset, curdir);			
 	}
 	
-	//Ò»Ö±µÈ¹»HTTP_START_FLAGS_LEN×Ö½Ú
+	//Ò»Ö±ï¿½È¹ï¿½HTTP_START_FLAGS_LENï¿½Ö½ï¿½
 	if(0<*buflen)
 	{
 		if(tcp_detail->datalen+*buflen < HTTP_START_FLAGS_LEN+*offset && tcp_detail->datalen-*offset>0)
@@ -807,7 +822,7 @@ uchar http_findtStartFlag(http_parser_t *cur_node, uchar curdir,struct tcpdetail
 			}			
 			return GO_BACK;			
 		}
-		//±êÖ¾Ò»²¿·ÖÔÚbufferÀïÃæ£¬Ò»²¿·ÖÔÚdataÀïÃæ
+		//ï¿½ï¿½Ö¾Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bufferï¿½ï¿½ï¿½æ£¬Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½dataï¿½ï¿½ï¿½ï¿½
 		cur_node->pbuf = (char*)dictator_realloc(thread_seq, cur_node->pbuf, HTTP_START_FLAGS_LEN);
 		memcpy((void*)(cur_node->pbuf+(*buflen)), (void*)((uchar*)tcp_detail->pdata+*offset),HTTP_START_FLAGS_LEN-*buflen);
 		*offset += HTTP_START_FLAGS_LEN-*buflen;
@@ -818,21 +833,21 @@ uchar http_findtStartFlag(http_parser_t *cur_node, uchar curdir,struct tcpdetail
 }
 
 /**********************************************************
- * ¹¦ÄÜ£º·ÖÎöHTTPÁ¬½Ó,¸ù¾Ý²»Í¬µÄÏûÏ¢£¬Ö´ÐÐ²»Í¬µÄ²Ù×÷¡£
- * a_http:httpÁ÷»·¾³¡£
- * tcp_detail£ºµ±Ç°tcpÊý¾Ý¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½HTTPï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Ý²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ö´ï¿½Ð²ï¿½Í¬ï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½
+ * a_http:httpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * tcp_detailï¿½ï¿½ï¿½ï¿½Ç°tcpï¿½ï¿½ï¿½Ý¡ï¿½
 ***********************************************************/
 uchar http_analyseHttpReqResHeader(http_parser_t* a_http, http_stream* a_http_stream, struct streaminfo* a_tcp, int thread_seq, void *a_packet)
 {	
 	uchar rec = OK;
 	struct tcpdetail *tcp_detail = (struct tcpdetail*)a_tcp->pdetail;		
-	//¿ªÊ¼ÐÐ·ÖÎö	
+	//ï¿½ï¿½Ê¼ï¿½Ð·ï¿½ï¿½ï¿½	
 	if(HTTP_STATE_UNKNOWN==a_http->parser.http_state)
 	{	
-		/*20170207 POSTÔÚÉÏÃæ Ò»¸ö °ü £¬ SP+URIÔÚÏÂÃæÒ»¸ö°ü */
+		/*20170207 POSTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ò»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ SP+URIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ */
 		if(a_http->pbuf==NULL)
 		{
-			/*delete \r\n \0 ...... GETÖ®Ç°ÓÐ¿Õ¸ñ*/
+			/*delete \r\n \0 ...... GETÖ®Ç°ï¿½Ð¿Õ¸ï¿½*/
 			http_deleteEmptyRow(&(a_http->processed_offset),(char*)(tcp_detail->pdata), tcp_detail->datalen);		
 		}
 		rec = http_findtStartFlag(a_http, a_http_stream->res_req, tcp_detail, thread_seq);
@@ -863,7 +878,7 @@ uchar http_analyseHttpReqResHeader(http_parser_t* a_http, http_stream* a_http_st
 #endif			
 	}
 
-	//Í·²¿·ÖÎö
+	//Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(HTTP_REGION==a_http->parser.http_state) 
 	{
 		rec = http_findAndDoWithRegion(a_http, a_http_stream, a_tcp, thread_seq, a_packet);
