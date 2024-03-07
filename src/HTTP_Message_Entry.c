@@ -69,33 +69,32 @@ void http_doWithGzipData(http_parser_t *cur_http_node, struct streaminfo *a_tcp,
 		return ;
 	}
 
-	cur_http_node->last_unzip_content.buflen=0;
-	if(cur_http_node->last_unzip_content.buf!=NULL)
-	{
-		dictator_free(thread_seq, cur_http_node->last_unzip_content.buf);
-		cur_http_node->last_unzip_content.buf=NULL;
-	}
-
 	ret=docanalyze_parsestream(cur_http_node->ungzip_handle,
 								(const char*)cur_http_node->session.buf, 
 								cur_http_node->session.buflen,
 								result_array);
 	if(ret==DOC_PRO_OK)
 	{
+		fold_infor_t *unzip_content=&(g_http_prog_para.unzip_content[thread_seq]);
+		unzip_content->buflen=0;
+
 		int k=0;
 		for (k=0; k < result_array->result_num; k++)
 		{
-			cur_http_node->last_unzip_content.buf=(char*)dictator_realloc(thread_seq, cur_http_node->last_unzip_content.buf, cur_http_node->last_unzip_content.buflen+result_array->result_buff[k].size);
-			memcpy(cur_http_node->last_unzip_content.buf+cur_http_node->last_unzip_content.buflen,
-				     result_array->result_buff[k].presult,
-				     result_array->result_buff[k].size);
-			cur_http_node->last_unzip_content.buflen += result_array->result_buff[k].size;     		 	
+			int min_len=MIN(result_array->result_buff[k].size, HTTP_UNZIP_CONTENT_LEN-unzip_content->buflen);
+			if(min_len<=0)
+			{
+				break;
+			}
+
+			memcpy(unzip_content->buf+unzip_content->buflen, result_array->result_buff[k].presult, min_len);
+			unzip_content->buflen+=min_len; 		 	
 		}
 
 		FLAG_SET(cur_http_node->flag, HTTP_FLAG_BATCH_CALLBACK);
 
-		cur_http_node->session.buf=cur_http_node->last_unzip_content.buf;
-		cur_http_node->session.buflen=cur_http_node->last_unzip_content.buflen;
+		cur_http_node->session.buf=unzip_content->buf;
+		cur_http_node->session.buflen=unzip_content->buflen;
 		http_callPlugin(cur_http_node, a_tcp, thread_seq, a_packet);
 		cur_http_node->session.buf=NULL;	
 		cur_http_node->session.buflen=0;

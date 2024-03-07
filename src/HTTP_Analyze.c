@@ -688,13 +688,6 @@ void http_releaseHttpLinkNode(http_stream *a_http_stream,struct streaminfo *a_tc
 			dictator_free(thread_seq, cur_node->parser.batch_infor);
 		}	
 	}
-
-	if(cur_node->last_unzip_content.buf!=NULL)
-	{
-		dictator_free(thread_seq, cur_node->last_unzip_content.buf);
-		cur_node->last_unzip_content.buf = NULL;
-		cur_node->last_unzip_content.buflen = 0;
-	}
 		
 	if(cur_node->ungzip_handle!=NULL)
 	{	
@@ -1140,7 +1133,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 #endif
 */
 
-	//��Ϣ�����
+	//��Ϣ�����?
 	/*set mgs_status because cur_http_node maybe release*/
 	uchar mgs_status = HTTP_RETURN_GIVEME;
 	rec = http_findAndDoWithEntity(&mgs_status, cur_http_node, a_http_stream, a_tcp, thread_seq, a_packet);

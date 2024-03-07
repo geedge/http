@@ -42,13 +42,6 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 	a_http->packet_entity_len = 0;
 	a_http->acc_cont_length = 0;
 
-	if(a_http->last_unzip_content.buf!=NULL)
-	{
-		dictator_free(thread_seq, a_http->last_unzip_content.buf);
-		a_http->last_unzip_content.buf = NULL;
-		a_http->last_unzip_content.buflen = 0;
-	}
-
 	if(a_http->ungzip_handle!=NULL)
 	{
 		docanalyze_endstream(a_http->ungzip_handle);
@@ -69,7 +62,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 }
  
  /**********************************************************
-  * ���ܣ���Ӧ��Ϣ����ʱ�������Ӧ��������Ϣ��Ϣ��
+  * ���ܣ���Ӧ��Ϣ����ʱ�������Ӧ���������?��Ϣ��
   * a_http:��ǰ�ڵ㡣
   **********************************************************/
  void http_resetResponseSpace(http_parser_t *a_http, int thread_seq)
@@ -135,7 +128,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
  /**********************************************************
   * ���ܣ�����HTTP����������
   * a_http����ǰ��������
-  * curdir:tcp���ݰ��ķ��򣬱�����˫�����
+  * curdir:tcp���ݰ��ķ��򣬱�����˫�����?
   * dir����ǰ���ķ���
  *********************************************************/
  void http_buildHttpInforLink(http_stream *a_http_stream, int thread_seq, struct streaminfo *a_tcp, void *a_packet)
@@ -217,7 +210,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
  
 /**********************************************************
  * ���ܣ���ʼ��HTTP���ӡ�
- * curdir:tcp���ݰ��ķ��򣬱�����˫�����
+ * curdir:tcp���ݰ��ķ��򣬱�����˫�����?
  * dir����ǰ���ķ���
  * pme�������Ļ�����
 ***********************************************************/
@@ -323,13 +316,6 @@ static void http_reseaseHttpInforList(http_parser_t**a_http, UINT16 uncomplete_c
 	if(g_http_prog_para.http_stat_cycle)
 	{
 		 stat_field_operation(g_http_prog_para.stat_handler, g_http_prog_para.stat_field[HTTP_STAT_RELEASE], FS_OP_TYPE_ADD, 1);
-	}
-	
-	if(cur_http_node->last_unzip_content.buf!=NULL)
-	{
-		dictator_free(thread_seq, cur_http_node->last_unzip_content.buf);
-		cur_http_node->last_unzip_content.buf = NULL;
-		cur_http_node->last_unzip_content.buflen = 0;
 	}
 
 	if(cur_http_node->ungzip_handle!=NULL)
@@ -688,7 +674,7 @@ uchar http_processHttpProxy(http_parser_t *a_http, http_stream *a_http_stream, s
 			pProxydetail->uiApendLen = a_http->url_buflen;	
 		}
 			
-		//���������������Ϣ�� 
+		//����������������?�� 
 		/*user and passwd in C2S*/
 		if(a_http->parser.curdir==DIR_C2S)
 		{			
@@ -752,7 +738,7 @@ uchar http_analyseHttpProxy(http_parser_t *a_http,  http_stream *a_http_stream, 
 	a_http_stream->p_stream_proxy->type = STREAM_TYPE_HTTP_PROXY;
 
 	struct proxydetail* pProxydetail = (struct proxydetail *)(a_http_stream->p_stream_proxy->pdetail);
-	//������״ν���
+	//������״ν���?
 	if(pProxydetail==NULL)
 	{
 		pProxydetail=(struct proxydetail*)dictator_malloc(thread_seq,sizeof(struct proxydetail));

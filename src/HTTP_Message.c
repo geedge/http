@@ -40,7 +40,7 @@ int is_absolute_uri(void* app_info)
 
 int http_line2region(const char *line, uint32 line_len, char** region, uint32* region_len)
 {
-	/*lineÀ´×ÔÒµÎñ²ã£¬¼´append,ËùÒÔlineÇ°ÃæµÄ¿Õ¸ñÒÑ¾­É¾³ý£¬Ö»ÐèÒªÉ¾³ý: Ö®ºóµÄ¿Õ¸ñ*/
+	/*lineï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ã£¬ï¿½ï¿½append,ï¿½ï¿½ï¿½ï¿½lineÇ°ï¿½ï¿½Ä¿Õ¸ï¿½ï¿½Ñ¾ï¿½É¾ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ÒªÉ¾ï¿½ï¿½: Ö®ï¿½ï¿½Ä¿Õ¸ï¿½*/
 	uint32	del_data_len=0;	
 	char* colon_pos = (char*)memchr(line, ':', line_len);		
 	if(NULL==colon_pos) return -1;	
@@ -52,7 +52,7 @@ int http_line2region(const char *line, uint32 line_len, char** region, uint32* r
 
 int http_line2value(const char *line, uint32 line_len, char** value, uint32* value_len)
 {
-	/*lineÀ´×ÔÒµÎñ²ã£¬¼´append,ËùÒÔlineÇ°ÃæµÄ¿Õ¸ñÒÑ¾­É¾³ý£¬Ö»ÐèÒªÉ¾³ý: Ö®ºóµÄ¿Õ¸ñ*/
+	/*lineï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ã£¬ï¿½ï¿½append,ï¿½ï¿½ï¿½ï¿½lineÇ°ï¿½ï¿½Ä¿Õ¸ï¿½ï¿½Ñ¾ï¿½É¾ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ÒªÉ¾ï¿½ï¿½: Ö®ï¿½ï¿½Ä¿Õ¸ï¿½*/
 	uint32 	vlen=0, sp_offset=0;	
 	char* colon_pos = (char*)memchr(line, ':', line_len);	
 	if(NULL==colon_pos) return -1;	
@@ -371,6 +371,14 @@ int HTTP_INIT(void)
 		return -1;
 	}
 
+	int i=0;
+	g_http_prog_para.unzip_content=(fold_infor_t *)malloc(sizeof(fold_infor_t)*g_iThreadNum);
+	for(i=0; i<g_iThreadNum; i++)
+	{
+		g_http_prog_para.unzip_content[i].buflen=0;
+		g_http_prog_para.unzip_content[i].buf=(char *)calloc(1, HTTP_UNZIP_CONTENT_LEN);
+	}
+
 	/*MESA_proto*/
 	g_http_prog_para.proto_tag_id  = project_producer_register("MESA_PROTO","struct",http_proto_tag_free);
 	
@@ -561,6 +569,19 @@ void HTTP_DESTROY(void)
 
 	/*ungzip*/
 	docanalyze_destroy(g_http_prog_para.docanly_handler);
+
+	/*unzip_content*/
+	int i=0;
+	for(i=0; i<g_iThreadNum; i++)
+	{
+		if(g_http_prog_para.unzip_content[i].buf!=NULL)
+		{
+			free(g_http_prog_para.unzip_content[i].buf);
+			g_http_prog_para.unzip_content[i].buf = NULL;
+		}
+	}
+
+	free(g_http_prog_para.unzip_content);
 }
 
 void HTTP_PROT_FUNSTAT(unsigned long long protflag)
@@ -664,11 +685,11 @@ long long HTTP_FLAG_CHANGE(char* flag_str)
 }
 
 /**********************************************************
- * ¹¦ÄÜ£ºÅÐ¶¨ÏûÏ¢Í·ÊÇ·ñ½áÊø¡£
- * buffer:Óò´æ´¢»º´æÇø¡£
- * data£ºµ±Ç°Êý¾Ý¡£
- * data_len:µ±Ç°Êý¾ÝµÄ³¤¶È¡£
- * proc_offset:µ±Ç°Êý¾ÝÒÑ´¦ÀíÊý¾ÝµÄÆ«ÒÆÁ¿¡£
+ * ï¿½ï¿½ï¿½Ü£ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Ï¢Í·ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * buffer:ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * dataï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ý¡ï¿½
+ * data_len:ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ÝµÄ³ï¿½ï¿½È¡ï¿½
+ * proc_offset:ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Æ«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  return : GO_BACK  OK   ERROR
 ***********************************************************/
 uchar http_judgeHeaderOver(http_parser_t *a_http, char *data, uint32 data_len, int thread_seq)
@@ -1040,10 +1061,10 @@ void http_saveToBuf(const char* curdata,uint32 cur_datalen,const char* p_end, ch
 	}
 }
 /**********************************************************
- * buffer:Êý¾Ý´æ´¢»º´æÇø¡£
-  * processed_offset£ºµ±Ç°Êý¾ÝÖÐ£¬ÒÑ´¦ÀíÊý¾ÝµÄÆ«ÒÆÁ¿.
- * cur_data£ºµ±Ç°Êý¾Ý¡£
- * cur_data_len£ºµ±Ç°Êý¾ÝµÄ³¤¶È¡£
+ * buffer:ï¿½ï¿½ï¿½Ý´æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  * processed_offsetï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ýµï¿½Æ«ï¿½ï¿½ï¿½ï¿½.
+ * cur_dataï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ý¡ï¿½
+ * cur_data_lenï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ÝµÄ³ï¿½ï¿½È¡ï¿½
 ***********************************************************/
 uchar http_positioningACompleteLine(char del_space, http_parser_t *cur_http_node, struct streaminfo *a_tcp, int thread_seq)
 {			

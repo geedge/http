@@ -104,6 +104,7 @@
 #define LINE_FLAG_LF					0x02 
 #define LINE_FLAG_CRLF 					0x03
 
+#define	HTTP_UNZIP_CONTENT_LEN		16*1024
 
 typedef enum
 {
@@ -168,8 +169,6 @@ typedef struct _http_parser_t
 	char						endline_flag;  		        //complete line flag: \r\n, \r, \n.
 	uint8 						mgs_status;					//return state							
 	uint8						header_span_flag;			//see define 
-
-	fold_infor_t last_unzip_content;
 		
 #if HTTP_PROXY
 	uchar						proxy_flag;					//DIR_C2S, DIR_S2C,DIR_DOUBLE	
@@ -227,6 +226,7 @@ typedef struct _http_prog_runtime_parameter_t
 	int 						capfile_project_id;
 #endif
 	int							proto_tag_id ;
+	fold_infor_t *unzip_content;
 }http_prog_runtime_parameter_t;
 
 struct http_proto_tag_t
