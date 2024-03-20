@@ -1,0 +1,11 @@
+[
+  {
+    "Tuple4": "127.0.0.1.33412>127.0.0.1.8080",
+    "http_uri": "/",
+    "http_host": "www.wireshark.org:8080",
+    "http_url": "www.wireshark.org:8080/",
+    "unzip_payload_len": "97845",
+    "unzip_payload_md5": "855f8310be999de806e89a420a95435d",
+    "name": "HTTP_RESULT_1"
+  }
+]

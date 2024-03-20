@@ -1,0 +1,11 @@
+[
+  {
+    "Tuple4": "192.168.69.2.34059>192.168.69.1.80",
+    "http_uri": "/test/ethereal.html",
+    "http_host": "cerberus",
+    "http_url": "cerberus/test/ethereal.html",
+    "unzip_payload_len": "109",
+    "unzip_payload_md5": "61b9e97f96045587bb55db781f7543ad",
+    "name": "HTTP_RESULT_1"
+  }
+]

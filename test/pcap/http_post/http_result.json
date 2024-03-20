@@ -3,23 +3,31 @@
 		"http_uri":	"/m_fullsearch/full_search1.jsp",
 		"http_host":	"sou.qhnews.com:8000",
 		"http_url":	"sou.qhnews.com:8000/m_fullsearch/full_search1.jsp",
+		"unzip_payload_len":	"4882",
+		"unzip_payload_md5":	"ba3ffd7216c069f00f29252767cc0294",
 		"name":	"HTTP_RESULT_1"
 	}, {
 		"Tuple4":	"192.168.32.18.63316>221.238.248.3.8000",
 		"http_uri":	"/m_fullsearch/css/css.css",
 		"http_host":	"sou.qhnews.com:8000",
 		"http_url":	"sou.qhnews.com:8000/m_fullsearch/css/css.css",
+		"unzip_payload_len":	"2865",
+		"unzip_payload_md5":	"e115c1449cd34525a6f216999df5635b",
 		"name":	"HTTP_RESULT_2"
 	}, {
 		"Tuple4":	"192.168.32.18.63316>221.238.248.3.8000",
 		"http_uri":	"/m_fullsearch/dwr/util.js",
 		"http_host":	"sou.qhnews.com:8000",
 		"http_url":	"sou.qhnews.com:8000/m_fullsearch/dwr/util.js",
+		"unzip_payload_len":	"46649",
+		"unzip_payload_md5":	"677ab63c5e27627434151c16df0df643",
 		"name":	"HTTP_RESULT_3"
 	}, {
 		"Tuple4":	"192.168.32.18.63316>221.238.248.3.8000",
 		"http_uri":	"/m_fullsearch/dwr/call/plaincall/DwrChannel.getChild.dwr",
 		"http_host":	"sou.qhnews.com:8000",
 		"http_url":	"sou.qhnews.com:8000/m_fullsearch/dwr/call/plaincall/DwrChannel.getChild.dwr",
+		"unzip_payload_len":	"16352",
+		"unzip_payload_md5":	"a248b85193186e0ec5bf5ad6d56b78ff",
 		"name":	"HTTP_RESULT_4"
 }]

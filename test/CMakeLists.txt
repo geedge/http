@@ -53,7 +53,7 @@ add_dependencies(proto_test_main ProtoTest)
 set_property(TARGET proto_test_main PROPERTY IMPORTED_LOCATION ${SOURCE_DIR}/test_protocol_plug_main)
 
 
-add_library(${lib_name}_test_plug SHARED ${lib_name}_test_plug.cpp)
+add_library(${lib_name}_test_plug SHARED ${lib_name}_test_plug.cpp md5.c)
 target_link_libraries(${lib_name}_test_plug MESA_prof_load cjson)
 set_target_properties(${lib_name}_test_plug  PROPERTIES PREFIX "")
 
@@ -62,3 +62,8 @@ add_test(NAME COPY_TEST_SO COMMAND sh -c "cp ${CMAKE_CURRENT_BINARY_DIR}/${lib_n
 
 add_test(NAME RUN_HTTP_GET_TEST COMMAND proto_test_main ${CMAKE_CURRENT_SOURCE_DIR}/pcap/http_get/http_result.json -f "find ${CMAKE_CURRENT_SOURCE_DIR}/pcap/http_get/ -name *.pcap|sort -V" WORKING_DIRECTORY ${PROTO_TEST_RUN_DIR})
 add_test(NAME RUN_HTTP_POST_TEST COMMAND proto_test_main ${CMAKE_CURRENT_SOURCE_DIR}/pcap/http_post/http_result.json -f "find ${CMAKE_CURRENT_SOURCE_DIR}/pcap/http_post/ -name *.pcap|sort -V" WORKING_DIRECTORY ${PROTO_TEST_RUN_DIR})
+add_test(NAME RUN_HTTP_GZIP_SMALL_TEST COMMAND proto_test_main ${CMAKE_CURRENT_SOURCE_DIR}/pcap/gzip_small/gzip_small.json -f "find ${CMAKE_CURRENT_SOURCE_DIR}/pcap/gzip_small/ -name *.pcap|sort -V" WORKING_DIRECTORY ${PROTO_TEST_RUN_DIR})
+add_test(NAME RUN_HTTP_GZIP_LARGE_TEST COMMAND proto_test_main ${CMAKE_CURRENT_SOURCE_DIR}/pcap/gzip_large/gzip_large.json -f "find ${CMAKE_CURRENT_SOURCE_DIR}/pcap/gzip_large/ -name *.pcap|sort -V" WORKING_DIRECTORY ${PROTO_TEST_RUN_DIR})
+add_test(NAME RUN_HTTP_DEFLATE_SMALL_TEST COMMAND proto_test_main ${CMAKE_CURRENT_SOURCE_DIR}/pcap/deflate_small/deflate_small.json -f "find ${CMAKE_CURRENT_SOURCE_DIR}/pcap/deflate_small/ -name *.pcap|sort -V" WORKING_DIRECTORY ${PROTO_TEST_RUN_DIR})
+add_test(NAME RUN_HTTP_DEFLATE_LARGE_TEST COMMAND proto_test_main ${CMAKE_CURRENT_SOURCE_DIR}/pcap/deflate_large/deflate_large.json -f "find ${CMAKE_CURRENT_SOURCE_DIR}/pcap/deflate_large/ -name *.pcap|sort -V" WORKING_DIRECTORY ${PROTO_TEST_RUN_DIR})
+add_test(NAME RUN_HTTP_CLEAR_TEXT_TEST COMMAND proto_test_main ${CMAKE_CURRENT_SOURCE_DIR}/pcap/clear_text/clear_text.json -f "find ${CMAKE_CURRENT_SOURCE_DIR}/pcap/clear_text/ -name *.pcap|sort -V" WORKING_DIRECTORY ${PROTO_TEST_RUN_DIR})
