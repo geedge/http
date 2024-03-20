@@ -691,7 +691,10 @@ void http_releaseHttpLinkNode(http_stream *a_http_stream,struct streaminfo *a_tc
 		
 	if(cur_node->ungzip_handle!=NULL)
 	{	
-		docanalyze_endstream(cur_node->ungzip_handle);
+		//docanalyze_endstream(cur_node->ungzip_handle);
+		inflateEnd(cur_node->ungzip_handle);
+		dictator_free(thread_seq, cur_node->ungzip_handle);
+		cur_node->ungzip_handle = NULL;
 	}
 	if(cur_node->parser.cont_range!=NULL)
 	{
@@ -1133,7 +1136,7 @@ uchar http_analyseHttpConnection(http_stream* a_http_stream,struct streaminfo *a
 #endif
 */
 
-	//��Ϣ�����?
+	//��Ϣ�����?
 	/*set mgs_status because cur_http_node maybe release*/
 	uchar mgs_status = HTTP_RETURN_GIVEME;
 	rec = http_findAndDoWithEntity(&mgs_status, cur_http_node, a_http_stream, a_tcp, thread_seq, a_packet);

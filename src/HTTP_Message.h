@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include "http.h"
 #include "stream.h"
-#include "DocumentAnalyze.h"
+//#include "DocumentAnalyze.h"
+#include <zlib.h>
 
 #define	HTTP_PLUGIN_NAME 				"http.so"
 
@@ -104,7 +105,7 @@
 #define LINE_FLAG_LF					0x02 
 #define LINE_FLAG_CRLF 					0x03
 
-#define	HTTP_UNZIP_CONTENT_LEN		16*1024
+#define	HTTP_UNZIP_CONTENT_LEN			16384
 
 typedef enum
 {
@@ -158,7 +159,8 @@ typedef struct _http_parser_t
 	uint32 						processed_offset;			//�Ѵ��������ڵ�ǰ����ƫ����,��������һ������Ҫ����	
 	
 	uint64 						packet_entity_len;			//δ������ʵ�峤��			
-	docanalyze_streamparam_t	ungzip_handle;		
+	//docanalyze_streamparam_t	ungzip_handle;		
+	z_stream					*ungzip_handle;
 	uint64 						acc_cont_length;	
 	int64 						batch_prot_flag;	
 	char*						url_buf;		
@@ -187,7 +189,7 @@ typedef struct _http_prog_runtime_parameter_t
 	void* 						http_log_handle;		
 	void*						region_hash;	    //��չ���ʶ��
 	void*						stat_handler;
-	void* 						docanly_handler;
+	//void* 						docanly_handler;
 	
 	uint16 						http_plugid;	
 	uint16 						http_log_level;	

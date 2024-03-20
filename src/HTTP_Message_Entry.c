@@ -5,7 +5,7 @@
 #include "MESA_handle_logger.h"
 #include "HTTP_Common.h"
 #include "field_stat.h"
-
+#include <assert.h>
 extern http_prog_runtime_parameter_t g_http_prog_para;
 
 /**********************************************************
@@ -39,73 +39,89 @@ static void http_clearSpace(http_stream *a_http_stream, struct streaminfo *a_tcp
 	return;
 }
 
+static z_stream *zlib_decompress_startstream(int encoding, int thread_seq)
+{
+	int ret;
+	z_stream *zins = (z_stream *)dictator_malloc(thread_seq, sizeof(z_stream));
+	memset(zins, 0, sizeof(z_stream));
+
+	switch (encoding)
+	{
+	case HTTP_CONT_ENCOD_GZIP:
+		ret = inflateInit2(zins, MAX_WBITS + 16);
+		break;
+	case HTTP_CONT_ENCOD_DEFLATE:
+		ret = inflateInit2(zins, -MAX_WBITS);
+		break;
+	default:
+		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "not support encoding type:%d", encoding);
+		ret = Z_ERRNO;
+		break;
+	}
+
+	if (ret != Z_OK)
+	{
+		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "zlib init fail:%d", ret);
+		dictator_free(thread_seq, zins);
+		return NULL;
+	}
+
+	return zins;
+}
+
 void http_doWithGzipData(http_parser_t *cur_http_node, struct streaminfo *a_tcp, int thread_seq, void *a_packet)
 {
 	int	ret=0;
-	result_array_t *result_array = (result_array_t*)dictator_malloc(thread_seq, sizeof(result_array_t));
-	memset(result_array, 0, sizeof(result_array_t));
-	if(cur_http_node->ungzip_handle==NULL)
+
+	if (cur_http_node->ungzip_handle == NULL)
 	{
-		//20160128
-		switch(cur_http_node->parser.cont_encoding)
+		cur_http_node->ungzip_handle = zlib_decompress_startstream(cur_http_node->parser.cont_encoding, thread_seq);
+		if (cur_http_node->ungzip_handle == NULL)
 		{
-			case HTTP_CONT_ENCOD_GZIP:				
-				cur_http_node->ungzip_handle=docanalyze_startstream(DOC_GZIP_TYPE, g_http_prog_para.docanly_handler, thread_seq);
-				break;
-				
-			case HTTP_CONT_ENCOD_DEFLATE:				
-				cur_http_node->ungzip_handle=docanalyze_startstream(DOC_DEFLATE_TYPE, g_http_prog_para.docanly_handler, thread_seq);
-				break;
-				
-			default:
-				break;
-		}	
+			MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "zlib decompress startstream error!");
+			// dictator_free(thread_seq, result_array);
+			return;
+		}
 	}
 
-	if(cur_http_node->ungzip_handle==NULL)
-	{
-		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "docanalyze_startstream error!");
-		dictator_free(thread_seq, result_array);
-		return ;
-	}
+	z_stream *zins = cur_http_node->ungzip_handle;
+	zins->avail_in = cur_http_node->session.buflen;
+	zins->next_in = cur_http_node->session.buf;
 
-	ret=docanalyze_parsestream(cur_http_node->ungzip_handle,
-								(const char*)cur_http_node->session.buf, 
-								cur_http_node->session.buflen,
-								result_array);
-	if(ret==DOC_PRO_OK)
+	do
 	{
-		fold_infor_t *unzip_content=&(g_http_prog_para.unzip_content[thread_seq]);
-		unzip_content->buflen=0;
+		zins->avail_out = HTTP_UNZIP_CONTENT_LEN;
+		zins->next_out = g_http_prog_para.unzip_content[thread_seq].buf;
 
-		int k=0;
-		for (k=0; k < result_array->result_num; k++)
+		ret = inflate(zins, Z_NO_FLUSH);
+		switch (ret)
 		{
-			int min_len=MIN(result_array->result_buff[k].size, HTTP_UNZIP_CONTENT_LEN-unzip_content->buflen);
-			if(min_len<=0)
-			{
-				break;
-			}
-
-			memcpy(unzip_content->buf+unzip_content->buflen, result_array->result_buff[k].presult, min_len);
-			unzip_content->buflen+=min_len; 		 	
+		case Z_NEED_DICT:
+		case Z_DATA_ERROR:
+		case Z_MEM_ERROR:
+			MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "zlib inflate error:%d", ret);
+			return;
 		}
 
-		FLAG_SET(cur_http_node->flag, HTTP_FLAG_BATCH_CALLBACK);
+		int have = HTTP_UNZIP_CONTENT_LEN - zins->avail_out;
+		if (have > 0)
+		{
+			cur_http_node->session.buf = g_http_prog_para.unzip_content[thread_seq].buf;
+			cur_http_node->session.buflen = have;
+			cur_http_node->interested_reg_mask = HTTP_UNGZIP_CONTENT_MASK;
+			http_callPlugin(cur_http_node, a_tcp, thread_seq, a_packet);
+			cur_http_node->session.buf = NULL;
+			cur_http_node->session.buflen = 0;
+		}
 
-		cur_http_node->session.buf=unzip_content->buf;
-		cur_http_node->session.buflen=unzip_content->buflen;
-		http_callPlugin(cur_http_node, a_tcp, thread_seq, a_packet);
-		cur_http_node->session.buf=NULL;	
-		cur_http_node->session.buflen=0;
-	}
-	else if(ret==DOC_PRO_ERR)
-	{
-		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "docanalyze_parsestream return DOC_PRO_ERR!");
-	}
-	docanalyze_freeresult(result_array);
-	dictator_free(thread_seq, result_array);
-	return ;
+		if (0 == zins->avail_out)
+		{
+			MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_INFO, HTTP_PLUGIN_NAME,
+									"zlib decompress payload size:%d more than max out buff size:%d", have, HTTP_UNZIP_CONTENT_LEN);
+		}
+	} while (0 == zins->avail_out);
+
+	return;
 }
 
 void http_judgeContentEncoding(http_parser_t *a_http, struct streaminfo *a_tcp, int thread_seq, void *a_packet)

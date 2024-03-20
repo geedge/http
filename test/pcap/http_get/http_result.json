@@ -21,7 +21,7 @@
 		"http_uri":	"/realmachine/index.htm",
 		"http_host":	"test.pro.testin.cn", 
 		"http_url":	"test.pro.testin.cn/realmachine/index.htm",
-		"unzip_payload_len":	"133961",
-		"unzip_payload_md5":	"c6cba1663f1ab8f15cfbf6039c9e4cab",
+		"unzip_payload_len":	"141383",
+		"unzip_payload_md5":	"39cb5f3a9cbcfbd16f66e040ec49b8c4",
 		"name":	"HTTP_RESULT_4"
 }]

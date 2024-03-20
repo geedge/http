@@ -1,0 +1,3063 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+     <title>
+        Testin云测
+    	|name
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="项目管理中心" />
+    <meta name="Keywords"  content="Testin,云测试,APP测试,自动化测试,兼容测试,软件测试,测试用例,Bug探索,性能测试,手游测试,应用测试,android测试,iOS自动化测试,适配测试,手机APP测试,Android自动化测试,iOS测试,AB测试"/>
+    <link rel="shortcut icon" href="/skin_v3/favicon.png?v=7.0.1"/>
+    <!--[if lt IE 9]>
+    <script src="/skin_v3/lib/html5shiv/3.7.3/html5shiv.min.js?v=7.0.1"></script>
+    <script src="/skin_v3/lib/respond/1.4.2/respond.min.js?v=7.0.1"></script>
+    <![endif]-->
+    <!-- custom-bs 自定义基于 bootstrap3.3.7 --><!--左侧菜单等脚本--><!--bootstrap js-->
+    <link rel="stylesheet" href="/skin_v3/lib/custom-bs/3.3.7/css/bootstrap.css?v=7.0.1"/>
+    <link rel="stylesheet" href="/skin_v3/lib/bootstrap-select/1.12.2/css/bootstrap-select.min.css?v=7.0.1"/>
+    <link rel="stylesheet" href="/skin_v3/static/css/base.css?v=7.0.1"/>
+    <script type="text/javascript" src="/skin_v3/lib/jquery/1.11.3/jquery.min.js?v=7.0.1"></script>
+    <script type="text/javascript" src="/skin_v3/lib/custom-bs/3.3.7/js/bootstrap.min.js?v=7.0.1"></script>
+    <script type="text/javascript" src="/skin_v3/lib/bootstrap-select/1.12.2/js/bootstrap-select.min.js?v=7.0.1"></script>
+    <link rel="stylesheet" href="/skin_v3/static/css/guide2.css?v=7.0.1" />
+    <script type="text/javascript" src="/common/common.js?v=7.0.1"></script>
+    <script type="text/javascript" src="/skin_v3/static/scripts/msg_top_close.js?v=7.0.1"></script>
+    <script charset="utf-8" src="/skin_v3/static/scripts/app_manage/popoverTn.js?v=7.0.1"></script>
+    <script type="text/javascript" src="/common/base.js?v=7.0.1"></script>
+    <style>
+        body{overflow:initial!important;}
+        #feedbacklabel{display: none;}
+        /*新增logo样式修改*/
+        .navbar-brand>.sm_img.logo+span{font-size: 13px!important;height: 15px;line-height: 15px;padding-left: 10px;border-left: 1px solid #6a6d6f;margin-left: 8px;width:auto!important;max-width:102px}
+        .testin-pro-v3－navbar .navbar-brand{margin-top: 3px;width:200px;padding:15px 8px 0px 20px!important;text-align:center;}
+        /*.globlehide{display: none!important;}*/
+    </style>
+
+    
+    <link rel="stylesheet" href="/skin_v3/static/css/machine.css?v=7.0.1"/>
+    <link rel="stylesheet" href="/skin_v3/static/css/style.css?v=7.0.1"/>
+    <link rel="stylesheet" href="/skin_v3/static/css/login.css?v=7.0.1"/>
+    <style type="text/css">
+        .activity_mask .act_in{width:500px;top:55%;}
+        .activity_mask .act_in .act_r{width:500px;height:600px;}
+        .activity_mask .act_in .act_r .login-form-area h4{margin-top:40px;}
+        .activity_mask .act_lion{position:absolute;width:127px;height:145px;top:-112px;right:195px;}
+        .audit .audit_img{width:120px;height:180px;border: 1px solid #CCCCCC;cursor:pointer;}
+        .audit:hover .audit_img{border: 1px solid #1080DE;}
+        .audit .audit_type{width:120px;height:25px;line-height:5px;margin-top:-45px;background-color:#172B4D!important;opacity:0.7;filter:alpha(opacity=70);color:#FFFFFF!important;font-size: 12px;border:none!important;}
+        .audit:hover .audit_type{background-color:#1080DE!important;opacity:0.7;filter:alpha(opacity=70);color:#FFFFFF!important;font-size: 12px;border:none!important;}
+        .audit .audit_or{margin-top: -105px;margin-left: 124px;}
+        .change_audit_type{width:150px;text-align:center;margin-bottom:10px;padding:7px;border:1px solid #D1D2D3;color:#1080DE;background:#fff;cursor:pointer;}
+        .change_audit_type img{width:13px;margin-right:2px;vertical-align:middle;margin-top:-2px}
+        .tab-content .tab-pane .row{margin-bottom: 0px;}
+        .device-diss {margin-bottom: 0; border: 1px solid #ddd; border-bottom: none; background: #f5f8fa; height: 50px; display: flex; justify-content: flex-end; padding-right: 10px;}
+        .device-diss ul {display: flex; align-items: center}
+        .device-diss ul li { padding: 0 20px; background: #cdcdcd; line-height: 30px; border-radius: 15px; cursor: pointer;}
+        .device-diss ul li.active {background: #1081DE; color: #ffffff; margin-right: -18px; z-index: 2}
+        .dropdown-menu > li > a{line-height: 30px}
+    </style>
+
+    
+    
+        <style>
+        .helpDoc{
+            position: relative;
+
+        }
+        .helpDoc > a{
+            border-left: 1px solid rgba(255,255,255,.1);
+            padding: 0 30px;
+            color: #fff;
+        }
+
+        .helpDoc ul{
+            background: #373d41;
+            position: absolute;
+            z-index: 1;
+            width:100%;
+            display: none;
+        }
+
+        .helpDoc ul li{
+            width: 100%;
+            text-align: center;
+        }
+        .helpDoc ul li a{
+            color: #fff;
+        }
+
+        .helpDoc ul li a:hover,.helpDoc .helpDoc_a:hover{
+            color: #22a4e5;
+            cursor: pointer;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="/skin_v3/static/css/dynamicBase.css?v=7.0.1"/>
+</head>
+
+<script>
+    // 判断当前浏览器是否为IE或edge浏览器
+    let userAgent = navigator.userAgent
+    if (userAgent.indexOf("Edg") > -1 || userAgent.indexOf("Edge") > -1 || userAgent.indexOf(".NET") > -1){
+        alert('为了您更好的操作体验，建议您使用Chrome浏览器访问Testin平台')
+    }
+</script>
+
+<body class="tpro-menu-df guide-show ">
+
+
+
+<header id="page-header">
+    <!--导航-->
+    <nav class="navbar navbar-default testin-pro-v3－navbar ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+                    
+                    
+                        <a class="navbar-brand" href="javascript:void(0);" style="cursor:default">
+                            <img class="logo" src="http://admin.pro.testin.cn/skin_login/static/images/logo.png" alt=""/>
+                        </a>
+                    
+                
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="/project/index.htm"><span class="border">切换项目</span></a></li>
+                    
+                    
+                        <li>
+                            <div class="helpDoc" >
+                                <a class="helpDoc_a" href="http://test.pro.testin.cn/docs/index.html" target="_blank">帮助文档</a>
+                            </div>
+                        </li>
+                    
+                    
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    
+                        <li class="message dropdown">
+                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        		<span><i class="icon iconfont message-alert">&#xe603;</i><i class="alert-num">0</i></span>
+                        	</a>
+                        	<ul class="dropdown-menu">
+                        		<li><a href="/message/sys.htm">系统消息<span class="alert-num">0</span></a></li>
+                        		<li><a href="/message/task.htm">任务消息<span class="alert-num">0</span></a></li>
+                        	</ul>
+                        </li>
+                    
+                    
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false"><span>焦得钰</span></a>
+                            <ul class="dropdown-menu">
+                                
+                                    <li><a href="/user/personal_info.htm">个人中心</a></li>
+                                
+                                
+                                <li><a href="/account/logout.htm">退出</a></li>
+                            </ul>
+                        </li>
+                    
+                    
+                </ul>
+                <ul class="nav navbar-nav" id="app-count" style="float:right; margin-right: 20px;">
+                    <p style="float: left;">APP设备统计:&nbsp;&nbsp;</p>
+                    
+                    <li class="app-online"><i></i><a href="#" onclick="deviceList('online')">在线0</a></li>
+                    <li class="app-off"><i></i><a href="#" onclick="deviceList('offline')">离线0</a></li>
+                    <li class="app-free"><i></i><a href="#" onclick="deviceList('free')">空闲0</a></li>
+                    
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--导航 END-->
+</header>
+
+    <div class="alert alert-info alert-dismissible text-center" style="z-index:2" role="alert">
+        <button type="button" class="close" id="msg_top_close" data-dismiss="alert" aria-label="Close"><span
+                aria-hidden="true">&times;</span>
+        </button>
+            今晚将进行例行升级，<a href="http://test.pro.testin.cn/docs/" style="color:wheat" target="_blank">点击查看更新手册</a>
+    </div>
+
+
+<div id="page-body">
+
+
+    <div id="page-menu" class="mask-active ">
+        <!--左侧菜单-->
+        <div class="side-menu sidebar-inverse testin-pro-v3-slide">
+            <nav class="navbar navbar-default bs-js-navbar-scrollspy" role="navigation">
+                <div class="side-menu-container">
+                    <div class="navbar-title">
+                        <div class="navbar-title-brand">
+                            <div class="title">
+                                
+                                    <div class="dropdown">
+                                        <form>
+                                            <div class="dropdown-btn" data-toggle="dropdown">
+                                                <span class="dropdown-label">name</span>
+                                                <span class="caret"></span>
+                                            </div>
+                                            <ul class="dropdown-menu">
+                                                
+                                                    
+                                                        <li name="changeProject" title="name"
+                                                            data-menu="3"
+                                                            menu-url="/realmachine/index.htm"
+                                                            menu-domain="http://test.pro.testin.cn"
+                                                            data-projectid="1">
+                                                            <a href="javascript:void(0);">name</a>
+                                                        </li>
+                                                    
+                                                
+                                            </ul>
+                                        </form>
+                                    </div>
+                                
+                            </div>
+                            <span class="navbar-title-icon" data-dropdown-toggle="disabled">
+                              <i class="icon iconfont" name="tproMenu">&#xe612;</i>
+                              <i class="icon iconfont icon-df" name="tproMenu">&#xe611;</i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+
+                    
+                    
+                        <ul class="nav navbar-nav">
+                            
+                                
+                                    
+                                        
+                                            
+
+                                            
+                                                
+                                                
+                                                    
+                                                
+                                            
+                                            
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                                
+                                                    <li class="status-active">
+                                                        <a href="/realmachine/index.htm" target="_self" data-original-title="真机调试"  data-toggle="tooltip" data-placement="right" class="active">
+                                                            <i class="http://test.pro.testin.cnicon iconfont icon-phone2-o"></i><span class="title">真机调试</span>
+                                                        </a>
+                                                    </li>
+                                                
+                                                
+                                            
+                                        
+                                            
+
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                                
+                                                
+                                                    <li >
+                                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="App自动化管理" data-placement="right" class="dropdown-toggle dropdown-menu-left" >
+                                                            <i class="icon iconfont icon-auto-manage-o"></i><span class="title">App自动化管理</span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/suite/suite-index.htm" target="_self" >应用管理</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/script/search-list.htm" target="_self" >脚本管理</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/app/device/list.htm" target="_self" >设备列表</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/resources/search-index.htm" target="_self" >数据管理</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/task_auto/list.htm" target="_self" >功能测试</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/task_compatible/list.htm" target="_self" >兼容测试</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                        
+                                                                            
+                                                                        
+                                                                    
+                                                                    
+                                                                
+                                                            
+                                                        </ul>
+                                                    </li>
+                                                
+                                            
+                                        
+                                            
+
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                                
+                                                
+                                                    <li >
+                                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="Web自动化管理" data-placement="right" class="dropdown-toggle dropdown-menu-left" >
+                                                            <i class="icon iconfont icon-web"></i><span class="title">Web自动化管理</span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/script/search-web.htm" target="_self" >脚本管理</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/resources/search-web.htm" target="_self" >数据管理</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/webtest/task-list.htm" target="_self" >测试管理</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                            
+                                                        </ul>
+                                                    </li>
+                                                
+                                            
+                                        
+                                            
+
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                                
+                                                
+                                                    <li >
+                                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="测试管理" data-placement="right" class="dropdown-toggle dropdown-menu-left" >
+                                                            <i class="glyphicon glyphicon-list-alt"></i><span class="title">测试管理</span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/plan/index.htm" target="_self" >测试计划</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                            
+                                                        </ul>
+                                                    </li>
+                                                
+                                            
+                                        
+                                            
+
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                            
+                                                
+                                                    
+                                                
+                                                
+                                            
+                                            
+                                                
+                                                
+                                                    <li >
+                                                        <a href="javascript:;" data-toggle="tooltip" data-original-title="数据仪表盘" data-placement="right" class="dropdown-toggle dropdown-menu-left" >
+                                                            <i class="glyphicon glyphicon-signal"></i><span class="title">数据仪表盘</span>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/statistics/execute.htm" target="_self" >执行数据统计</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/statistics/script.htm" target="_self" >脚本数据统计</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                                    
+                                                                    
+                                                                        
+                                                                            
+                                                                        
+                                                                        
+                                                                    
+                                                                    
+                                                                        <li >
+                                                                            <p class=""><span></span></p>
+                                                                            
+                                                                                
+                                                                                
+                                                                                    <a href="http://test.pro.testin.cn/statistics/device.htm" target="_self" >真机数据统计</a>
+                                                                                
+                                                                            
+                                                                        </li>
+                                                                    
+                                                                
+                                                            
+                                                        </ul>
+                                                    </li>
+                                                
+                                            
+                                        
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                                    
+                                
+                            
+                        </ul>
+                    
+                    
+                </div>
+            </nav>
+        </div>
+        <!--左侧菜单 END-->
+    </div>
+
+    <!-- 被渲染的body -->
+    
+
+<div class="page-main">
+    <!--引入企业认证引导-->
+    
+
+
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+    <div class="breadcrumb-panel">
+        <ol class="breadcrumb">
+            
+                
+                
+                    
+                        
+                            <li class="active">
+                                <i class="iconfont icon-home-o"></i>
+                                <a href="javascript:;">name</a>
+                            </li>
+                        
+                        
+                        
+                    
+                
+                    
+                        
+                        
+                            <li>真机调试</li>
+                        
+                        
+                    
+                
+            
+            
+                    
+            
+        </ol>
+        <div class="fr">
+            
+            
+                
+                
+                
+            
+        </div>
+    </div>
+
+    
+    <form id="realMachineForm" method="post">
+        <input type="hidden" id="startPageNo" name="pageNo" value="1"/>
+        <input type="hidden" name="pageSize" value="60"/>
+        <input type="hidden" name="showTip" value="false"/>
+        
+            <input type="hidden" name="privately" value="1"/>
+        
+        <input type="text" style="display: none;">
+        <div class="form-inline page-search-bar" style="margin-bottom: 15px;">
+            
+            <div class="grid-left">
+                <div class="form-group testin-input-search" style="margin-right: 10px">
+                    <i class="iconfont delete_icon"
+                       onclick="javascript:$(function () {
+                        $('#alias_name').val('');
+                    })">&#xe61c;</i>
+                    <input class="form-control" name="keyWord" id="alias_name"
+                           placeholder="输入品牌机型查找设备"/>
+                </div>
+                <div class="form-group" style="margin-right: 0">
+                    <input type="button" class="btn btn-default" value="查询"
+                           id="aliasNameFind">
+                </div>
+            </div>
+
+            
+            <div class="grid-right">
+                <button class="btn btn-primary" type="button" id="records_button">查看调试记录</button>
+            </div>
+        </div>
+
+        <!-- 正常情况 -->
+        
+            <div class="panel panel-default layout-filter">
+                <div class="panel-heading">
+                    
+                        <div class="panel-title">筛选条件<a data-toggle="collapse" href="#collapse_1">
+                            <i class="iconfont">&#xe7cc;</i>
+                        </a></div>
+                    
+                </div>
+                <div id="collapse_1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        
+
+                            
+                        
+                            <dl
+                                    
+                                        >
+                                <dt>
+                                    品牌
+                                </dt>
+                                <dd>
+                                    <a href="javascript:;" class="btn-more">更多<i class="caret"></i></a>
+                                    <div class="filter-options">
+											<span class="options-item">
+												<input type="checkbox" class="cbx-all"
+                                                       data-toggle="iCheck"/>全部
+											</span>
+                                        
+												<span class="options-item">
+													<input type="checkbox" value="1" name="brandIds"
+                                                           data-toggle="iCheck"/>诺基亚
+												</span>
+                                        
+												<span class="options-item">
+													<input type="checkbox" value="22" name="brandIds"
+                                                           data-toggle="iCheck"/>小米
+												</span>
+                                        
+                                    </div>
+                                </dd>
+                            </dl>
+                        
+
+                            
+                        
+                            <dl
+                                    
+                                        class="even">
+                                <dt>
+                                    Android系统
+                                </dt>
+                                <dd>
+                                    <a href="javascript:;" class="btn-more">更多<i class="caret"></i></a>
+                                    <div class="filter-options">
+										<span class="options-item">
+											<input type="checkbox" class="cbx-all" data-toggle="iCheck"/>全部
+										</span>
+                                        
+											<span class="options-item">
+												<input type="checkbox" data-toggle="iCheck" name="releaseVer"
+                                                       value="11"/>11
+											</span>
+                                        
+											<span class="options-item">
+												<input type="checkbox" data-toggle="iCheck" name="releaseVer"
+                                                       value="10"/>10
+											</span>
+                                        
+                                    </div>
+                                </dd>
+                            </dl>
+                        
+
+                            
+                        
+
+                            
+                        
+                            <dl
+                                    
+                                        >
+                                <dt>
+                                    分辨率
+                                </dt>
+                                <dd>
+                                    <a href="javascript:;" class="btn-more">更多<i class="caret"></i></a>
+                                    <div class="filter-options">
+										<span class="options-item">
+											<input type="checkbox" class="cbx-all" data-toggle="iCheck"/>全部
+										</span>
+                                        
+											<span class="options-item">
+												<input type="checkbox" name="resolutions" value="1236*2676"
+                                                       data-toggle="iCheck"/>1236*2676
+											</span>
+                                        
+											<span class="options-item">
+												<input type="checkbox" name="resolutions" value="1080*2400"
+                                                       data-toggle="iCheck"/>1080*2400
+											</span>
+                                        
+                                    </div>
+                                </dd>
+                            </dl>
+                        
+
+                            
+                        
+                            <dl
+                                    
+                                        class="even"
+                                        
+                                    >
+                                <dt>
+                                    屏幕大小
+                                </dt>
+                                <dd>
+                                    <a href="javascript:;" class="btn-more">更多<i class="caret"></i></a>
+                                    <div class="filter-options">
+									<span class="options-item">
+										<input type="checkbox" class="cbx-all" data-toggle="iCheck"/>全部
+									</span>
+                                        
+										<span class="options-item">
+									 		<input type="checkbox" name="screenSizes" value="6.72"
+                                                   data-toggle="iCheck"/>6.72
+									 	</span>
+                                        
+										<span class="options-item">
+									 		<input type="checkbox" name="screenSizes" value="6.55"
+                                                   data-toggle="iCheck"/>6.55
+									 	</span>
+                                        
+                                    </div>
+                                </dd>
+                            </dl>
+                        
+
+                            
+                        <dl
+                                
+                                    
+                                    
+                                        
+                                    
+                                >
+                            <dt>
+                                设备状态
+                            </dt>
+                            <dd>
+                                <a href="javascript:;" class="btn-more">更多<i
+                                        class="caret"></i></a>
+                                <div class="filter-options">
+                                <span class="options-item">
+                                    <input type="checkbox" class="cbx-all" data-toggle="iCheck"/>全部
+                                </span>
+                                    <span class="options-item"><input type="checkbox" name="statuses" value="0"
+                                                                      data-toggle="iCheck" id="statuses"/>空闲设备</span>
+                                        
+                                    
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+        
+    </form>
+    <div class="device-diss" data-access="device-config-control" style="display: none;">
+        <ul>
+            <li class="active" id="single-machine">单机调试</li>
+            <li id="group-control">多机联动</li>
+        </ul>
+    </div>
+    <div id="list">
+        
+
+
+
+
+
+<style>
+    .audit_mask p {
+        margin-top: 67px;
+        font-size: 14px;
+        color: #fff;
+        text-align: center;
+        line-height: 20px;
+    }
+
+    .dropdown-menu > li > a {
+        display: inline !important;
+    }
+</style>
+
+
+
+    <div class="panel panel-default grid-device">
+        <ul class="panel-body debug-device-list">
+            
+                <li class="device-item renew  ">
+                    
+                    <dl>
+                        <div style="padding: 0 10px;">
+                            <dt>
+                                
+                                <div>
+                                    
+                                    
+                                        
+                                            <img onerror="javascript:this.src='/skin_v3/static/images/android_default.jpg'"
+                                                 src="/skin_v3/static/images/android_default.jpg?v=7.0.1"/>
+                                        
+                                        
+                                        
+                                    
+                                </div>
+                                    
+                                
+                                
+                                    
+                                        
+                                        
+                                            <button class="btn btn-primary realTest use" type="button"
+                                                    data-access="real-debugging-use"
+                                                    device-source="865338054254493">
+                                                立即使用
+                                            </button>
+                                            
+                                                <button class="btn btn-primary hidden add-group-control group-control"
+                                                        type="button"
+                                                        data-access="real-debugging-use"
+                                                        data-deviceid="865338054254493">
+                                                    添加
+                                                </button>
+                                            
+                                            
+                                        
+                                        
+                                    
+                                
+                                
+                            </dt>
+                            <dd>
+                                <h5><span>
+								
+                                    荣耀V40
+                                
+								
+							</span></h5>
+                                <div class="device-info">
+                                    <p>品牌：诺基亚</p>
+                                    <p>型号：YOK-AN10</p>
+                                    <p>系统：Android
+                                            10</p>
+                                    <p>分辨率：1236*2676</p>
+                                    
+                                        
+                                    
+                                    <p id="865338054254493" style="color: red;"></p>
+                                    
+
+                                        
+                                    
+                                    
+                                        <p title="">位置：--</p>
+                                    
+
+                                        
+                                    
+                                    
+                                        <p title="">备注：--</p>
+                                    
+                                </div>
+                            </dd>
+                        </div>
+                    </dl>
+
+                    
+                        <div class="mask add_fee_mask" style="display:none">
+                            <p>
+                                到期时间：<br>剩余：<span></span>
+                                天</p>
+                            <a href="http://tpayapi.testin.cn/trade/order.htm?renew=1&sid=1006&ssid=1001&deviceIds=865338054254493">立即续费</a>
+                        </div>
+                    
+                    
+                    
+                </li>
+            
+                <li class="device-item renew  ">
+                    
+                    <dl>
+                        <div style="padding: 0 10px;">
+                            <dt>
+                                
+                                <div>
+                                    
+                                    
+                                        
+                                            <img onerror="javascript:this.src='/skin_v3/static/images/android_default.jpg'"
+                                                 src="/skin_v3/static/images/android_default.jpg?v=7.0.1"/>
+                                        
+                                        
+                                        
+                                    
+                                </div>
+                                    
+                                
+                                
+                                    
+                                        
+                                        
+                                            <button class="btn btn-primary realTest use" type="button"
+                                                    data-access="real-debugging-use"
+                                                    device-source="868280059792381">
+                                                立即使用
+                                            </button>
+                                            
+                                                <button class="btn btn-primary hidden add-group-control group-control"
+                                                        type="button"
+                                                        data-access="real-debugging-use"
+                                                        data-deviceid="868280059792381">
+                                                    添加
+                                                </button>
+                                            
+                                            
+                                        
+                                        
+                                    
+                                
+                                
+                            </dt>
+                            <dd>
+                                <h5><span>
+								
+                                    小米11 Lite
+                                
+								
+							</span></h5>
+                                <div class="device-info">
+                                    <p>品牌：小米</p>
+                                    <p>型号：M2101K9C</p>
+                                    <p>系统：Android
+                                            11</p>
+                                    <p>分辨率：1080*2400</p>
+                                    
+                                        
+                                    
+                                    <p id="868280059792381" style="color: red;"></p>
+                                    
+
+                                        
+                                    
+                                    
+                                        <p title="">位置：--</p>
+                                    
+
+                                        
+                                    
+                                    
+                                        <p title="">备注：--</p>
+                                    
+                                </div>
+                            </dd>
+                        </div>
+                    </dl>
+
+                    
+                        <div class="mask add_fee_mask" style="display:none">
+                            <p>
+                                到期时间：<br>剩余：<span></span>
+                                天</p>
+                            <a href="http://tpayapi.testin.cn/trade/order.htm?renew=1&sid=1006&ssid=1001&deviceIds=868280059792381">立即续费</a>
+                        </div>
+                    
+                    
+                    
+                </li>
+            
+        </ul>
+        <div class="page-operation-bar" style="overflow: hidden;font-size: 13px;text-align: left;">
+            
+
+
+
+
+
+
+    <div class="pagination-panel">
+        
+            
+                
+                    <span>第1-2条，总计2条记录</span>
+                
+                
+            
+            
+            
+        
+        
+        <form class="form-inline">
+            <div class="form-group">
+                <ul class="pagination">
+                    <li>
+                        <a href="javascript:;;" class="first-page" id="common_first_page">首页</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;;" class="iconfont" aria-label="Previous" id="common_pre_page_group"
+                           data-current-page="1" data-total-page="1">
+                            <span class="icon-left-o"></span>
+                        </a>
+                    </li>
+                    
+                        
+                        
+                    
+                    
+
+                    
+                        <li class="active">
+                            <a href="javascript:;;"
+                               name="commonPageGroup"
+                               data-target-page="1">1</a>
+                        </li>
+                    
+                    <li>
+                        <a href="javascript:;;" class="iconfont" aria-label="Next" id="common_next_page_group"
+                           data-current-page="1" data-total-page="1">
+                            <span class="icon-right-o"></span>
+                        </a>
+                    </li>
+                    <li><a href="javascript:;;" class="last-page" id="common_last_page"
+                           data-target-page="1">尾页</a></li>
+                </ul>
+                <input type="text" class="form-control" placeholder="页数" id="common_target_page" style="max-width: 60px;"
+                       maxlength="5"
+                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                <button type="button" class="btn btn-default" id="common_go_page" data-total-page="1">前往
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#common_first_page").bind({
+            click: function () {
+                commonGoPage(1);
+            }
+        });
+
+        $("#common_last_page").bind({
+            click: function () {
+                commonGoPage($(this).attr("data-target-page"));
+            }
+        });
+
+        $("[name=commonPageGroup]").bind({
+            click: function () {
+                commonGoPage($(this).attr("data-target-page"));
+            }
+        });
+
+        $("#common_pre_page_group").bind({
+            click: function () {
+                // 总页数
+//                var totalPage = parseInt($(this).attr("data-total-page"));
+                // 当前页
+                var currentPage = parseInt($(this).attr("data-current-page"));
+//                if (totalPage < 6 || currentPage < 4) {
+//                    return;
+//                }
+                if (currentPage <= 1) {
+                    return;
+                }
+                // 目标页
+//                var targetPage = parseInt($("[name=commonPageGroup]").first().attr("data-target-page")) - 1;
+                var targetPage = currentPage - 1;
+                commonGoPage(targetPage);
+            }
+        });
+
+        $("#common_next_page_group").bind({
+            click: function () {
+                // 总页数
+                var totalPage = parseInt($(this).attr("data-total-page"));
+                // 当前页
+                var currentPage = parseInt($(this).attr("data-current-page"));
+//                if (totalPage < 6 || totalPage - currentPage < 3) {
+//                    return;
+//                }
+                if (currentPage >= totalPage) {
+                    return;
+                }
+                // 目标页
+//                var targetPage = parseInt($("[name=commonPageGroup]").last().attr("data-target-page")) + 1;
+                var targetPage = currentPage + 1;
+                commonGoPage(targetPage);
+            }
+        });
+
+        $("#common_go_page").bind({
+            click: function () {
+                var targetPage = $("#common_target_page").val();
+                if (targetPage.replace(/^\s+|\s+$/g, '') == ""
+                    || !/^-?[0-9]+\.?[0-9]*$/.test(targetPage)
+                    || parseInt(targetPage) < 1
+                    || parseInt(targetPage) > parseInt($(this).attr("data-total-page"))) {
+                    return;
+                }
+                commonGoPage(targetPage);
+            }
+        });
+    });
+
+</script>
+        </div>
+    </div>
+
+<input type="hidden" name="d_projectId" id="d_projectId" value="1"/>
+<input type="hidden" name="pname" id="pname" value="name"/>
+<input type="hidden" id="eid" name="eid" value="1"/>
+<input type="hidden" id="userId" name="userId" value="1160"/>
+
+<input hidden id="group-control-devices" name="group-control-devices" value=""/>
+<input hidden id="group-control-devices-count" name="group-control-devices-count" value="4"/>
+<div style="display:none">
+    <label id="realHrefLabel"></label>
+    <a href="" target="_blank" id="realHref"></a>
+</div>
+
+<div class="device-submit" id="group-control-footer"
+     style="position: fixed; width: 100%; height: 60px; bottom: 0; left: 0; right: 0; background: #ffffff; display: none; justify-content: flex-end;z-index: 5; align-items: center; padding: 0 20px; border-top: 1px solid #ddd; box-shadow: -5px -11px 21px #ddd;">
+    <div class="dropup" style="margin-right:30px">
+        已选择<a class="dropdown-toggle" data-toggle="dropdown">（<span
+            id="group-control-seleted">0</span>/4）</a>款
+        <ul class="dropdown-menu list-group" role="menu" id="group-control-li" style="white-space:nowrap;overflow: hidden;text-overflow: ellipsis;">
+            
+        </ul>
+    </div>
+    <button class="btn btn-primary" id="open-more-device" type="button"
+            style="height: 35px; padding: 0 10px; align-items: center;">开启多机联动
+    </button>
+</div>
+<div class="modal fade testin-pro-v3-modal delete-modal delete-modal-td" id="deleteModal" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <input type="hidden" id="del_key">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">提示</h4></div>
+            <div class="modal-body">
+                <p class="create-tip" style="font-size: 14px;">多机联动最多添加4台设备!</p></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-sure" onclick="javascript:$('#deleteModal').modal('hide')">确认</button></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        if ($("#group-control").hasClass("active")) {
+            $("#group-control").click();
+        } else {
+            $("#single-machine").click();
+        }
+        //用户占用提示
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        $(".testin-pro-v3-slide .navbar-nav li a").hover(function () {
+            $('.tooltip-arrow').css("top", "13px");
+            $('.tooltip-inner').css({"background": "#000", "border": "0", "box-shadow": "none", "color": "#fff"});
+            if ($(this).parents("body").hasClass("tpro-menu-df")) {
+                $('.tooltip').removeClass("in");
+            }
+        }, function () {
+            $('.tooltip').hide();
+            $('.tooltip-arrow').css("top", "initial");
+            $('.tooltip-inner').css({
+                "background": "initial",
+                "border": "initial",
+                "box-shadow": "initial",
+                "color": "initial"
+            });
+        });
+
+        $(".new-class dd h5").hover(function () {
+            var width_a = $(this).width();
+            var width_b = $(this).find("span").width();
+            var indent_px = width_a - width_b - 1;
+            if (width_a <= width_b) {
+                $(this).css("text-indent", indent_px);
+            }
+        }, function () {
+            $(this).css("text-indent", "0");
+        });
+
+        $(".use").click(function () {
+            var thisObj = $(this)
+            var deviceid = $(this).attr("device-source");
+            var serialNum = $(this).attr("device-serialNo");
+            var privately = 0;
+            if ("1" == "1") {
+                privately = 1;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/realmachine/use.htm",
+                data: "deviceid=" + deviceid,
+                async: false,
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    if (obj.isUser == false) {
+                        $("#modal_quota_alert").modal("show");
+                    } else {
+                        if (obj.result == true && thisObj.hasClass("realTest")) {
+                            // 远程真机开启模式 1,是正常模式，2是倒计时模式。
+                            var useMachineModel = 1
+                            // console.log("useMachineModel:"+useMachineModel)
+                            if (useMachineModel === 1) {
+                                thisObj.prop("disabled", true).text("占用中")
+                                thisObj.next().prop("disabled", true).text("占用中")
+                                var url = obj.url + "?deviceid=" + deviceid + '&taskid=' + window.btoa(deviceid + new Date().getTime())
+                                gotoUse(url);
+                            } else {
+                                const data = JSON.parse(obj.deviceInfo);
+                                const device_os = data.osName === 1 ? 'Android' : 'IOS' + " " + data.releaseVer;
+                                $('#remote_duration').find("#device_name").html(data.deviceModelName)
+                                $('#remote_duration').find("#device_os").html(device_os)
+                                $('#remote_duration').find("#device_resolution").html(data.viewResolution)
+                                showDialogForTime(obj, deviceid)
+                            }
+                        } else if (obj.result == true && thisObj.hasClass("webRecord")) {
+                            var url = "http://auto.pro.testin.cn?deviceId=" + deviceid + "&serialNo=" + serialNum + "&deviceType=" + privately;
+                            gotoUse(url);
+                        } else {
+                            $("#modal_using_alert").modal("show");
+                        }
+                    }
+
+                }
+            });
+        });
+
+        /**
+         * 多机联动
+         */
+        $("#submit-device-task").unbind("click").click(function () {
+            // 调用接口保存任务名称，返回taskid和设备id
+            // console.log('调用接口保存任务名称，返回taskid和设备id')
+            var name = $("#group-control-name").val().trim();
+            if (name == "" || name == undefined) {
+                alert("任务名称不能为空！")
+                return;
+            }
+            var params = {name: name};
+            $.ajax({
+                type: "POST",
+                url: "/realmachine/groupControl.htm",
+                data: params,
+                async: false,
+                traditional: true,
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    if (obj.isUser == false) {
+                        $("#modal_quota_alert").modal("show");
+                    } else {
+                        if (obj.result == true) {
+                            var groupControlId = obj.groupControlId;
+                            var url = 'http://test.pro.testin.cn' +"/testin/remote_group/" + "?groupControlId=" + groupControlId + '&taskid=' + window.btoa(groupControlId + new Date().getTime())
+                            gotoUse(url);
+                        } else {
+                            $("#modal_using_alert").modal("show");
+                        }
+                    }
+                }
+            });
+        });
+
+        //遮罩层
+        $(".remaining_time").hover(function () {
+            $(this).parents(".device-item").find(".add_fee_mask").show();
+            $(this).parent().parent().parent().addClass("renew");
+        });
+
+        $(".authentication_use").click(function () {
+            $(this).parent().parent().parent().addClass("authentication_use");
+            $(this).parents(".device-item").find(".audit_mask").show();
+        })
+
+        $(".support_pro_corner").hover(function () {
+            $(this).parent().parent().parent().addClass("support_pro");
+            $(this).parents(".device-item").find(".add_machine_mask").show();
+        })
+
+        $(".device-item").mouseleave(function () {
+            $(this).removeClass("authentication_use");
+            $(this).removeClass("renew");
+            $(this).find(".mask").hide();
+        });
+
+        var gotoUse = function (url) {
+            $('#realHref').attr("href", url)
+            document.getElementById("realHref").click();
+        }
+
+        var projectId = $('#d_projectId').val();
+        var pname = $('#pname').val();
+        var eid = $('#eid').val();
+        var userId = $('#userId').val();
+
+        $.cookie("pid_pro", projectId, {path: "/", domain: 'testin.cn', expires: 1});
+        $.cookie("pname_pro", pname, {path: "/", domain: 'testin.cn', expires: 1});
+        $.cookie("userId_pro", userId, {path: "/", domain: 'testin.cn', expires: 1});
+        $.cookie("eid_pro", eid, {path: "/", domain: 'testin.cn', expires: 1});
+
+        $(".showNoQuotaTip").click(function () {
+            $('#quota-prompt').modal('show');
+        });
+        $("#quota-prompt .btn-sure").click(function () {
+            $("#confirmModal").modal('show');
+            $("#confirmModal").show();
+        });
+        $("#confirmModal").on("shown.bs.modal", function () {
+            $(".modal-backdrop").remove();
+        })
+        $("#quota-prompt").on("hidden.bs.modal", function () {
+            $.ajax({
+                url: "/realmachine/tipShown.htm",
+                type: "get",
+            })
+        })
+        $("#group-control-li").on("click", '.remote-group-control', function () {
+            updateGroupControl(this, 2);
+        })
+
+        // 显示选择真机时长弹框
+        let url = ''
+        let deviceidInfo = ''
+        function showDialogForTime(obj, deviceid) {
+            $('#remote_duration .filter-options li').removeClass('active')
+            $('#remote_duration .filter-options li[data-time="10"]').addClass('active')
+            url = obj.url
+            deviceidInfo = deviceid
+            $('#remote_duration').modal('show')
+        }
+
+        // 确定真机使用时长
+        $('#confirmDuration').unbind('click').click(function () {
+            $('#remote_duration').modal('hide')
+            let time = $('#remote_duration .filter-options li.active').attr('data-time')
+            let urlInfo = url + "?deviceid=" + deviceidInfo + '&time=' + time + '&taskid=' + window.btoa(deviceidInfo + new Date().getTime())
+            window.open(urlInfo, '_blank')
+        })
+
+        // 选择真机时长状态
+        $('#remote_duration .filter-options li').click(function () {
+            $('#remote_duration .filter-options li').removeClass('active')
+            $(this).addClass('active')
+        })
+    });
+
+    /**
+     * 多机联动使用：从购物车中，添加或者删除设备
+     * @param that
+     * @param option 1 添加， 2 删除
+     */
+    function updateGroupControl(that, option) {
+        var devices = $("#group-control-seleted").text();
+        var count = $("#group-control-devices-count").val();
+        if (devices != null && devices !== "") {
+            if (option === 1) {
+                if (!isNaN(devices) && parseInt(devices)>=count) {
+                    $("#deleteModal").modal('show');
+                    return;
+                }
+            }
+        }
+        $(".add-group-control").attr("disabled", "true");
+
+        var deviceid = $(that).data("deviceid");
+        if (deviceid === "" || deviceid === undefined) {
+            alert("设备id无效")
+        }
+        var params = {"deviceid": deviceid, "option": option};
+        $.post("/realmachine/updateGroupControl.htm", params, function (resp) {
+            if (resp.result === -1) {
+                alert("服务异常，请重试。")
+            }
+        })
+        // 点击查询 刷新页面
+        $("#aliasNameFind").click()
+    }
+
+    $(".add-group-control").click(function () {
+        updateGroupControl(this, 1);
+    })
+
+
+    //购买真机时长
+    var quotaBuy = function () {
+        document.location.href = "http://tpayapi.testin.cn/trade/order.htm?sid=1003&ssid=1001";
+    }
+
+    // 分页
+    var commonGoPage = function (page) {
+        $("#startPageNo").val(page);
+        search();
+    };
+/*    $(function () {
+        var roleFunctions = '["real","app","web","test","app-control","app-script","app-features","app-compatible","app-dial","app-data","app-device","web-script","web-test","app-control-list","app-control-update","app-control-delete","app-control-down","app-control-upload","app-control-delete-app","app-script-list","app-script-update","app-script-delete","app-script-g-update","app-script-g-delete","app-features-list","app-features-update","app-features-delete","app-features-stop","app-features-update-report","app-compatible-list","app-compatible-update","app-compatible-delete","app-compatible-stop","app-dial-list","app-dial-update","app-dial-delete","app-dial-stop","web-test-list","web-test-update","web-test-delete","web-script-list","web-script-update","web-script-delete","real-debugging-list","real-debugging-use","real-debugging","app-data-list","app-data-update-mark","app-data-delete-mark","app-data-update-source","app-data-delete-source","web-data-update-source","web-data-delete-source","web-test-stop","control-device-real","app-dial-update-report","app-compatible-update-report","web-test-update-report","app-device-list","test-plan","test-plan-list","test-plan-update","test-plan-delete","web-data","web-data-list","web-data-update-mark","web-data-delete-mark","web-data-update-source","web-data-delete-source","statistics","statistics-execute","statistics-script","statistics-device","test-plan-task-list","test-plan-jobTask-list","test-plan-create-task","test-plan-task-manager"]';
+        var roleArr = JSON.parse(roleFunctions)
+        $("[data-access]").each(function () {
+            if ($.inArray($(this).attr("data-access"), roleArr) >= 0) {
+                $(this).show();
+            } else {
+                $(this).css("display", "none");
+                $(this).addClass("globlehide");
+            }
+        });
+    })*/
+
+    $("#open-more-device").click(function () {
+        if ($('#group-control-seleted').text() == 0) {
+            alert('请先选择一个设备！')
+        } else {
+            $('#more-devices').modal('show');
+        }
+    });
+</script>
+
+    </div>
+    </div>
+
+<div class="modal fade testin-pro-v3-modal" id="more-devices">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>任务名称</span>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="form-group row">
+                    <span class="col-md-3" style="margin-top: 6px;">任务名称<span class="text-fail">*</span></span>
+                    <div class="col-md-8 white-nowrap">
+                        <input type="text" class="form-control" style="width: 300px" name="group-control-name" id="group-control-name" placeholder="请输入任务名称"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="submit-device-task" type="button" class="btn btn-sure" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--1.0.12 start-->
+<div class="modal fade testin-pro-v3-modal" id="quota-prompt">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="/skin_v3/static/images/small_t_2.png?v=7.0.1">
+                <p class="p1">温馨提示</p>
+                <p class="p2">您的配额已不足 <span style="color: #eb5a3c">1</span> 分钟<br>认证可以再领取 <span
+                        style="color: #eb5a3c">240</span> 分钟哦</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-cancle" data-dismiss="modal" onclick="quotaBuy()">付费购买</button>
+                <button type="button" class="btn btn-sure" data-dismiss="modal">认证免费领取</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--弹窗 END-->
+<div class="activity_mask" id="confirmModal" >
+    <div class="act_in clearfix">
+        <img class="act_lion" src="/skin_v4/images/login/lion.png?v=7.0.1">
+        <img class="act_close" src="/skin_v3/static/images/close_x.png?v=7.0.1">
+        <div class="act_r">
+            <div class="login-form-area authentic">
+                <h4>完善信息</h4>
+                <form method="post" id="audit_form" enctype="multipart/form-data">
+                    <input type="hidden" id="orgType" name="orgType" value=""/>
+                    <input type="hidden" id="licType" name="licType" value=""/>
+                    <input type="hidden" id="status" name="status" value=""/>
+                    <input type="hidden" id="ori_email" name="ori_email" value="jiaodeyu@geedgenetworks.com"/>
+                    <input type="hidden" id="auth" name="auth" value="" />
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in">
+                            <div class="form-group" style="height:40px;" id="eName_div">
+                                <div class="i-box"><i class="iconfont">&#xe724;</i></div>
+                                <div class="input-box">
+                                    <input type="text" class="form-control" placeholder="请输入企业全称(与营业执照一致）" id="enterpriseName" name="enterpriseName" value="TestinPro">
+                                </div>
+                                <p class="error-tip" id="err_eName"></p>
+                            </div>
+                            <div class="form-group" id="shortName_div">
+                                <div class="i-box"><i class="iconfont">&#xe724;</i></div>
+                                <div class="input-box">
+                                    <input type="text" class="form-control" placeholder="请输入企业简称，如：Testin" id="shortName" name="shortName" value="TestinPro">
+                                </div>
+                                <p class="error-tip" id="err_shortName"></p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 audit" onclick="changeLic(1)">
+                                    <img class="audit_img" src="/skin_v4/images/login/audit_type_1.png?v=7.0.1">
+                                    <div class="audit_or">or</div>
+                                    <button type="button" class="btn btn-default audit_type" style="margin-top:62px;">营业执照认证</button>
+                                </div>
+
+                                <div class="col-md-4 audit" onclick="changeLic(3)">
+                                    <img class="audit_img" src="/skin_v4/images/login/audit_type_3.png?v=7.0.1">
+                                    <div class="audit_or">or</div>
+                                    <button type="button" class="btn btn-default audit_type" style="margin-top:62px;">企业邮箱认证</button>
+                                </div>
+                                <div class="col-md-4 audit" onclick="changeLic(2)">
+                                    <img class="audit_img" src="/skin_v4/images/login/audit_type_2.png?v=7.0.1">
+                                    <button type="button" class="btn btn-default audit_type">其他认证方式</button>
+                                </div>
+                            </div>
+                            <div class="document-upload clearfix tabhide1" style="display:none;">
+                                <div class="upload-btn iconfont" onclick="uploadPic('err_image','upload')" id="localImagId">
+                                    <img id="preview" src="" width=-1 height=-1 style="display:none"/>
+                                    <a id="uploadText" style="position: absolute;width: 100%;left: 0;">点击上传</a>
+                                </div>
+                                <input id="upload" name="upload" type="file" accept="image/*" style="display:none" onchange="setImagePreview('err_image','localImagId','uploadText','upload','preview')">
+                                <p class="upload-info iconfont">
+                                    1.请上传营业执照清晰彩色原件扫描件或数码照<br>2.支持.jpg .jpeg .png .bmp格式照片，大小不超过10M<br><a href="javascript:showdemo('/skin_v3/static/images/demo_c.png');">点击查看图例</a>
+                                    <br>
+                                    <span class="error-tip text-fail" id="err_image"></span>
+                                </p>
+                            </div>
+                            <div class="document-upload clearfix tabhide2" style="display: none;margin-bottom: 10px;">
+                                <div class="upload-btn iconfont" onclick="uploadPic('err_image2','upload2')" id="localImagId2">
+                                    <img id="preview2" src="" width=-1 height=-1 style="display:none"/>
+                                    <a id="uploadText2" style="position: absolute;width: 100%;left: 0;" >点击上传</a>
+                                </div>
+                                <input id="upload2" name="upload" type="file" accept="image/*" style="display:none" onchange="setImagePreview('err_image2','localImagId2','uploadText2','upload2','preview2')">
+                                <p class="upload-info" style="margin-top: 0px;">员工信息照片或截图<br>1、公司名片、工牌、在职证明等证件的照片或截图<br>2、第三方办公协同系统中企业员工信息的截图<br>3、.jpg .jpeg .png .bmp格式照片，大小不超过10M<br><a href="javascript:showdemo('/skin_v3/static/images/demo_p.png');">点击查看图例</a><br><span class="error-tip text-fail" id="err_image2"></span></p>
+                            </div>
+                            <div class="document-upload clearfix tabhide2" style="display: none;margin-bottom: 10px;">
+                                <div class="upload-btn iconfont" onclick="uploadPic('err_image3','upload3')" id="localImagId3">
+                                    <img id="preview3" src="" width=-1 height=-1 style="display:none"/>
+                                    <a id="uploadText3" style="position: absolute;width: 100%;left: 0;" >点击上传</a>
+                                </div>
+                                <input id="upload3" name="upload" type="file" accept="image/*" style="display:none" onchange="setImagePreview('err_image3','localImagId3','uploadText3','upload3','preview3')">
+                                <p class="upload-info" style="margin-top: 0px;">企业信息照片或截图<br>1、名片或其他证件中企业信息的照片或截图<br>2、第三方办公协同系统中关于企业信息的截图<br>3、.jpg .jpeg .png .bmp格式照片，大小不超过10M<br><a href="javascript:showdemo('/skin_v3/static/images/demo_e.png');">点击查看图例</a><br><span class="error-tip text-fail" id="err_image3"></span></p>
+                            </div>
+                            <div class="document-upload clearfix tabhide3" style="display:none;margin-bottom:0;">
+                                <div class="form-group" id="email_div">
+                                    <div class="i-box"><i class="iconfont">&#xe64c;</i></div>
+                                    <div class="input-box">
+                                        <input type="text" class="form-control" placeholder="请使用企业邮箱，QQ等公共邮箱无法通过审核" name="email" id="email" value="">
+                                    </div>
+                                    <p class="error-tip" id="email_error"></p>
+                                </div>
+                                <div class="form-group" id="code_div">
+                                    <div class="i-box"><i class="iconfont">&#xe626;</i></div>
+                                    <div class="input-box">
+                                        <input type="text" class="form-control" placeholder="请输入收到的邮箱验证码" id="checkCode" name="checkCode">
+                                    </div>
+                                    <button id="codeGetBtn" class="verifyCode verifyCode1 " data-toggle="modal"
+                                            onclick="getCheckCode()" type="button" style="width:120px;">获取邮箱验证码
+                                    </button>
+                                    <p class="error-tip" id="login_err_msg_code"></p>
+                                </div>
+                            </div>
+                            <div class="change_audit_type" style="display:none;"><img src="/skin_v4/images/login/exchange.png?v=7.0.1"/>切换认证方式</div>
+                            <button class="btn btn-primary login" type="button" onclick="submitForm(2)">提交认证</button>
+                            <p class="register-under-text" style="margin-top:-10px;">
+                                如有疑问请联系客服：400-990-5577<br>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade testin-pro-v3-modal delete-modal delete-modal-td" id="demoModal" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="pic_dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="pic_body">
+                <img src="" id="demoimg" style="width: 100%;height: 100%;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade testin-pro-v3-modal modal-freeze-user" id="modal_quota_alert">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">
+                    提示
+                </h4>
+            </div>
+            <div class="modal-body text-center">
+                您的配额已不足，是否前往购买？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-sure" onclick="quotaBuy()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade testin-pro-v3-modal modal-freeze-user" id="modal_using_alert">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">
+                    提示
+                </h4>
+            </div>
+            <div class="modal-body text-center">
+                设备占用中，请稍后再试
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-sure" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade testin-pro-v3-modal" id="remote_duration">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">选择使用时长</h4>
+            </div>
+            <div class="modal-body">
+                <div class="phone-info">
+                    <h3>手机信息</h3>
+                    <div>手机：<span id="device_name">iPhone 12 Pro</span></div>
+                    <div>系统：<span id="device_os">iPhone 12 Pro</span></div>
+                    <div>分辨率：<span id="device_resolution">iPhone 12 Pro</span></div>
+                </div>
+                <div class="filter-options">
+                    <h3>付费信息</h3>
+                    <div>
+                        <section>时长：</section>
+                        <ul>
+                            <li data-time="2"><span>2分钟</span></li>
+                            <li data-time="5"><span>5分钟</span></li>
+                            <li data-time="10" class="active"><span>10分钟</span></li>
+                            <li data-time="15"><span>15分钟</span></li>
+                            <li data-time="30"><span>30分钟</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="submit" class="btn btn-sure" id="confirmDuration">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #remote_duration .modal-body {
+        margin: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    #remote_duration .filter-options {
+        margin-top: 20px;
+    }
+    #remote_duration .phone-info div, #remote_duration .filter-options div {
+        margin: 10px 0 0 10px;
+    }
+
+    #remote_duration .filter-options section {
+        line-height: 28px;
+    }
+
+    #remote_duration .filter-options div {
+        display: flex;
+    }
+
+    #remote_duration .filter-options ul {
+        display: flex;
+    }
+
+    #remote_duration .filter-options ul li {
+        padding: 5px 10px;
+        border: 1px solid #6583cc;
+        background: #f1f5fd;
+        text-align: center;
+        margin-left: 10px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    #remote_duration .filter-options ul li.active {
+        background: #6583cc;
+        color: #FFFFFF;
+    }
+
+    #remote_duration .filter-options ul li i {
+        font-style: normal;
+    }
+</style>
+
+<script charset="utf-8"
+        src="../../static/scripts/event.extend/jquery.outerClick.js?v=7.0.1"></script>
+<script type="text/javascript"
+        src="../../lib/moment/2.10.5/moment-with-locales.min.js?v=7.0.1"></script>
+
+<script type="text/javascript" src="/skin_v3/lib/jquery/jquery.cookie.js?v=7.0.1"></script>
+
+<script type="text/javascript">
+    $(function () {
+        $('.layout-filter').on('click', '.panel-heading input:checkbox', function () {
+            //隐藏所有筛选条件
+            $(this).parent().parent().next().toggle(!$(this).prop('checked'));
+        }).on('click', '.panel-body .btn-more', function () {
+            //更多
+            $(this).parent().toggleClass('open');
+        }).find('dd').on('click', '.cbx-all', function () {
+            //全选
+            $(this).parent().parent().find('input:checkbox').prop('checked', $(this).prop('checked'));
+        }).find('dd').on('click', 'input:checkbox:not(.cbx-all)', function () {
+            //单个选项
+            var $dd = $(this).parent().parent(),
+                $all = $dd.find('input.cbx-all:checkbox'),
+                $other = $dd.find('input:checkbox:not(.cbx-all)');
+            $all.prop('checked', $other.length === $other.filter(':checked').length);
+        });
+        $(".filter-options").each(function () {
+            var outWidth = $(this).width();
+            var i_length = $(this).find(".options-item").length;
+            var needWidth = i_length * 130;
+            if (needWidth <= outWidth) {
+                $(this).parents("dd").addClass("no-more");
+            }
+        });
+        $(window).resize(function () {
+            $(".filter-options").each(function () {
+                var outWidth = $(this).width();
+                var i_length = $(this).find(".options-item").length;
+                var needWidth = i_length * 130;
+                if (needWidth <= outWidth) {
+                    $(this).parents("dd").addClass("no-more");
+                } else {
+                    $(this).parents("dd").removeClass("no-more");
+                }
+            });
+        });
+
+        //设置提醒弹层
+        var $popover = $('.popconfirm-remind');
+        $(document).on('click', '.btn-set-remind', function () {
+            var offset = $(this).offset();
+            $popover.css({
+                left: offset.left - ($popover.outerWidth() - $(this).outerWidth()) / 2,
+                top: offset.top - ($popover.outerHeight() + 10)
+            }).show();
+        });
+        $popover.on('click', '[data-dismiss="popover"]', function () {
+            $popover.hide();
+        });
+        $("#records_button").on("click", function () {
+            $('#realHref').attr("href", "http://test.pro.testin.cn/testin/remote_report")
+            document.getElementById('realHref').click();
+        });
+
+    });
+
+    var toggleTab = function (op) {
+        var url = "/realmachine/index.htm";
+        if (op == 1) {
+            url += "?privately=" + op;
+        }
+
+        document.location.href = url;
+    };
+
+    var goto = function (op, deviceId) {
+        var url = 'http://tpayapi.testin.cn' + "/trade/order.htm";
+        if (parseInt(op) == 1) {
+            url += "?sid=1006&ssid=1001";
+        } else if (parseInt(op) == 2) {
+            url += "?sid=1006&ssid=1001&deviceIds=" + deviceId;
+        } else if (parseInt(op) == 3) {
+            url += "?sid=1003&ssid=1001";
+        }
+        document.location.href = url;
+    }
+    $(".invitation-lion-x").click(function(){
+        $(".invitation-lion-zhenji").hide();
+        $(".invitation-lion-x").hide();
+    });
+    $('.device-diss li').click(function () {
+        $('.device-diss li').removeClass('active').css({marginRight: 'inherit', marginLeft: 'inherit'})
+        $(this).addClass('active')
+        if ($(this).index() === 1) {
+            $(this).css({marginLeft: '-18px'})
+        } else {
+            $(this).css({marginRight: '-18px'})
+        }
+    })
+
+    // 单机调试
+    $("#single-machine").click(function (){
+        $(".realTest").removeClass("hidden");
+        $(".group-control").addClass("hidden");
+        $("#group-control-footer").hide();
+    })
+
+    // 多机联动
+    $("#group-control").click(function () {
+        $(".realTest").addClass("hidden")
+        $(".group-control").removeClass("hidden")
+        $("#group-control-footer").css("display","flex");
+    })
+</script>
+
+
+<script type="text/javascript">
+$(function () {
+	setInterval(search,60000);
+    // 选择查询
+    $(":checkbox,#aliasNameFind").not("#show").click(function () {
+    	$("#startPageNo").val(1);
+    	var className = $(this).attr("class");
+    	if(className=='cbx-all'){
+    		 $(this).parent().parent().find('input:checkbox').prop('checked',$(this).prop('checked'));
+    	}
+
+    	search();
+    });
+
+    //回车键查询
+    $("#alias_name").keydown(function (e) {
+    	$("#startPageNo").val(1);
+        if (e.keyCode == 13) {
+        	search();
+        }
+    });
+});
+$(window).resize(function(){
+	$(".checkin").each(function(){
+		var dh = $(this).height();
+		if(dh<20){
+			$(this).parents(".group-floor").addClass("nomore");
+		}else{
+			$(this).parents(".group-floor").removeClass("nomore");
+		}
+	});
+})
+var search = function() {
+    $(".modal-backdrop").remove();
+	   $.ajax({
+           type: "POST",
+           url: "/realmachine/list.htm",
+           data: $("#realMachineForm").serialize(),
+           dataType: "html",
+           success: function (data) {
+               $("#list").html(data);
+               resetHeight();
+           }
+       });
+}
+var resetHeight = function() {
+    var menu = $("#page-menu");
+    menu.css("height","inherit");
+    oTop = menu.offset().top;
+    sHeight = menu.height();
+    var to_bottom = $(document).height() - oTop;
+    menu.css("height",to_bottom);
+};
+
+//上传营业执照图片
+var uploadPic = function (err_image,upload) {
+    $("#" + err_image).text("");
+    $("#" + upload).click();
+}
+function showdemo(url){
+    if (url.indexOf("demo_c") == -1) {
+        $("#pic_dialog").attr("style", "width:1200px;");
+        $("#pic_body").attr("style", "margin:0;");
+    } else {
+        $("#pic_dialog").removeAttr("style");
+        $("#pic_body").removeAttr("style");
+    }
+    $("#demoimg").attr("src",url);
+    $('#demoModal').modal('show');
+}
+function setImagePreview(err_image,localImagId,uploadText,upload,preview) {
+    var uploadObj = document.getElementById(upload);
+    var imgObjPreview = document.getElementById(preview);
+
+    if (!(uploadObj.files) || !(uploadObj.files[0])) {
+        $("#" + err_image).text("请上传营业执照扫描件").show();
+        return false;
+    }
+
+    //火狐下，直接设img属性
+    imgObjPreview.style.display = 'block';
+    imgObjPreview.style.width = '78px';
+    imgObjPreview.style.height = '60px';
+    //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+    $("#" + localImagId).removeClass("iconfont").removeClass("upload-btn");
+    $("#" + localImagId).attr("style", "float: left;width: 80px;height: 60px;display: block;border: 1px dashed #ccc;border-radius: 2px;text-align: center;" +
+        "font-size: 12px;color: #666;line-height: 82px;cursor: pointer;");
+    $("#" + uploadText).attr("style", "display:none");
+    imgObjPreview.src = window.URL.createObjectURL(uploadObj.files[0]);
+
+    return checkImage(uploadObj,err_image);
+
+}
+
+$(function () {
+    var licType = "";
+    if (licType != "") {
+        changeLic(parseInt(licType));
+    }
+    $(".act_close").click(function(){
+        $(this).parents(".activity_mask").fadeOut(500);
+        $.ajax({
+            type: "POST",
+            url: "/project/cleanGuide.htm",
+            dataType: "json"
+        });
+    });
+
+    $("#rcdCode").bind({
+        blur: function () {
+            var rcdCode = $("#rcdCode").val();
+            checkRcdCode(rcdCode);
+        },
+        focus: function () {
+            $("#rcdCode_div").removeClass("has-error");
+            $("#err_rcdCode").text("");
+        }
+    });
+
+    $("#enterpriseName").bind({
+        blur: function () {
+            var eName = $("#enterpriseName").val();
+            checkEname(eName);
+        },
+        focus: function () {
+            $(".help_span").show();
+            $("#eName_div").removeClass("has-error");
+            $("#err_eName").text("");
+        }
+    });
+
+    $("#shortName").bind({
+        blur: function () {
+            var shortName = $("#shortName").val();
+            checkShortName(shortName);
+        },
+        focus: function () {
+            $("#shortName_div").removeClass("has-error");
+            $("#err_shortName").text("");
+        }
+    });
+
+    $("#address").bind({
+        blur: function () {
+            var address = $("#address").val();
+            checkAddress(address);
+        },
+        focus: function () {
+            $("#address_div").removeClass("has-error");
+            $("#err_address").text("");
+        }
+    });
+
+    $("#email").bind({
+        blur: function () {
+            var email = $("#email").val();
+            checkEmail(email);
+        },
+        focus: function () {
+            $("#email_div").removeClass("has-error");
+            $("#email_error").html("").show();
+        }
+    });
+
+    $("#checkCode").bind({
+        blur: function () {
+            var code = $("#checkCode").val();
+            checkcCode(checkCode);
+        },
+        focus: function () {
+            $("#code_div").removeClass("has-error");
+            $("#login_err_msg_code").text("");
+        }
+    });
+
+    $("#upload").bind({
+        onchange: function () {
+            var upload = document.getElmentById("upload");
+            checkImage(upload,"err_image");
+        }
+    });
+
+    $("#upload2").bind({
+        onchange: function () {
+            var upload = document.getElmentById("upload2");
+            checkImage(upload,"err_image2");
+        }
+    });
+
+    $("#upload3").bind({
+        onchange: function () {
+            var upload = document.getElmentById("upload3");
+            checkImage(upload,"err_image3");
+        }
+    });
+
+    if (parseInt("") === 1000) {
+        $("#mobCode_div").addClass("has-error");
+        $("#err_mobCode").text("验证码不正确，请检查").show();
+    }
+    if (parseInt("") === 1003) {
+        $("#mobCode_div").addClass("has-error");
+        $("#err_mobCode").text("验证码不正确，请检查").show();
+    }
+    if (parseInt("") === 1004) {
+        $("#msgs").text("信息提交失败，请稍后再试，您也可以联系400-990-5577获得帮助").attr("style", "color:red");
+        $('#deleteCaseModal').modal('show');
+        setTimeout("$('#deleteCaseModal').modal('hide')", 2500);
+    }
+    if (parseInt("") === 1005) {
+        $("#fullName_div").addClass("has-error");
+        $("#shortName_div").addClass("has-error");
+        $("#err_fullName").text("该企业已存在，如有疑问可联系400-990-5577获得帮助").show();
+    }
+    if (parseInt("") === 1007) {
+        $("#image_div").addClass("has-error");
+        $("#err_image").text("请上传.jpg .jpeg .png .bmp格式图片").show();
+    }
+    if (parseInt("") === 1008) {
+        $("#image_div").addClass("has-error");
+        $("#err_image").text("网络错误，请稍后重试上传").show();
+    }
+
+});
+
+
+var checkRcdCode = function (rcdCode) {
+    // 校验企业编号
+    if (Validator.isEmpty(rcdCode)) {
+        $("#rcdCode_div").addClass("has-error");
+        $("#err_rcdCode").text("营业执照或统一社会信用代码不能为空").show();
+        return false;
+    }
+
+    if (rcdCode.length != 15 && rcdCode.length != 18) {
+        $("#rcdCode_div").addClass("has-error");
+        $("#err_rcdCode").text('请检查证件代码是否输入正确').show();
+        return false;
+    }
+    var testfive = /^[A-Za-z0-9]\w{14}$/g;
+    var testeight = /[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g;
+    if (rcdCode.length == 15) {
+        if (!testfive.test(rcdCode)) {
+            $("#rcdCode_div").addClass("has-error");
+            $("#err_rcdCode").text('请检查证件代码是否输入正确').show();
+            return false;
+        }
+    } else if (rcdCode.length == 18) {
+        if (!testeight.test(rcdCode)) {
+            $("#rcdCode_div").addClass("has-error");
+            $("#err_rcdCode").text('请检查证件代码是否输入正确').show();
+            return false;
+        }
+    }
+    $("#rcdCode_div").removeClass("has-error");
+    $("#err_rcdCode").text("");
+    return true;
+};
+
+
+var checkImage = function (uploadObj,err_image) {
+    //判断图片格式
+    var imagePath = uploadObj.value;
+    var imageType = /jpg|jpeg|png|bmp/;
+    var extName = imagePath.substr(imagePath.lastIndexOf(".") + 1).toLowerCase();
+
+    if (!(imagePath.length > 0)) {
+        if(err_image == "err_image"){
+            $("#" + err_image).text("营业执照照片不能为空").show();
+        }else if(err_image == "err_image2"){
+            $("#" + err_image).text("员工信息照片或截图不能为空").show();
+        }else if(err_image == "err_image3"){
+            $("#" + err_image).text("企业信息照片或截图不能为空").show();
+        }
+        return false;
+    }
+    //判断图片大小
+    var fileSize = 10 * 1024;
+    var uploadFileSize = uploadObj.files.item(0).size;
+    uploadFileSize /= 1024;
+    if (imageType.test(extName) == false) {
+        $("#" + err_image).text("请上传.jpg .jpeg .png .bmp格式图片").show();
+        return false;
+    }
+    if (uploadFileSize > fileSize) {
+        $("#" + err_image).text("图片超过10M，请重新选择上传").show();
+        return false;
+    }
+    $("#" + err_image).text("");
+    return true;
+}
+
+var checkEname = function(eName) {
+    if($.trim(eName) < 1) {
+        $(".help_span").attr("style", "display:none");
+        $("#eName_div").addClass("has-error");
+        $("#err_eName").text("企业名称不能为空").show();
+        return false;
+    }
+    if(getLength($.trim(eName)) > 54) {
+        $(".help_span").attr("style", "display:none");
+        $("#eName_div").addClass("has-error");
+        $("#err_eName").text("企业全称不能超过27个中文字符").show();
+        return false;
+    }
+    $(".help_span").show();
+    $("#eName_div").removeClass("has-error");
+    $("#err_eName").text("");
+    return true;
+}
+
+var checkShortName = function(shortName) {
+    if($.trim(shortName).length < 1) {
+        $("#shortName_div").addClass("has-error");
+        $("#err_shortName").text("企业简称不能为空").show();
+        return false;
+    }
+    if(getLength($.trim(shortName)) > 54) {
+        $("#shortName_div").addClass("has-error");
+        $("#err_shortName").text("企业简称不能超过27个中文字符").show();
+        return false;
+    }
+    $("#shortName_div").removeClass("has-error");
+    $("#err_shortName").text("").show();
+    return true;
+}
+
+var checkAddress = function(address){
+    if($.trim(address).length < 1) {
+        $("#address_div").addClass("has-error");
+        $("#err_address").text("公司地址不能为空").show();
+        return false;
+    }
+    $("#address_div").removeClass("has-error");
+    $("#err_address").text("").show();
+    return true;
+}
+
+var checkcCode = function (code) {
+    if (code == "") {
+        $("#code_div").addClass("has-error");
+        $("#login_err_msg_code").text("邮箱验证码不能为空").show();
+        return false;
+    }
+    $("#code_div").removeClass("has-error");
+    $("#login_err_msg_code").text("");
+    return true;
+};
+var checkInfo = function () {
+    //企业名称
+    var eName = $("#enterpriseName").val();
+    if (!checkEname(eName)) {
+        return false;
+    }
+    //企业简称
+    var shortName = $("#shortName").val();
+    if (!checkShortName(shortName)) {
+        return false;
+    }
+
+    var licType = $("#licType").val();
+    if(licType == ""){
+        licType = "1";
+    }
+    licType = parseInt(licType);
+    var tag = true;
+    if(licType == 1){
+        $("#upload2").val("");
+        $("#upload3").val("");
+        //图片
+        var uploadObj = document.getElementById("upload");
+        if (!checkImage(uploadObj,"err_image")) {
+            tag = false;
+        }
+    }else if(licType == 2){
+        $("#upload").val("");
+        //图片
+        var uploadObj2 = document.getElementById("upload2");
+
+        var uploadObj3 = document.getElementById("upload3");
+        if (!checkImage(uploadObj2,"err_image2")) {
+            tag = false;
+            return ;
+        }
+        if (!checkImage(uploadObj3,"err_image3")) {
+            tag = false;
+        }
+    }else if (licType == 3) {
+        var email = $("#email").val();
+        var checkCode = $("#checkCode").val();
+
+        if (!checkEmail(email)) {
+            tag = false;
+        }
+        if (!checkcCode(checkCode)) {
+            tag = false;
+        }
+    }else{
+        tag = false;
+    }
+    return tag;
+}
+
+//统计字数，中文一个。英文两个
+var getLength = function (name) {
+    var len = 0;
+    for (var i = 0; i < name.length; i++) {
+        var a = name.charAt(i);
+        if (a.match(/[^\x00-\xff]/ig) != null) {
+            len += 2;
+        }
+        else {
+            len += 1;
+        }
+    }
+    return len;
+}
+
+function changeLic(type){
+    $("#licType").val(type);
+    $(".audit").hide();
+    $(".change_audit_type").show();
+    if(type == 1){
+        $(".tabhide1").show();
+        $(".tabhide2").hide();
+        $(".tabhide3").hide();
+    }
+    if(type == 2){
+        $(".tabhide1").hide();
+        $(".tabhide2").show();
+        $(".tabhide3").hide();
+    }
+    if (type == 3) {
+        $(".tabhide1").hide();
+        $(".tabhide2").hide();
+        $(".tabhide3").show();
+    }
+}
+
+$(".change_audit_type").click(function() {
+    $(".audit").show();
+    $(".change_audit_type").hide();
+    $(".tabhide1").hide();
+    $(".tabhide2").hide();
+    $(".tabhide3").hide();
+})
+
+function submitForm(status) {
+    var b = true;
+    $('#status').val(status)
+    if (status !== 4) {
+        b = checkInfo();
+    }
+    if($(".audit").is(":visible")){
+        alert("请选择认证方式");
+        return false;
+    }
+    if (b) {
+        var files = new Array();
+        var form = new FormData();
+        $("input[name='upload']").each(function() {
+            if ($(this).get(0).files[0] != undefined)
+                form.append("upload", $(this).get(0).files[0]);
+        })
+
+        var licType = $("#licType").val();
+        form.append("licType", licType);
+        form.append("enterpriseName", $("#enterpriseName").val());
+        form.append("shortName", $("#shortName").val());
+        form.append("email", $("#email").val());
+        form.append("auth", $("#auth").val());
+        form.append("checkCode", $("#checkCode").val());
+        form.append("status", $('#status').val());
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/ajax/register_audit/commit.htm",
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            data: form,
+            success: function(data) {
+                if (data.resCode == 0) {
+                    document.location.href = "/user/confirm/success.htm?eid=" + "1";
+                }
+                if (data.resCode === 1000) {
+                    $("#code_div").addClass("has-error");
+                    $("#login_err_msg_code").text("验证码不正确，请检查").show();
+                }
+                if (data.resCode === 1003) {
+                    $("#code_div").addClass("has-error");
+                    $("#login_err_msg_code").text("验证码不正确，请检查").show();
+                }
+                if (data.resCode === 1004) {
+                    $("#eName_div").addClass("has-error");
+                    $("#err_eName").text("信息提交失败，请稍后再试，您也可以联系400-990-5577获得帮助").show();
+                }
+                if (data.resCode === 1005) {
+                    $("#eName_div").addClass("has-error");
+                    $("#shortName_div").addClass("has-error");
+                    $("#err_eName").text("该企业已存在，如有疑问可联系400-990-5577获得帮助").show();
+                }
+                if (data.resCode === 1007) {
+                    $("#image_div").addClass("has-error");
+                    $("#err_image").text("请上传.jpg .jpeg .png .bmp格式图片").show();
+                }
+                if (data.resCode === 1008) {
+                    $("#image_div").addClass("has-error");
+                    $("#err_image").text("网络错误，请稍后重试上传").show();
+                }
+                if (data.resCode === 1009) {
+                    $("#code_div").addClass("has-error");
+                    $("#login_err_msg_code").text("验证码错误").show();
+                }
+            },
+            error: function(data) {
+                alert("服务异常，请稍后重试");
+            }
+        })
+    } else {
+        return false
+    }
+}
+var interval;
+var count = 59;
+
+var getCheckCode = function () {
+    var email = $("#email").val();
+    if (!checkEmail(email)) {
+        return;
+    }
+
+    var url = "/account/register/sendEmail.htm?random=" + Math.random();
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: {email: email},
+        dataType: 'json',
+        async: true,
+        error: function () {
+            $("#msgs").text("邮箱验证码发送失败，请重试").attr("style", "color:red");
+            $('#deleteCaseModal').modal('show');
+            setTimeout("$('#deleteCaseModal').modal('hide')", 1500);
+            endCount();
+        },
+        success: function (data) {
+            if (data !== undefined && data !== "") {
+                var result = jQuery.parseJSON(data);
+                var errorCode = parseInt(result.code);
+                if (errorCode === 0) {
+
+                    // 再次发送验证码倒计时
+                    count = 59;
+                    setTimeout(startCount, 0);
+                    interval = setInterval(startCount, 1000);
+
+                    $("#auth").val(result.auth);
+                    $("#msgs").text("验证码已发送，请前往邮箱查看").attr("style", "color:green");
+                    $('#deleteCaseModal').modal('show');
+                    setTimeout("$('#deleteCaseModal').modal('hide')", 1500);
+                } else if (errorCode === -1 || errorCode === -2) {
+                    $("#msgs").text("邮箱验证码发送失败，请重试").attr("style", "color:red");
+                    $('#deleteCaseModal').modal('show');
+                    setTimeout("$('#deleteCaseModal').modal('hide')", 1500);
+                    endCount();
+                } else if (errorCode === 1) {
+                    $("#code_div").addClass("has-error");
+                    $("#login_err_msg_code").text("该邮箱今日获取验证码次数超过限制").show();
+                    endCount();
+                } else if (errorCode === 2) {
+                    $("#code_div").addClass("has-error");
+                    $("#login_err_msg_code").text("该IP地址今日获取邮箱验证码次数超过限制").show();
+                    endCount();
+                } else if (errorCode === 3) {
+                    $("#email_div").addClass("has-error");
+                    $("#email_error").text("该账号已注册，请直接登录或更换邮箱").show();
+                    endCount();
+                }
+            }
+        }
+    });
+};
+
+function startCount() {
+    $("#codeGetBtn").attr("disabled", true);
+    $("#codeGetBtn").css("background", "grey");
+    $("#codeGetBtn").text("重新获取(" + count + ")");
+    if (count === 0) {
+        endCount();
+    }
+    count--;
+}
+
+function endCount() {
+    $("#codeGetBtn").text("获取邮箱验证码").removeAttr("disabled");
+    $("#codeGetBtn").removeAttr("style");
+    $("#codeGetBtn").width("100px");
+    clearInterval(interval);
+}
+
+var checkEmail = function (email) {
+    var ori_email = $("#ori_email").val();
+    // 校验登录邮箱
+    if (Validator.isEmpty(email)) {
+        $("#email_div").addClass("has-error");
+        $("#email_error").text("邮箱不能为空").show();
+        return false;
+    }
+    $("#email").val(email.trim());
+    if (!Validator.isEmail(email)) {
+        $("#email_div").addClass("has-error");
+        $("#email_error").text("请检查邮箱是否正确").show();
+        return false;
+    }
+    if (Validator.isCommonEmail(email)) {
+        $("#email_div").addClass("has-error");
+        $("#email_error").text("请使用企业邮箱").show();
+        return false;
+    }
+    if (Validator.byteLength(email) > 255) {
+        $("#email_div").addClass("has-error");
+        $("#email_error").text("管理员邮箱不能超过255个字符").show();
+        return false;
+    }
+    //如果用户邮箱没有变更，则不进行重复校验
+    if (email == ori_email) {
+        return true;
+    }
+
+    var result = -1;
+    $.ajax({
+        url: '/account/register/checkAccount.htm',
+        type: 'GET',
+        data: {email: email},
+        dataType: 'text',
+        async: false,
+        error: function (data) {
+            $("#email_div").addClass("has-error");
+            $("#email_error").text("服务系统忙，请稍后重试").show();
+            result = -1;
+            return false;
+        },
+        success: function (data) {
+            result = parseInt(data);
+            if (result === 0) {
+                $("#email_div").removeClass("has-error");
+                $("#email_error").text("").show();
+                return true;
+            } else if (result === -1) {
+                $("#email_div").addClass("has-error");
+                $("#email_error").text("服务异常").show();
+                return false;
+            }else if(result > 0) {
+                $("#email_div").addClass("has-error");
+                $("#email_error").text("该邮箱已注册，请更换其他邮箱").show();
+                return false;
+            }
+        }
+    });
+    return result === 0;
+};
+</script>
+
+
+
+</div>
+
+    <footer id="page-footer" style="text-align: center">
+        <span>北京云测信息技术有限公司© 2011- 2022
+</span>
+    </footer>
+
+<div class="tooltip right tooltip-app-manage"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>
+
+
+
+</body>
+
+
+<div class="operation-tip success" id="Testin-globalSuccessTips">
+    <i class="iconfont">&#xe620;</i><span id="Testin-globalSuccessTipsMsg"></span>
+</div>
+<div class="operation-tip error" id="Testin-globalErrorTips">
+    <i class="iconfont">&#xe660;</i><span id="Testin-globalErrorTipsMsg"></span>
+</div>
+<div class="operation-tip warring" id="Testin-globalWarringTips">
+    <i class="iconfont">&#xe621;</i><span id="Testin-globalWarringTipsMsg"></span>
+</div>
+
+</html>
+<script type="text/javascript" src="/skin_v3/lib/jquery/jquery.cookie.js?v=7.0.1"></script>
+<script type="text/javascript" src="/skin_v3/static/scripts/base.js?v=7.0.1"></script>
+<script type="text/javascript" src="/skin_v3/static/scripts/openApi.js?v=7.0.1"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("[name=changeProject]").on("click", function () {
+            var type = parseInt($(this).attr("data-menu"));
+            var url = $(this).attr("menu-url");
+            var domain = $(this).attr("menu-domain");
+            var projectId = $(this).attr("data-projectid");
+            $.ajax({
+                url: "/curProject/updateAccessTime.htm",
+                type: "post",
+                data: {"projectId": projectId},
+                dataType: "json",
+                success: function (data) {
+                    var result = jQuery.parseJSON(data);
+                    var errCode = parseInt(result.errCode);
+
+                    if (errCode == 0) {
+                        document.location.href = "/realmachine/index.htm";
+                    } else if (errCode == 1) {
+                        document.location.href = "/project/index.htm";
+                    }
+                },
+                error: function (data) {
+                    alert("服务异常");
+                }
+            });
+        });
+    })
+
+
+    // 错误提示
+    function testinGlobalErrorTips(msg, time, callback) {
+        if (time === undefined || time < 3000) {
+            time = 3000;
+        }
+        $('#Testin-globalErrorTipsMsg').text(msg);
+        $('#Testin-globalErrorTips').show();
+        setTimeout(function() {
+            $('#Testin-globalErrorTips').hide();
+            $('#Testin-globalErrorTipsMsg').text('');
+            if (typeof(callback) === 'function') {
+                callback();
+            }
+        }, time);
+    };
+
+    // 成功提示
+    function  testinGlobalSuccessTips(msg, time, callback) {
+        if (time === undefined || time < 3000) {
+            time = 3000;
+        }
+        $('#Testin-globalSuccessTipsMsg').text(msg);
+        $('#Testin-globalSuccessTips').show();
+        setTimeout(function() {
+            $('#Testin-globalSuccessTips').hide();
+            $('#Testin-globalSuccessTipsMsg').text('');
+            if (typeof(callback) === 'function') {
+                callback();
+            }
+        }, time);
+    };
+
+    // 警告提示
+    function testinGlobalWarringTips(msg, time, callback) {
+        if (time === undefined || time < 3000) {
+            time = 3000;
+        }
+        $('#Testin-globalWarringTipsMsg').text(msg);
+        $('#Testin-globalWarringTips').show();
+        setTimeout(function() {
+            $('#Testin-globalWarringTips').hide();
+            $('#Testin-globalWarringTipsMsg').text('');
+            if (typeof(callback) === 'function') {
+                callback();
+            }
+        }, time);
+    }
+
+    $(function () {
+        getDeviceListCount()
+        menuTooltip()
+
+        var secSwitch = false;
+        var bugSwitch = false;
+        var depthSwitch = false;
+
+        if(!depthSwitch) {
+            $("#depthSwitch").attr("style", "display:none");
+        }
+
+        if(!secSwitch) {
+           $("#secSwitch").attr("style", "display:none");
+        }
+
+        if(!bugSwitch) {
+            $("#bugSwitch").attr("style", "display:none");
+        }
+
+        $.ajaxSetup({
+            contentType:"application/x-www-form-urlencoded;charset=utf-8",
+            complete:function(XMLHttpRequest,textStatus){
+                if(XMLHttpRequest.status==200){
+                    var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus"); //通过XMLHttpRequest取得响应头，sessionstatus，
+                    if(sessionstatus=="timeout"){
+                        window.location.replace('');
+                    }
+                }
+            }
+
+        });
+
+        $("[name=tproMenu]").on("click", function () {
+            var tproMenu = $("body").hasClass("tpro-menu-df");
+            var op = tproMenu ? 0 : 1;
+            $.ajax({
+                url: "/menu/setTproMenu.htm",
+                type: "post",
+                dataType: "html",
+                data: {"op": op},
+                cache: false,
+                async: true
+            });
+        });
+
+        $("[name=tproMenu]").on("mouseout", function () {
+            if (document.URL.indexOf("/realmachine/index.htm") > -1) {
+                setTimeout("resetHeight()", 50);
+            }
+        });
+
+        $(".selectpicker").selectpicker();
+
+        
+            // 帮助文档显示和隐藏
+            $(".helpDoc_a").click(function () {
+                if( $(".helpDoc ul").css("display")==="none" ){
+                    $(".helpDoc ul").show()
+                }else{
+                    $(".helpDoc ul").hide()
+                }
+            })
+            $(document).click(function(e){ var parents = $(e.target).parents(".helpDoc"); if (parents && parents[0] && parents[0].className === "helpDoc") {}else {$("#helpDoc_ul").hide();} })
+        
+    });
+
+    var userOnline = {"eid":1,"userid":1160,"sid":"tea83b3beef07488bb8571811385db42","email":"jiaodeyu@geedgenetworks.com","cc":null,"loginMobile":null,"name":"焦得钰","channel":"normal","version":"","expireTime":1654841118663,"isAdmin":1,"mobile":null,"share":null,"points":null,"projectid":1}
+    var server = 'http://openapi.pro.testin.cn';
+    var sid = userOnline.sid;
+    // 10秒 定时查询
+    setInterval(getDeviceListCount, 10000)
+
+    function deviceList(source) {
+        var roleFunctions = '["real","app","web","test","app-control","app-script","app-features","app-compatible","app-dial","app-data","app-device","web-script","web-test","app-control-list","app-control-update","app-control-delete","app-control-down","app-control-upload","app-control-delete-app","app-script-list","app-script-update","app-script-delete","app-script-g-update","app-script-g-delete","app-features-list","app-features-update","app-features-delete","app-features-stop","app-features-update-report","app-compatible-list","app-compatible-update","app-compatible-delete","app-compatible-stop","app-dial-list","app-dial-update","app-dial-delete","app-dial-stop","web-test-list","web-test-update","web-test-delete","web-script-list","web-script-update","web-script-delete","real-debugging-list","real-debugging-use","real-debugging","app-data-list","app-data-update-mark","app-data-delete-mark","app-data-update-source","app-data-delete-source","web-data-update-source","web-data-delete-source","web-test-stop","control-device-real","app-dial-update-report","app-compatible-update-report","web-test-update-report","app-device-list","test-plan","test-plan-list","test-plan-update","test-plan-delete","web-data","web-data-list","web-data-update-mark","web-data-delete-mark","web-data-update-source","web-data-delete-source","statistics","statistics-execute","statistics-script","statistics-device","test-plan-task-list","test-plan-jobTask-list","test-plan-create-task","test-plan-task-manager"]';
+        var roleArr = JSON.parse(roleFunctions)
+        var deviceCountRoleFlag = roleArr.indexOf("app-device-list") !== -1;
+        if (!deviceCountRoleFlag) {
+            return;
+        }
+        var form = document.createElement('form');
+        form.action = '/app/device/list.htm';
+        form.method = 'POST';
+
+        var searchStatus = document.createElement('input');
+        searchStatus.type = 'hidden';
+        searchStatus.name = 'searchStatus';
+        var prjId = document.createElement('input');
+        prjId.type='hidden';
+        prjId.name='prjId';
+        prjId.value=userOnline.projectid;
+        form.appendChild(prjId);
+        if (source === 'online') {
+            // 在线
+            searchStatus.value = 0;
+        } else if (source === 'offline') {
+            // 离线
+            searchStatus.value = 1;
+        } else if (source === 'free') {
+            // 空闲
+            searchStatus.value = 2;
+        } else if (source === 'test') {
+            // 测试
+            searchStatus.value = 3;
+        } else if (source === 'machine') {
+            // 真机调试
+            searchStatus.value = 4;
+        }
+        form.appendChild(searchStatus);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function getDeviceListCount() {
+        var roleFunctions = '["real","app","web","test","app-control","app-script","app-features","app-compatible","app-dial","app-data","app-device","web-script","web-test","app-control-list","app-control-update","app-control-delete","app-control-down","app-control-upload","app-control-delete-app","app-script-list","app-script-update","app-script-delete","app-script-g-update","app-script-g-delete","app-features-list","app-features-update","app-features-delete","app-features-stop","app-features-update-report","app-compatible-list","app-compatible-update","app-compatible-delete","app-compatible-stop","app-dial-list","app-dial-update","app-dial-delete","app-dial-stop","web-test-list","web-test-update","web-test-delete","web-script-list","web-script-update","web-script-delete","real-debugging-list","real-debugging-use","real-debugging","app-data-list","app-data-update-mark","app-data-delete-mark","app-data-update-source","app-data-delete-source","web-data-update-source","web-data-delete-source","web-test-stop","control-device-real","app-dial-update-report","app-compatible-update-report","web-test-update-report","app-device-list","test-plan","test-plan-list","test-plan-update","test-plan-delete","web-data","web-data-list","web-data-update-mark","web-data-delete-mark","web-data-update-source","web-data-delete-source","statistics","statistics-execute","statistics-script","statistics-device","test-plan-task-list","test-plan-jobTask-list","test-plan-create-task","test-plan-task-manager"]';
+        var menuManIds = '[3, 4, 5, 9, 80025]';
+        var roleArr = JSON.parse(roleFunctions)
+        var deviceCountRoleFlag = roleArr.indexOf("app-device-list") !== -1 || roleArr.indexOf("real") !== -1
+            || roleArr.indexOf("app-control-list") !== -1 || roleArr.indexOf("app-script-list") !== -1
+            || roleArr.indexOf("app-features-list") !== -1 || roleArr.indexOf("app-compatible-list") !== -1
+            || roleArr.indexOf("app-dial-list") !== -1 || roleArr.indexOf("app-data-list") !== -1
+                // 3 代表真机调试，4代表app自动化管理
+            || menuManIds.indexOf(3) !== -1 || menuManIds.indexOf(4) !== -1;
+        if (!deviceCountRoleFlag) {
+            $("#app-count").css("display", "none")
+            return;
+        } else {
+            $("#app-count").css("display", "flex")
+        }
+
+        var params = {
+            "apikey": "f95892895d9ada64bb034c76a16a1763",
+            "timestamp": new Date().getTime(),
+            "sid": sid,
+            "mkey": "controlcenter",
+            "action": 'device',
+            "op": 'Device.list',
+            "data": {
+                "projectid": userOnline.projectid,
+                "page": 1,
+                "pageSize": 1000
+            }
+        }
+        params.sig = $.generalSign(params)
+        $.ajax({
+            url: server,
+            type: 'post',
+            contentType: "text/plain",
+            data: JSON.stringify(params),
+            success: function (resp) {   //成功后回调
+                let response = eval('(' + resp + ')')
+                updateDeviceCount(response)
+            },
+            error: function(resp){    //失败后回调
+                console.log(eval('(' + resp + ')'))
+            },
+        })
+
+        function updateDeviceCount(resp) {
+            if (resp.code == 0) {
+                let data = resp.data
+                let allCount = data.list.length
+                let onlineCount = 0;
+                let offlineCount = 0;
+                let freeCount = 0;
+                let testCount = 0;
+                let machineCount = 0;
+                if (allCount !== 0) {
+                    onlineCount = $.grep(data.list, function (n, i) {
+                        return n.status === 0 || n.status === 1
+                    }).length;
+                    offlineCount = $.grep(data.list, function (n, i) {
+                        return n.status === 2 || n.status === 9
+                    }).length;
+                    freeCount = $.grep(data.list, function (n, i) {
+                        return n.status === 0
+                    }).length;
+                    /*testCount = $.grep(data.list, function (n, i) {
+                        return n.status === 1 && n.action === 1
+                    }).length;
+                    machineCount = $.grep(data.list, function (n, i) {
+                        return n.status === 1 && (n.action === 2 || n.action === 3)
+                    }).length;*/
+                    // $(".app-all a").html("全部" + allCount)
+                    $(".app-online a").html("在线" + onlineCount)
+                    $(".app-off a").html("离线" + offlineCount)
+                    $(".app-free a").html("空闲" + freeCount)
+                    // $(".app-test a").html("测试" + testCount)
+                    // $(".app-machine a").html("远程真机" + machineCount)
+                }
+            } else {
+                // console.log(resp)
+            }
+        }
+    }
+
+    function menuTooltip() {
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        $(".testin-pro-v3-slide .navbar-nav li a").hover(function () {
+            $('.tooltip-arrow').css("top", "13px");
+            $('.tooltip-inner').css({"background": "#000", "border": "0", "box-shadow": "none", "color": "#fff"});
+            if ($(this).parents("body").hasClass("tpro-menu-df")) {
+                $('.tooltip').removeClass("in");
+            }
+        }, function () {
+            $('.tooltip').hide();
+            $('.tooltip-arrow').css("top", "initial");
+            $('.tooltip-inner').css({
+                "background": "initial",
+                "border": "initial",
+                "box-shadow": "initial",
+                "color": "initial"
+            });
+        });
+    }
+</script>
+
+
+
+<script>
+    $(function () {
+        var roleFunctions = '["real","app","web","test","app-control","app-script","app-features","app-compatible","app-dial","app-data","app-device","web-script","web-test","app-control-list","app-control-update","app-control-delete","app-control-down","app-control-upload","app-control-delete-app","app-script-list","app-script-update","app-script-delete","app-script-g-update","app-script-g-delete","app-features-list","app-features-update","app-features-delete","app-features-stop","app-features-update-report","app-compatible-list","app-compatible-update","app-compatible-delete","app-compatible-stop","app-dial-list","app-dial-update","app-dial-delete","app-dial-stop","web-test-list","web-test-update","web-test-delete","web-script-list","web-script-update","web-script-delete","real-debugging-list","real-debugging-use","real-debugging","app-data-list","app-data-update-mark","app-data-delete-mark","app-data-update-source","app-data-delete-source","web-data-update-source","web-data-delete-source","web-test-stop","control-device-real","app-dial-update-report","app-compatible-update-report","web-test-update-report","app-device-list","test-plan","test-plan-list","test-plan-update","test-plan-delete","web-data","web-data-list","web-data-update-mark","web-data-delete-mark","web-data-update-source","web-data-delete-source","statistics","statistics-execute","statistics-script","statistics-device","test-plan-task-list","test-plan-jobTask-list","test-plan-create-task","test-plan-task-manager"]';
+        var roleArr = JSON.parse(roleFunctions)
+        $("[data-access]").each(function () {
+            console.log($(this).attr("data-access"))
+            if($.inArray($(this).attr("data-access"), roleArr)>=0){
+                $(this).show();
+            }else{
+                $(this).css("display","none");
+                $(this).addClass("globlehide");
+
+            }
+        });
+    })
+</script>
+

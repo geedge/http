@@ -161,7 +161,8 @@ extern "C" unsigned char HTTP_TEST_PLUG_ENTRY(stSessionInfo *session_info, void 
 
 extern "C" int HTTP_TEST_PLUG_INIT()
 {
-    return 0;
+	MESA_load_profile_int_def("./conf/http/http_test_plug.conf", "main", "dump_unzip_payload", &g_dump_unzip_payload, 0);
+	return 0;
 }
 
 extern "C" void HTTP_TEST_PLUG_DESTROY(void)

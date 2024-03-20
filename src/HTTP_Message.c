@@ -363,13 +363,13 @@ int HTTP_INIT(void)
 		return -1;
 	}		
 
-	/*ungzip init*/	
-	g_http_prog_para.docanly_handler = docanalyze_initialize(g_iThreadNum);
-	if(NULL==g_http_prog_para.docanly_handler)
-	{
-		MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "docanalyze_initialize error!");
-		return -1;
-	}
+	/*ungzip init*/
+	// g_http_prog_para.docanly_handler = docanalyze_initialize(g_iThreadNum);
+	// if(NULL==g_http_prog_para.docanly_handler)
+	// {
+	// 	MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "docanalyze_initialize error!");
+	// 	return -1;
+	// }
 
 	int i=0;
 	g_http_prog_para.unzip_content=(fold_infor_t *)malloc(sizeof(fold_infor_t)*g_iThreadNum);
@@ -568,7 +568,7 @@ void HTTP_DESTROY(void)
 	MESA_destroy_runtime_log_handle(g_http_prog_para.http_log_handle);
 
 	/*ungzip*/
-	docanalyze_destroy(g_http_prog_para.docanly_handler);
+	// docanalyze_destroy(g_http_prog_para.docanly_handler);
 
 	/*unzip_content*/
 	int i=0;

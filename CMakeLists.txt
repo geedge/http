@@ -43,7 +43,7 @@ file(GLOB SRC
 )
  
 
-set(HTTP_DEPEND_DYN_LIB MESA_handle_logger MESA_field_stat MESA_prof_load documentanalyze MESA_htable)
+set(HTTP_DEPEND_DYN_LIB MESA_handle_logger MESA_field_stat MESA_prof_load z MESA_htable)
 
 # Shared Library Output
 add_library(http SHARED ${SRC})

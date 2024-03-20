@@ -44,7 +44,9 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 
 	if(a_http->ungzip_handle!=NULL)
 	{
-		docanalyze_endstream(a_http->ungzip_handle);
+		//docanalyze_endstream(a_http->ungzip_handle);
+		inflateEnd(a_http->ungzip_handle);
+		dictator_free(thread_seq, a_http->ungzip_handle);
 		a_http->ungzip_handle = NULL;
 	}
 	
@@ -62,7 +64,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
 }
  
  /**********************************************************
-  * ���ܣ���Ӧ��Ϣ����ʱ�������Ӧ���������?��Ϣ��
+  * ���ܣ���Ӧ��Ϣ����ʱ�������Ӧ���������?��Ϣ��
   * a_http:��ǰ�ڵ㡣
   **********************************************************/
  void http_resetResponseSpace(http_parser_t *a_http, int thread_seq)
@@ -128,7 +130,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
  /**********************************************************
   * ���ܣ�����HTTP����������
   * a_http����ǰ��������
-  * curdir:tcp���ݰ��ķ��򣬱�����˫�����?
+  * curdir:tcp���ݰ��ķ��򣬱�����˫�����?
   * dir����ǰ���ķ���
  *********************************************************/
  void http_buildHttpInforLink(http_stream *a_http_stream, int thread_seq, struct streaminfo *a_tcp, void *a_packet)
@@ -210,7 +212,7 @@ void http_initHttpCommonInfor( http_parser_t *a_http, int thread_seq)
  
 /**********************************************************
  * ���ܣ���ʼ��HTTP���ӡ�
- * curdir:tcp���ݰ��ķ��򣬱�����˫�����?
+ * curdir:tcp���ݰ��ķ��򣬱�����˫�����?
  * dir����ǰ���ķ���
  * pme�������Ļ�����
 ***********************************************************/
@@ -320,7 +322,10 @@ static void http_reseaseHttpInforList(http_parser_t**a_http, UINT16 uncomplete_c
 
 	if(cur_http_node->ungzip_handle!=NULL)
 	{	
-		docanalyze_endstream(cur_http_node->ungzip_handle);
+		//docanalyze_endstream(cur_http_node->ungzip_handle);
+		inflateEnd(cur_http_node->ungzip_handle);
+		dictator_free(thread_seq, cur_http_node->ungzip_handle);
+		cur_http_node->ungzip_handle = NULL;
 	}
 	if(cur_http_node->parser.cont_range!=NULL)
 	{
@@ -674,7 +679,7 @@ uchar http_processHttpProxy(http_parser_t *a_http, http_stream *a_http_stream, s
 			pProxydetail->uiApendLen = a_http->url_buflen;	
 		}
 			
-		//����������������?�� 
+		//����������������?�� 
 		/*user and passwd in C2S*/
 		if(a_http->parser.curdir==DIR_C2S)
 		{			
@@ -738,7 +743,7 @@ uchar http_analyseHttpProxy(http_parser_t *a_http,  http_stream *a_http_stream, 
 	a_http_stream->p_stream_proxy->type = STREAM_TYPE_HTTP_PROXY;
 
 	struct proxydetail* pProxydetail = (struct proxydetail *)(a_http_stream->p_stream_proxy->pdetail);
-	//������״ν���?
+	//������״ν���?
 	if(pProxydetail==NULL)
 	{
 		pProxydetail=(struct proxydetail*)dictator_malloc(thread_seq,sizeof(struct proxydetail));

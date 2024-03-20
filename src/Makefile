@@ -17,7 +17,7 @@ LIB		+= -lMESA_handle_logger
 LIB		+= -lMESA_prof_load
 LIB		+= -lMESA_htable 
 LIB   		+= -lMESA_field_stat
-LIB		+= -ldocumentanalyze
+#LIB		+= -ldocumentanalyze
 LIB		+= ./lib/libhttp_parser.a
 
 LIB_FILE	= $(wildcard ./lib/*.a)
