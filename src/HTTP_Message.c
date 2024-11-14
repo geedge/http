@@ -40,7 +40,7 @@ int is_absolute_uri(void* app_info)
 
 int http_line2region(const char *line, uint32 line_len, char** region, uint32* region_len)
 {
-	/*line����ҵ��㣬��append,����lineǰ��Ŀո��Ѿ�ɾ����ֻ��Ҫɾ��: ֮��Ŀո�*/
+	/*line����ҵ��㣬��append,����lineǰ��Ŀո��Ѿ�ɾ����ֻ��Ҫɾ��?: ֮��Ŀո�?*/
 	uint32	del_data_len=0;	
 	char* colon_pos = (char*)memchr(line, ':', line_len);		
 	if(NULL==colon_pos) return -1;	
@@ -52,7 +52,7 @@ int http_line2region(const char *line, uint32 line_len, char** region, uint32* r
 
 int http_line2value(const char *line, uint32 line_len, char** value, uint32* value_len)
 {
-	/*line����ҵ��㣬��append,����lineǰ��Ŀո��Ѿ�ɾ����ֻ��Ҫɾ��: ֮��Ŀո�*/
+	/*line����ҵ��㣬��append,����lineǰ��Ŀո��Ѿ�ɾ����ֻ��Ҫɾ��?: ֮��Ŀո�?*/
 	uint32 	vlen=0, sp_offset=0;	
 	char* colon_pos = (char*)memchr(line, ':', line_len);	
 	if(NULL==colon_pos) return -1;	
@@ -272,7 +272,7 @@ int http_readHttpConf(const char* filename)
 				MESA_handle_runtime_log(g_http_prog_para.http_log_handle, RLOG_LV_FATAL, HTTP_PLUGIN_NAME, "http.conf bigger than %d", MAX_REGION_NUM);
 				return -1;
 			}
-			strncpy(g_http_prog_para.http_conf_regionname[region_id], region_name, strlen(region_name));
+			strncpy(g_http_prog_para.http_conf_regionname[region_id], region_name, REGION_NAME_LEN);
 			g_http_prog_para.http_region_cnt++;
 			memset(region_name, 0, sizeof(region_name));
 		}
@@ -685,8 +685,8 @@ long long HTTP_FLAG_CHANGE(char* flag_str)
 }
 
 /**********************************************************
- * ���ܣ��ж���Ϣͷ�Ƿ������
- * buffer:��洢��������
+ * ���ܣ��ж���Ϣͷ�Ƿ������?
+ * buffer:��洢��������?
  * data����ǰ���ݡ�
  * data_len:��ǰ���ݵĳ��ȡ�
  * proc_offset:��ǰ�����Ѵ������ݵ�ƫ������

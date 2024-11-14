@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
 #include "HTTP_Message_Entry.h"
 #include "HTTP_Message_Header.h"
@@ -87,7 +88,7 @@ void http_doWithGzipData(http_parser_t *cur_http_node, struct streaminfo *a_tcp,
 				break;
 			}
 
-			memcpy(unzip_content->buf+unzip_content->buflen, result_array->result_buff[k].presult, min_len);
+			memcpy((char *)unzip_content->buf+unzip_content->buflen, result_array->result_buff[k].presult, min_len);
 			unzip_content->buflen+=min_len; 		 	
 		}
 
@@ -252,7 +253,7 @@ uchar http_doWithProxyData(http_parser_t *a_http, http_stream *a_http_stream, st
 		*offset += len;			
 		rec = GO_BACK;
 	}	
-	/*����һ��pkt��ʼ�ص��������������������HTTP�����������ѭ��*/
+	/*����һ��pkt��ʼ�ص��������������������HTTP�����������ѭ��?*/
 	if(len==0)
 	{
 		a_http->proxy_cb_flag = 1;
@@ -267,7 +268,7 @@ uchar http_doWithProxyData(http_parser_t *a_http, http_stream *a_http_stream, st
 
 /**********************************************************
  * ���ܣ�Ѱ��chunked�����ݿ�ʼλ��.
- * a_http_node:��Ϣ�ڵ�,�������������Ҳ�Ƿ��ز�����
+ * a_http_node:��Ϣ�ڵ�,�������������Ҳ�Ƿ��ز�����?
  * cur_half����ǰ���ݡ�
  * ע��after_cr_data_len<1����û�ҵ���ʼλ��
  *   		 (*a_http_node)->crlf_offset<1����û�õ����ȡ�
@@ -340,7 +341,7 @@ uchar http_readChunkedData(http_parser_t *a_http, struct streaminfo *a_tcp, int 
 
 /**********************************************************
  * ���ܣ���ȡchunked�ĳ���.
- * a_http_node:��Ϣ�ڵ�,�������������Ҳ�Ƿ��ز�����
+ * a_http_node:��Ϣ�ڵ�,�������������Ҳ�Ƿ��ز�����?
  * chunked_len:���ֵ��chunked���ݳ���.
  * cur_half����ǰ���ݡ�
  * return : HTTP_RETURN_SPAN_PACKET HTTP_RETURN_UNNORM

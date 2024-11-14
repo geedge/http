@@ -4,6 +4,8 @@ set(lib_name http)
 
 project (${lib_name})
 
+add_subdirectory(vendor)
+
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(Version)
 
@@ -35,20 +37,22 @@ include_directories(./src/inc/)
 include_directories(./src/)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-	set(CMAKE_INSTALL_PREFIX "/home/mesasoft/sapp_run" CACHE PATH "default install path" FORCE)
+	set(CMAKE_INSTALL_PREFIX "/opt/tsg/sapp" CACHE PATH "default install path" FORCE)
+	message(STATUS "CMAKE_INSTALL_PREFIX='${CMAKE_INSTALL_PREFIX}'")
 endif()
 
 file(GLOB SRC
     "src/*.c"    
 )
  
-
 set(HTTP_DEPEND_DYN_LIB MESA_handle_logger MESA_field_stat MESA_prof_load documentanalyze MESA_htable)
 
 # Shared Library Output
 add_library(http SHARED ${SRC})
 set_target_properties(http  PROPERTIES PREFIX "")
-target_link_libraries(http ${HTTP_DEPEND_DYN_LIB} ${PROJECT_SOURCE_DIR}/src/lib/libhttp_parser.a)
+# target_link_libraries(http ${HTTP_DEPEND_DYN_LIB} ${PROJECT_SOURCE_DIR}/src/lib/libhttp_parser.a)
+target_link_libraries(http ${HTTP_DEPEND_DYN_LIB} http_parser-static)
+
 if(DEFINED MESA_SHARED_INSTALL_DIR)
 	set_target_properties(http PROPERTIES OUTPUT_NAME ${lib_name} LIBRARY_OUTPUT_DIRECTORY ${MESA_SHARED_INSTALL_DIR})
 else()

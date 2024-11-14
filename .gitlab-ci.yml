@@ -1,16 +1,68 @@
 variables:
   GIT_STRATEGY: "clone"
-  BUILD_IMAGE_CENTOS7: "git.mesalab.cn:7443/mesa_platform/build-env:master"
-  BUILD_IMAGE_CENTOS8: "git.mesalab.cn:7443/mesa_platform/build-env:rockylinux"
+  BUILD_IMAGE_CENTOS8: "git.mesalab.cn:7443/mesa_platform/build-env:rocky8-for-sapp"
+  BUILD_IMAGE_AARCH64_ROCKY9: "git.mesalab.cn:7443/mesa_platform/build-env:rocky9-aarch64"
   BUILD_PADDING_PREFIX: /tmp/padding_for_CPACK_RPM_BUILD_SOURCE_DIRS_PREFIX_PREFIX_PREFIX_PREFIX_PREFIX_PREFIX/
-  INSTALL_DEPENDENCY_PLATFORM:  sapp-devel libasan systemd-devel libnsl
-  INSTALL_DEPENDENCY_FRAMEWORK:  libMESA_handle_logger-devel libcjson-devel libMESA_field_stat2-devel framework_env libMESA_prof_load-devel libbreakpad_mini-devel libMESA_htable-devel libMESA_field_stat-devel libdocumentanalyze-devel
-  INSTALL_PREFIX: "/home/mesasoft/sapp_run/"
+  INSTALL_DEPENDENCY_PLATFORM:  sapp-devel libasan systemd-devel libnsl libmnl-devel libnfnetlink-devel
+  INSTALL_DEPENDENCY_FRAMEWORK:  libMESA_handle_logger-devel libcjson-devel libMESA_field_stat2 libMESA_field_stat2-devel framework_env libMESA_prof_load-devel libbreakpad_mini-devel libMESA_htable-devel libMESA_field_stat-devel libdocumentanalyze-devel libfieldstat3 libfieldstat4
+  INSTALL_PREFIX: "/opt/tsg/sapp/"
 
 stages:
+- cppcheck
 - build
 - test
 - package
+
+###############################################################################
+# cppcheck 
+###############################################################################
+.cppcheck_script:
+  variables:    
+    BUILD_TYPE: Debug
+  stage: cppcheck
+  script:
+    - mkdir -p build; cd build; cmake3 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+    - >
+      cppcheck --project=compile_commands.json 
+      --enable=all 
+      --error-exitcode=1 
+      --suppress=unusedFunction 
+      --suppress=missingInclude 
+      --suppress=uselessAssignmentPtrArg
+      --suppress=unmatchedSuppression
+      --suppress=variableScope
+      --suppress=unreadVariable
+      --suppress=cstyleCast
+      --suppress=memleakOnRealloc
+      --suppress=constParameter
+      --suppress=uselessAssignmentArg
+      --suppress=uninitvar
+      --suppress=unusedStructMember
+      --suppress=preprocessorErrorDirective
+      --suppress=syntaxError
+      --suppress=alidscanf 
+      --suppress=knownConditionTrueFalse 
+      --suppress=invalidscanf
+      --suppress=nullPointerRedundantCheck 
+      --suppress=shiftNegativeLHS
+      --suppress=unsignedLessThanZero
+      --suppress=arithOperationsOnVoidPointer
+
+run_cppcheck_for_x86_64_rocky8:
+  extends: .cppcheck_script
+  image: $BUILD_IMAGE_CENTOS8
+  tags:
+    - tsg-os-builder-el8  
+
+run_cppcheck_for_aarch64_rocky9:
+  extends: .cppcheck_script
+  image: $BUILD_IMAGE_AARCH64_ROCKY9
+  tags:
+    - tsg-os-builder-aarch64  
+
+###############################################################################
+# build for rocky8
+###############################################################################
 
 .build_before_script:
   before_script:
@@ -21,141 +73,14 @@ stages:
   - yum makecache
   - yum install -y elfutils-libelf-devel
 
-
-.build_by_travis_for_centos7:
-  stage: build
-  image: $BUILD_IMAGE_CENTOS7
-  extends: .build_before_script
-  script:
-    - yum install -y libmnl-devel
-    - yum install -y libnfnetlink-devel
-    - ./ci/travis.sh
-      - cd build
-  tags:
-  - share
-
 .build_by_travis_for_centos8:
   stage: build
   image: $BUILD_IMAGE_CENTOS8
   extends: .build_before_script
   script:
-    - dnf --enablerepo=powertools install -y libmnl-devel
-    - dnf --enablerepo=powertools install -y libnfnetlink-devel
     - ./ci/travis.sh
   tags:
-    - share
-
-run_test_for_centos7:
-  stage: test
-  extends: .build_by_travis_for_centos7
-  script:
-    - yum makecache
-    - ./ci/travis.sh
-    - cd build
-    - ./test/HTTPUintTest
-    - ctest --verbose
-
-run_test_for_centos8:
-  stage: test
-  extends: .build_by_travis_for_centos8
-  script:
-    - yum makecache
-    - ./ci/travis.sh
-    - cd build
-    - ./test/HTTPUintTest
-    - ctest3 --verbose
-
-branch_build_debug_for_centos7:
-  stage: build
-  extends: .build_by_travis_for_centos7
-  variables:
-    BUILD_TYPE: Debug
-  except:
-    - /^develop.*$/i
-    - /^master.*$/i
-    - tags
-
-branch_build_release_for_centos7:
-  stage: build
-  variables:
-    BUILD_TYPE: RelWithDebInfo
-  extends: .build_by_travis_for_centos7
-  except:
-    - /^develop.*$/i
-    - /^master.*$/i
-    - tags
-
-develop_build_debug_for_centos7:
-  stage: build
-  extends: .build_by_travis_for_centos7
-  variables:
-    BUILD_TYPE: Debug
-    PACKAGE: 1
-    UPLOAD_RPM: 1
-    ASAN_OPTION: ADDRESS
-    TESTING_VERSION_BUILD: 1
-    PULP3_REPO_NAME: protocol-testing-x86_64.el7
-    PULP3_DIST_NAME: protocol-testing-x86_64.el7
-  artifacts:
-    name: "http-$CI_COMMIT_REF_NAME-debug"
-    paths:
-      - build/*.rpm
-  only:
-    - /^develop.*$/i
-    - /^master.*$/i
-
-develop_build_release_for_centos7:
-  stage: build
-  extends: .build_by_travis_for_centos7
-  variables:
-    BUILD_TYPE: RelWithDebInfo
-    PACKAGE: 1
-    UPLOAD_RPM: 1
-    TESTING_VERSION_BUILD: 1
-    PULP3_REPO_NAME: protocol-testing-x86_64.el7
-    PULP3_DIST_NAME: protocol-testing-x86_64.el7
-  artifacts:
-    name: "http-$CI_COMMIT_REF_NAME-release"
-    paths:
-      - build/*.rpm
-  only:
-    - /^develop.*$/i
-    - /^master.*$/i
-
-release_build_debug_for_centos7:
-  stage: package
-  variables:
-    BUILD_TYPE: Debug
-    PACKAGE: 1
-    UPLOAD_RPM: 1
-    ASAN_OPTION: ADDRESS
-    PULP3_REPO_NAME: protocol-stable-x86_64.el7
-    PULP3_DIST_NAME: protocol-stable-x86_64.el7
-  extends: .build_by_travis_for_centos7
-  artifacts:
-    name: "http-$CI_COMMIT_REF_NAME-debug"
-    paths:
-      - build/*.rpm
-  only:
-    - tags
-
-release_build_release_for_centos7:
-  stage: package
-  variables:
-    BUILD_TYPE: RelWithDebInfo
-    PACKAGE: 1
-    UPLOAD_RPM: 1
-    UPLOAD_SYMBOL_FILES: 0
-    SYMBOL_TARGET: http
-    PULP3_REPO_NAME: protocol-stable-x86_64.el7
-    PULP3_DIST_NAME: protocol-stable-x86_64.el7
-  extends: .build_by_travis_for_centos7
-  artifacts:
-    name: "http-$CI_COMMIT_REF_NAME-release"
-    paths:
-      - build/*.rpm
-  only:
-    - tags
+    - tsg-os-builder-el8
 
 branch_build_debug_for_centos8:
   stage: build
@@ -248,3 +173,149 @@ release_build_release_for_centos8:
       - build/*.rpm
   only:
     - tags
+
+###############################################################################
+# build for rocky9
+###############################################################################
+.build_by_travis_for_rocky9:
+  stage: build
+  image: $BUILD_IMAGE_AARCH64_ROCKY9
+  extends: .build_before_script
+  script:
+    - ./ci/travis.sh
+  tags:
+    - tsg-os-builder-aarch64
+
+branch_build_debug_for_rocky9:
+  stage: build
+  extends: .build_by_travis_for_rocky9
+  variables:
+    BUILD_TYPE: Debug
+  except:
+    - /^develop.*$/i
+    - /^master.*$/i
+    - tags
+
+branch_build_release_for_rocky9:
+  stage: build
+  variables:
+    BUILD_TYPE: RelWithDebInfo
+  extends: .build_by_travis_for_rocky9
+  except:
+    - /^develop.*$/i
+    - /^master.*$/i
+    - tags
+
+develop_build_debug_for_rocky9:
+  stage: build
+  extends: .build_by_travis_for_rocky9
+  variables:
+    BUILD_TYPE: Debug
+    PACKAGE: 1
+    UPLOAD_RPM: 1
+    ASAN_OPTION: ADDRESS
+    TESTING_VERSION_BUILD: 1
+    PULP3_REPO_NAME: protocol-testing-aarch64.el9
+    PULP3_DIST_NAME: protocol-testing-aarch64.el9
+  artifacts:
+    name: "http-$CI_COMMIT_REF_NAME-debug"
+    paths:
+      - build/*.rpm
+  only:
+    - /^develop.*$/i
+    - /^master.*$/i
+
+develop_build_release_for_rocky9:
+  stage: build
+  extends: .build_by_travis_for_rocky9
+  variables:
+    BUILD_TYPE: RelWithDebInfo
+    PACKAGE: 1
+    UPLOAD_RPM: 1
+    TESTING_VERSION_BUILD: 1
+    PULP3_REPO_NAME: protocol-testing-aarch64.el9
+    PULP3_DIST_NAME: protocol-testing-aarch64.el9
+  artifacts:
+    name: "http-$CI_COMMIT_REF_NAME-release"
+    paths:
+      - build/*.rpm
+  only:
+    - /^develop.*$/i
+    - /^master.*$/i
+
+release_build_debug_for_rocky9:
+  stage: package
+  variables:
+    BUILD_TYPE: Debug
+    PACKAGE: 1
+    UPLOAD_RPM: 1
+    ASAN_OPTION: ADDRESS
+    PULP3_REPO_NAME: protocol-stable-aarch64.el9
+    PULP3_DIST_NAME: protocol-stable-aarch64.el9
+  extends: .build_by_travis_for_rocky9
+  artifacts:
+    name: "http-$CI_COMMIT_REF_NAME-debug"
+    paths:
+      - build/*.rpm
+  only:
+    - tags
+
+release_build_release_for_rocky9:
+  stage: package
+  variables:
+    BUILD_TYPE: RelWithDebInfo
+    PACKAGE: 1
+    UPLOAD_RPM: 1
+    UPLOAD_SYMBOL_FILES: 0
+    SYMBOL_TARGET: http
+    PULP3_REPO_NAME: protocol-stable-aarch64.el9
+    PULP3_DIST_NAME: protocol-stable-aarch64.el9
+  extends: .build_by_travis_for_rocky9
+  artifacts:
+    name: "http-$CI_COMMIT_REF_NAME-release"
+    paths:
+      - build/*.rpm
+  only:
+    - tags
+
+###############################################################################
+# test 
+###############################################################################
+.download_rpm_package: &download_rpm_package
+    - yumdownloader sapp-4.3.69.6dd815e
+    - yumdownloader sapp-devel-4.3.69.6dd815e
+    - mv sapp-4.3.69.6dd815e*.rpm /tmp/sapp.rpm
+    - mv sapp-devel-4.3.69.6dd815e*.rpm /tmp/sapp-devel.rpm
+
+.install_rpm_package: &install_rpm_package
+    - rpm -e sapp || true 
+    - rpm -e sapp-devel || true 
+    - rpm -ivh /tmp/sapp.rpm --prefix=${INSTALL_PREFIX} --force --nodeps
+    - rpm -ivh /tmp/sapp-devel.rpm --prefix=${INSTALL_PREFIX} --force --nodeps
+    - rpm -qa | grep sapp
+    - ls -l ${INSTALL_PREFIX}
+    - ldd ${INSTALL_PREFIX}/sapp
+
+run_test_for_centos8:
+  stage: test
+  extends: .build_by_travis_for_centos8
+  script:
+    - yum makecache
+    - ./ci/travis.sh
+    - cd build
+    - ./test/HTTPUintTest
+    - *download_rpm_package
+    - *install_rpm_package
+    - ctest3 --verbose
+
+run_test_for_rocky9:
+  stage: test
+  extends: .build_by_travis_for_rocky9
+  script:
+    - yum makecache
+    - ./ci/travis.sh
+    - cd build
+    - ./test/HTTPUintTest
+    - *download_rpm_package
+    - *install_rpm_package
+    - ctest3 --verbose
